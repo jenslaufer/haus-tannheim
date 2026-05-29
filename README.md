@@ -25,13 +25,18 @@ npm run preview  # serve the built dist/ locally
 
 ## Photos
 
-26 photos live in `src/assets/images/` (`VS-Tannheim-1.jpg` … `-26.jpg`).
-`src/images.js` glob-imports them (sorted by index) so Vite hashes and bundles each one —
-no manual list to maintain. Drop in or remove files there and they appear/disappear in
-the gallery automatically.
+80 photos live in `src/assets/images/`, in two sets:
 
-Originals are ~1.8 MB each. Optional later optimization: generate WebP/thumbnails
-(e.g. `vite-imagetools`) to cut load time.
+- `_KWF####-HDR.jpg` — 54 professional HDR shots (shown first)
+- `VS-Tannheim-#.jpg` — 26 preliminary photos (shown after)
+
+`src/images.js` glob-imports them, natural-sorts each set, and concatenates pro-first, so
+Vite hashes and bundles each one — no manual list to maintain. Drop in or remove files
+there and they appear/disappear in the gallery automatically.
+
+All photos are resized to max 2000 px / JPEG q82 / metadata stripped for the web
+(originals stay in `~/Downloads`). Optional further step: WebP + thumbnails (e.g.
+`vite-imagetools`) to cut load time more.
 
 ## Structure
 

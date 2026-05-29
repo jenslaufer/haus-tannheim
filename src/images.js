@@ -1,14 +1,26 @@
 // Eager glob import: Vite hashes each photo and includes it in the build.
-// Sorted numerically by the trailing index in "VS-Tannheim-N.jpg".
+// Two photo sets live side by side:
+//   - "_KWF####-HDR.jpg"  professional HDR shoot (shown first)
+//   - "VS-Tannheim-#.jpg"  preliminary set (shown after)
+// Each group is natural-sorted (so -2 comes before -10).
 const modules = import.meta.glob('./assets/images/*.jpg', {
   eager: true,
   import: 'default',
 })
 
-export const photos = Object.entries(modules)
-  .map(([path, src]) => ({ src, name: path.split('/').pop() }))
-  .sort((a, b) => {
-    const n = (s) => parseInt(s.match(/-(\d+)\.jpg$/)?.[1] ?? '0', 10)
-    return n(a.name) - n(b.name)
-  })
-  .map((p) => p.src)
+const collator = new Intl.Collator('de', { numeric: true, sensitivity: 'base' })
+
+const entries = Object.entries(modules).map(([path, src]) => ({
+  src,
+  name: path.split('/').pop(),
+}))
+
+const group = (predicate) =>
+  entries
+    .filter((e) => predicate(e.name))
+    .sort((a, b) => collator.compare(a.name, b.name))
+
+export const photos = [
+  ...group((n) => n.startsWith('_KWF')),
+  ...group((n) => n.startsWith('VS-Tannheim')),
+].map((e) => e.src)
