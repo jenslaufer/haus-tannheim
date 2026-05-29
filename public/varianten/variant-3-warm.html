@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Einfamilienhaus in Tannheim · Villingen-Schwenningen</title>
+<meta name="description" content="Einfamilienhaus, Vogt-Mühlstein-Ring 7, Tannheim (Villingen-Schwenningen). Exposé." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Warm residential palette */
+    --cream:      #F6F1E8;  /* page background, sand/cream */
+    --paper:      #FCFAF4;  /* raised surfaces */
+    --sand:       #EFE7D8;  /* alternating section */
+    --stone:      #D9CDBA;  /* hairlines / borders */
+    --sage:       #7C8B70;  /* muted sage-green accent */
+    --sage-deep:  #5E6B53;  /* sage hover / strong */
+    --sage-tint:  #E6EADF;  /* sage wash */
+    --charcoal:   #2B2722;  /* warm charcoal text */
+    --ink-soft:   #5C544B;  /* secondary text */
+    --ink-faint:  #8A8074;  /* tertiary / labels */
+
+    --r-lg: 22px;
+    --r-md: 16px;
+    --r-sm: 12px;
+
+    --shadow-soft: 0 1px 2px rgba(43,39,34,.04), 0 12px 32px -12px rgba(43,39,34,.14);
+    --shadow-lift: 0 2px 4px rgba(43,39,34,.06), 0 28px 60px -20px rgba(43,39,34,.22);
+
+    --ease-soft: cubic-bezier(.22,.61,.36,1);
+    --ease-out:  cubic-bezier(.16,1,.3,1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    color: var(--charcoal);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--charcoal);
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .measure { max-width: 60ch; }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(246,241,232,.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .4s var(--ease-soft), background .4s var(--ease-soft);
+  }
+  .topbar.scrolled { border-color: var(--stone); }
+  .topbar .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .brand {
+    font-family: "Fraunces", serif;
+    font-size: 1.15rem; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--sage); display: inline-block;
+  }
+  .nav { display: flex; gap: 30px; align-items: center; }
+  .nav a {
+    color: var(--ink-soft); text-decoration: none; font-size: 0.95rem;
+    font-weight: 500; position: relative; transition: color .2s var(--ease-soft);
+  }
+  .nav a::after {
+    content: ""; position: absolute; left: 0; bottom: -5px; height: 1.5px; width: 0;
+    background: var(--sage); transition: width .25s var(--ease-out);
+  }
+  .nav a:hover { color: var(--charcoal); }
+  .nav a:hover::after { width: 100%; }
+  .nav .cta {
+    background: var(--sage); color: var(--paper); padding: 10px 20px;
+    border-radius: 999px; font-weight: 600;
+    transition: background .2s var(--ease-soft), transform .2s var(--ease-soft);
+  }
+  .nav .cta::after { display: none; }
+  .nav .cta:hover { background: var(--sage-deep); color: var(--paper); transform: translateY(-1px); }
+  @media (max-width: 720px) { .nav a:not(.cta) { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 56px 0 0; }
+  .hero-head {
+    display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: end;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 880px) { .hero-head { grid-template-columns: 1fr; gap: 24px; } }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    letter-spacing: -0.03em;
+  }
+  .hero h1 em { font-style: italic; color: var(--sage-deep); }
+  .locality {
+    font-size: 1.05rem; color: var(--ink-soft); margin-top: 18px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .locality .pin { color: var(--sage); }
+  .hero-lead {
+    font-size: 1.18rem; color: var(--ink-soft); line-height: 1.65;
+    border-left: 2px solid var(--stone); padding-left: 22px;
+  }
+
+  .hero-photo {
+    position: relative; border-radius: var(--r-lg); overflow: hidden;
+    box-shadow: var(--shadow-lift); aspect-ratio: 16 / 9;
+    cursor: zoom-in;
+  }
+  .hero-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 1.2s var(--ease-out);
+  }
+  .hero-photo:hover img { transform: scale(1.04); }
+  .hero-photo .badge {
+    position: absolute; left: 20px; bottom: 20px;
+    background: rgba(252,250,244,.92); backdrop-filter: blur(4px);
+    color: var(--charcoal); padding: 9px 16px; border-radius: 999px;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ---------- facts ---------- */
+  .facts { padding: 88px 0 24px; }
+  .facts-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  @media (max-width: 760px) { .facts-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 440px) { .facts-grid { grid-template-columns: 1fr; } }
+  .fact {
+    background: var(--paper); border: 1px solid var(--stone);
+    border-radius: var(--r-md); padding: 26px 26px 28px;
+    transition: transform .25s var(--ease-soft), box-shadow .25s var(--ease-soft);
+  }
+  .fact:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+  .fact .k {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .fact .k svg { color: var(--sage); }
+  .fact .v {
+    font-family: "Fraunces", serif; font-size: 1.6rem; color: var(--charcoal);
+  }
+  .fact .v small { font-size: 0.95rem; color: var(--ink-faint); font-family: "Source Sans 3", sans-serif; }
+
+  /* ---------- gallery ---------- */
+  .section { padding: 96px 0; }
+  .section.sand { background: var(--sand); }
+  .section-head { margin-bottom: 44px; max-width: 60ch; }
+  .section-head h2 { font-size: clamp(2rem, 4vw, 2.9rem); margin-top: 14px; }
+  .section-head p { color: var(--ink-soft); margin: 16px 0 0; }
+
+  .gallery {
+    display: grid; grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 200px; gap: 16px;
+  }
+  @media (max-width: 880px) { .gallery { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 160px; } }
+  @media (max-width: 540px) { .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } }
+  .tile {
+    position: relative; overflow: hidden; border-radius: var(--r-md);
+    cursor: zoom-in; background: var(--stone); box-shadow: var(--shadow-soft);
+  }
+  .tile img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .7s var(--ease-out), filter .4s var(--ease-soft);
+  }
+  .tile::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(43,39,34,.28));
+    opacity: 0; transition: opacity .3s var(--ease-soft);
+  }
+  .tile:hover img { transform: scale(1.06); }
+  .tile:hover::after { opacity: 1; }
+  /* mosaic emphasis */
+  .tile.big   { grid-column: span 3; grid-row: span 2; }
+  .tile.tall  { grid-column: span 2; grid-row: span 2; }
+  .tile.wide  { grid-column: span 3; grid-row: span 1; }
+  .tile.med   { grid-column: span 2; grid-row: span 1; }
+  @media (max-width: 880px) {
+    .tile.big { grid-column: span 2; } .tile.tall { grid-column: span 2; }
+    .tile.wide { grid-column: span 2; } .tile.med { grid-column: span 2; }
+  }
+  @media (max-width: 540px) {
+    .tile.big, .tile.tall, .tile.wide, .tile.med { grid-column: span 2; grid-row: span 1; }
+  }
+
+  /* ---------- description ---------- */
+  .desc-grid {
+    display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: start;
+  }
+  @media (max-width: 880px) { .desc-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .desc-body p { font-size: 1.1rem; color: var(--ink-soft); line-height: 1.7; }
+  .desc-side {
+    background: var(--paper); border: 1px solid var(--stone);
+    border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow-soft);
+  }
+  .desc-side h3 { font-size: 1.25rem; margin-bottom: 18px; }
+  .desc-side ul { list-style: none; margin: 0; padding: 0; }
+  .desc-side li {
+    display: flex; gap: 12px; align-items: center; padding: 12px 0;
+    border-bottom: 1px solid var(--stone); color: var(--ink-soft);
+  }
+  .desc-side li:last-child { border-bottom: none; }
+  .desc-side li .tick {
+    flex: none; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--sage-tint); color: var(--sage-deep);
+    display: grid; place-items: center;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-card {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    background: var(--charcoal); border-radius: var(--r-lg); overflow: hidden;
+    box-shadow: var(--shadow-lift);
+  }
+  @media (max-width: 760px) { .contact-card { grid-template-columns: 1fr; } }
+  .contact-left {
+    padding: 52px 48px; color: var(--cream);
+  }
+  .contact-left h2 { color: var(--paper); font-size: clamp(2rem, 4vw, 2.7rem); }
+  .contact-left p { color: rgba(246,241,232,.72); margin-top: 16px; max-width: 38ch; }
+  .contact-right {
+    background: var(--paper); padding: 48px;
+    display: flex; flex-direction: column; justify-content: center; gap: 6px;
+  }
+  .contact-row {
+    display: flex; align-items: center; gap: 16px; padding: 18px 0;
+    border-bottom: 1px solid var(--stone);
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row .ic {
+    flex: none; width: 42px; height: 42px; border-radius: 12px;
+    background: var(--sage-tint); color: var(--sage-deep);
+    display: grid; place-items: center;
+  }
+  .contact-row .lbl { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
+  .contact-row .val { font-size: 1.1rem; font-weight: 600; color: var(--charcoal); }
+
+  /* ---------- footer ---------- */
+  footer { background: var(--sand); border-top: 1px solid var(--stone); padding: 48px 0; }
+  .foot-grid { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
+  footer .brand { font-size: 1rem; }
+  footer .legal { color: var(--ink-faint); font-size: 0.9rem; max-width: 52ch; }
+
+  /* ---------- lightbox ---------- */
+  .lb {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(28,25,21,.94);
+    display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .3s var(--ease-soft);
+  }
+  .lb.open { display: flex; opacity: 1; }
+  .lb img {
+    max-width: 90vw; max-height: 84vh; border-radius: var(--r-sm);
+    box-shadow: 0 40px 90px -20px rgba(0,0,0,.6);
+    transform: scale(.98); transition: transform .35s var(--ease-out);
+  }
+  .lb.open img { transform: scale(1); }
+  .lb-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 56px; height: 56px; border-radius: 50%; border: none;
+    background: rgba(252,250,244,.12); color: var(--cream);
+    font-size: 1.4rem; cursor: pointer; display: grid; place-items: center;
+    transition: background .2s var(--ease-soft), transform .2s var(--ease-soft);
+    backdrop-filter: blur(4px);
+  }
+  .lb-btn:hover { background: rgba(252,250,244,.24); }
+  .lb-prev { left: 24px; } .lb-next { right: 24px; }
+  .lb-prev:hover { transform: translateY(-50%) translateX(-3px); }
+  .lb-next:hover { transform: translateY(-50%) translateX(3px); }
+  .lb-close {
+    position: absolute; top: 22px; right: 24px;
+    width: 48px; height: 48px; border-radius: 50%; border: none;
+    background: rgba(252,250,244,.12); color: var(--cream); font-size: 1.3rem;
+    cursor: pointer; transition: background .2s var(--ease-soft);
+    backdrop-filter: blur(4px);
+  }
+  .lb-close:hover { background: rgba(252,250,244,.24); }
+  .lb-count {
+    position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+    color: rgba(246,241,232,.8); font-size: 0.9rem; letter-spacing: 0.08em;
+  }
+  @media (max-width: 600px) {
+    .lb-btn { width: 46px; height: 46px; }
+    .lb-prev { left: 10px; } .lb-next { right: 10px; }
+  }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> Vogt-Mühlstein-Ring 7</div>
+    <nav class="nav">
+      <a href="#galerie">Galerie</a>
+      <a href="#objekt">Das Haus</a>
+      <a href="#kontakt" class="cta">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-head">
+      <div>
+        <span class="eyebrow">Einfamilienhaus · zu verkaufen</span>
+        <h1 style="margin-top:18px;">Ein Zuhause in <em>Tannheim</em></h1>
+        <div class="locality">
+          <span class="pin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </span>
+          Villingen-Schwenningen · Vogt-Mühlstein-Ring 7
+        </div>
+      </div>
+      <p class="hero-lead">
+        Ruhig gelegen, von Grün umgeben und mit Raum zum Ankommen — ein Haus,
+        das zum Bleiben einlädt. Lernen Sie es auf den folgenden Seiten kennen.
+      </p>
+    </div>
+
+    <figure class="hero-photo" data-index="0" style="margin:0;">
+      <img src="photos/photo-1.jpg" alt="Außenansicht des Einfamilienhauses in Tannheim" loading="eager" />
+      <figcaption class="badge">Außenansicht</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- FACTS -->
+<section class="facts">
+  <div class="wrap">
+    <div class="facts-grid">
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Kaufpreis</div>
+        <div class="v">— folgt —</div>
+      </div>
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13M9 21v-7h6v7"/></svg> Wohnfläche</div>
+        <div class="v">— folgt —</div>
+      </div>
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 3v18"/></svg> Grundstück</div>
+        <div class="v">— folgt —</div>
+      </div>
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M5 7v13h14V7M9 20v-6h6v6"/></svg> Zimmer</div>
+        <div class="v">— folgt —</div>
+      </div>
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg> Baujahr</div>
+        <div class="v">— folgt —</div>
+      </div>
+      <div class="fact reveal">
+        <div class="k"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg> Energiewert</div>
+        <div class="v">— folgt —</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section sand" id="galerie">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Galerie</span>
+      <h2>Räume, die sich wie Zuhause anfühlen</h2>
+      <p>Klicken Sie auf ein Bild, um es in voller Größe zu betrachten.</p>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <div class="tile big"  data-index="0"><img src="photos/photo-1.jpg"  alt="Außenansicht" loading="lazy" /></div>
+      <div class="tile tall" data-index="1"><img src="photos/photo-2.jpg"  alt="Innenraum" loading="lazy" /></div>
+      <div class="tile med"  data-index="2"><img src="photos/photo-3.jpg"  alt="Wohnbereich" loading="lazy" /></div>
+      <div class="tile med"  data-index="3"><img src="photos/photo-4.jpg"  alt="Raum" loading="lazy" /></div>
+      <div class="tile wide" data-index="4"><img src="photos/photo-5.jpg"  alt="Raum" loading="lazy" /></div>
+      <div class="tile wide" data-index="5"><img src="photos/photo-6.jpg"  alt="Raum" loading="lazy" /></div>
+      <div class="tile med"  data-index="6"><img src="photos/photo-7.jpg"  alt="Raum" loading="lazy" /></div>
+      <div class="tile med"  data-index="7"><img src="photos/photo-8.jpg"  alt="Raum" loading="lazy" /></div>
+      <div class="tile med"  data-index="8"><img src="photos/photo-9.jpg"  alt="Garten" loading="lazy" /></div>
+      <div class="tile big"  data-index="9"><img src="photos/photo-10.jpg" alt="Detail" loading="lazy" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- DESCRIPTION -->
+<section class="section" id="objekt">
+  <div class="wrap">
+    <div class="desc-grid">
+      <div class="reveal">
+        <span class="eyebrow">Das Haus</span>
+        <h2 style="font-size:clamp(2rem,4vw,2.9rem); margin-top:14px;">Lage &amp; Highlights</h2>
+      </div>
+      <div class="desc-body reveal">
+        <p>Lagebeschreibung und Highlights — folgt.</p>
+        <div class="desc-side" style="margin-top:32px;">
+          <h3>Auf einen Blick</h3>
+          <ul>
+            <li><span class="tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span> Ruhige Wohnlage in Tannheim</li>
+            <li><span class="tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span> Garten — Details folgen</li>
+            <li><span class="tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span> Ausstattung — folgt</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section sand" id="kontakt">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <div class="contact-left">
+        <span class="eyebrow" style="color:var(--sage);">Kontakt</span>
+        <h2 style="margin-top:14px;">Lust auf eine Besichtigung?</h2>
+        <p>Wir beantworten Ihre Fragen gern persönlich und vereinbaren mit Ihnen einen Termin vor Ort.</p>
+      </div>
+      <div class="contact-right">
+        <div class="contact-row">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+          <span><span class="lbl">Name</span><br><span class="val">— folgt —</span></span>
+        </div>
+        <div class="contact-row">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <span><span class="lbl">E-Mail</span><br><span class="val">— folgt —</span></span>
+        </div>
+        <div class="contact-row">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg></span>
+          <span><span class="lbl">Telefon</span><br><span class="val">— folgt —</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-grid">
+    <div class="brand"><span class="dot"></span> Einfamilienhaus Tannheim</div>
+    <p class="legal">Impressum — Angaben gemäß § 5 TMG — folgt.</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Bildansicht">
+  <button class="lb-close" id="lbClose" aria-label="Schließen">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Vorheriges Bild">&#8249;</button>
+  <img id="lbImg" src="" alt="" />
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Nächstes Bild">&#8250;</button>
+  <div class="lb-count" id="lbCount"></div>
+</div>
+
+<script>
+  // ---- photo source list (matches data-index order) ----
+  var photos = [];
+  for (var i = 1; i <= 10; i++) photos.push("photos/photo-" + i + ".jpg");
+
+  var lb = document.getElementById("lb");
+  var lbImg = document.getElementById("lbImg");
+  var lbCount = document.getElementById("lbCount");
+  var current = 0;
+
+  function show(idx) {
+    current = (idx + photos.length) % photos.length;
+    lbImg.src = photos[current];
+    lbCount.textContent = (current + 1) + " / " + photos.length;
+  }
+  function open(idx) {
+    show(idx);
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.querySelectorAll("[data-index]").forEach(function (el) {
+    el.addEventListener("click", function () { open(parseInt(el.dataset.index, 10)); });
+  });
+
+  document.getElementById("lbClose").addEventListener("click", close);
+  document.getElementById("lbPrev").addEventListener("click", function (e) { e.stopPropagation(); show(current - 1); });
+  document.getElementById("lbNext").addEventListener("click", function (e) { e.stopPropagation(); show(current + 1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb || e.target === lbImg) close(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") show(current - 1);
+    else if (e.key === "ArrowRight") show(current + 1);
+  });
+
+  // ---- sticky border on scroll ----
+  var topbar = document.getElementById("topbar");
+  window.addEventListener("scroll", function () {
+    topbar.classList.toggle("scrolled", window.scrollY > 12);
+  });
+
+  // ---- reveal on scroll ----
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el, i) {
+    el.style.transitionDelay = (i % 3) * 70 + "ms";
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

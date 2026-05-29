@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Einfamilienhaus in Tannheim · Villingen-Schwenningen</title>
+<meta name="description" content="Einfamilienhaus, Vogt-Mühlstein-Ring 7, Tannheim (Villingen-Schwenningen). Exposé zum Verkauf." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* Color tokens — bone paper, near-black ink, warm terracotta accent */
+    --paper:   #f4efe6;
+    --paper-2: #ece5d8;
+    --ink:     #1c1a17;
+    --ink-2:   #4a443c;
+    --muted:   #8a8174;
+    --accent:  #b4502f;   /* terracotta */
+    --line:    #d9d0c0;
+
+    /* Modular scale — Perfect Fourth (1.333), fluid */
+    --step--1: clamp(0.82rem, 0.78rem + 0.18vw, 0.92rem);
+    --step-0:  clamp(1.02rem, 0.96rem + 0.28vw, 1.18rem);
+    --step-1:  clamp(1.35rem, 1.20rem + 0.70vw, 1.85rem);
+    --step-2:  clamp(1.80rem, 1.45rem + 1.55vw, 3.00rem);
+    --step-3:  clamp(2.50rem, 1.80rem + 3.10vw, 5.00rem);
+    --step-4:  clamp(3.20rem, 2.00rem + 5.60vw, 7.50rem);
+
+    --space-xs: 8px;
+    --space-s:  16px;
+    --space-m:  24px;
+    --space-l:  48px;
+    --space-xl: 96px;
+    --space-2xl: 144px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+
+  .wrap { width: 100%; max-width: 1280px; margin: 0 auto; padding-inline: clamp(20px, 5vw, 72px); }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow.ink { color: var(--ink-2); }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+  }
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(20,18,15,0.78) 0%, rgba(20,18,15,0.30) 38%, rgba(20,18,15,0.10) 64%, rgba(20,18,15,0.28) 100%);
+  }
+  .hero__top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 3;
+    padding-top: var(--space-m);
+  }
+  .hero__bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-m);
+    border-bottom: 1px solid rgba(244,239,230,0.22);
+    padding-bottom: var(--space-s);
+  }
+  .hero__bar .mark {
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: var(--step-0);
+    letter-spacing: -0.01em;
+  }
+  .hero__bar nav {
+    display: flex; gap: clamp(16px, 3vw, 40px);
+  }
+  .hero__bar nav a {
+    color: rgba(244,239,230,0.78);
+    text-decoration: none;
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 160ms cubic-bezier(0.33,0,0.2,1);
+  }
+  .hero__bar nav a:hover { color: var(--paper); }
+  @media (max-width: 720px) { .hero__bar nav { display: none; } }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: clamp(40px, 8vh, 96px);
+  }
+  .hero__loc {
+    color: rgba(244,239,230,0.82);
+    font-size: var(--step--1);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-m);
+  }
+  .hero__loc .dot { color: var(--accent); }
+  .hero h1 {
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: var(--step-4);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: #f0d9c6; }
+  .hero__scrolldown {
+    margin-top: var(--space-l);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    color: rgba(244,239,230,0.7);
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hero__scrolldown .rule {
+    display: inline-block; width: 56px; height: 1px; background: rgba(244,239,230,0.5);
+  }
+
+  /* ============ FACTS ============ */
+  .facts { padding-block: clamp(64px, 10vw, 128px); }
+  .facts__intro {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+    margin-bottom: var(--space-xl);
+    max-width: 64ch;
+  }
+  .facts__intro p {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-2);
+    line-height: 1.18;
+    font-weight: 300;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .facts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 880px) { .facts__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .facts__grid { grid-template-columns: 1fr; } }
+  .fact {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: var(--space-l) var(--space-m) var(--space-m);
+    position: relative;
+  }
+  .facts__grid .fact:nth-child(3n) { border-right: none; }
+  @media (max-width: 880px) {
+    .facts__grid .fact:nth-child(3n) { border-right: 1px solid var(--line); }
+    .facts__grid .fact:nth-child(2n) { border-right: none; }
+  }
+  @media (max-width: 520px) {
+    .facts__grid .fact { border-right: none; }
+  }
+  .fact__num {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step--1);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .fact__label {
+    display: block;
+    margin-top: var(--space-s);
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fact__value {
+    display: block;
+    margin-top: var(--space-xs);
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-1);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  /* ============ DESCRIPTION ============ */
+  .descr {
+    background: var(--paper-2);
+    padding-block: clamp(72px, 12vw, 144px);
+  }
+  .descr__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+  @media (max-width: 860px) { .descr__grid { grid-template-columns: 1fr; gap: var(--space-l); } }
+  .descr__lead h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: var(--step-3);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-top: var(--space-m);
+  }
+  .descr__lead h2 em { font-style: italic; color: var(--accent); }
+  .descr__body { max-width: 60ch; }
+  .descr__body .drop::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    float: left;
+    font-size: 4.4em;
+    line-height: 0.78;
+    padding-right: 0.08em;
+    margin-top: 0.06em;
+    color: var(--accent);
+  }
+  .descr__body p { color: var(--ink-2); }
+  .descr__body p + p { margin-top: var(--space-m); }
+  .descr__meta {
+    margin-top: var(--space-l);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+  }
+  .descr__meta dt {
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .descr__meta dd {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-0);
+    color: var(--ink);
+    margin-top: 4px;
+  }
+
+  /* ============ GALLERY ============ */
+  .gallery { padding-block: clamp(64px, 10vw, 128px); }
+  .gallery__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-bottom: var(--space-l);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-m);
+  }
+  .gallery__head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+  }
+  .gallery__head .count { color: var(--muted); font-size: var(--step--1); letter-spacing: 0.1em; }
+
+  /* editorial mosaic — deliberately uneven */
+  .mosaic {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(8px, 1.2vw, 16px);
+    grid-auto-flow: dense;
+  }
+  .mosaic figure {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-2);
+    cursor: pointer;
+  }
+  .mosaic img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 600ms cubic-bezier(0.16,1,0.3,1), filter 400ms ease;
+  }
+  .mosaic figure::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: rgba(180,80,47,0);
+    transition: background 300ms cubic-bezier(0.33,0,0.2,1);
+  }
+  .mosaic figure:hover img { transform: scale(1.05); }
+  .mosaic figure:hover::after { background: rgba(28,26,23,0.10); }
+  .mosaic figure .tag {
+    position: absolute;
+    left: 14px; bottom: 12px;
+    z-index: 2;
+    color: var(--paper);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 300ms ease, transform 300ms cubic-bezier(0.16,1,0.3,1);
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+  .mosaic figure:hover .tag { opacity: 1; transform: translateY(0); }
+
+  /* spans for editorial rhythm */
+  .c-wide { grid-column: span 4; aspect-ratio: 16/10; }
+  .c-tall { grid-column: span 2; aspect-ratio: 3/4; }
+  .c-med  { grid-column: span 3; aspect-ratio: 4/3; }
+  .c-sq   { grid-column: span 2; aspect-ratio: 1/1; }
+  @media (max-width: 760px) {
+    .mosaic { grid-template-columns: repeat(2, 1fr); }
+    .c-wide, .c-tall, .c-med, .c-sq { grid-column: span 1; aspect-ratio: 4/3; }
+    .c-wide:first-child { grid-column: span 2; aspect-ratio: 16/10; }
+  }
+
+  /* ============ CONTACT ============ */
+  .contact {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(72px, 12vw, 144px);
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: clamp(32px, 6vw, 96px);
+    align-items: end;
+  }
+  @media (max-width: 820px) { .contact__grid { grid-template-columns: 1fr; gap: var(--space-l); } }
+  .contact h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: var(--step-3);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .contact h2 em { font-style: italic; color: #e8b79e; }
+  .contact__lede {
+    margin-top: var(--space-m);
+    max-width: 46ch;
+    color: rgba(244,239,230,0.7);
+  }
+  .contact__card {
+    border-top: 1px solid rgba(244,239,230,0.2);
+  }
+  .contact__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding: var(--space-m) 0;
+    border-bottom: 1px solid rgba(244,239,230,0.14);
+  }
+  .contact__row .k {
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.55);
+  }
+  .contact__row .v {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-1);
+    color: var(--paper);
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--ink);
+    color: rgba(244,239,230,0.55);
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-l);
+  }
+  .foot__top {
+    border-top: 1px solid rgba(244,239,230,0.16);
+    padding-top: var(--space-l);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .foot__mark {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-1);
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .foot__imp {
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    max-width: 52ch;
+  }
+  .foot__legal {
+    margin-top: var(--space-l);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: rgba(244,239,230,0.4);
+  }
+
+  /* ============ LIGHTBOX ============ */
+  .lb {
+    position: fixed; inset: 0;
+    z-index: 100;
+    display: none;
+    background: rgba(18,16,14,0.96);
+    align-items: center;
+    justify-content: center;
+  }
+  .lb.open { display: flex; }
+  .lb__stage {
+    position: relative;
+    max-width: 92vw;
+    max-height: 86vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lb__img {
+    max-width: 92vw;
+    max-height: 82vh;
+    object-fit: contain;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    animation: lbin 350ms cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes lbin { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: scale(1); } }
+  .lb__caption {
+    position: absolute;
+    bottom: -40px; left: 0;
+    color: rgba(244,239,230,0.7);
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .lb__btn {
+    position: fixed;
+    top: 50%; transform: translateY(-50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(244,239,230,0.3);
+    background: transparent;
+    color: var(--paper);
+    font-size: 22px;
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  .lb__btn:hover { background: rgba(244,239,230,0.12); border-color: rgba(244,239,230,0.6); }
+  .lb__prev { left: clamp(12px, 4vw, 48px); }
+  .lb__next { right: clamp(12px, 4vw, 48px); }
+  .lb__close {
+    position: fixed;
+    top: clamp(16px, 4vw, 36px); right: clamp(16px, 4vw, 36px);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(244,239,230,0.3);
+    background: transparent; color: var(--paper);
+    font-size: 20px; cursor: pointer;
+    transition: background 200ms ease, transform 200ms ease;
+  }
+  .lb__close:hover { background: rgba(244,239,230,0.12); transform: rotate(90deg); }
+  .lb__counter {
+    position: fixed;
+    top: clamp(20px, 4vw, 40px); left: clamp(20px, 5vw, 72px);
+    color: rgba(244,239,230,0.6);
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-0);
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 640px) {
+    .lb__btn { width: 44px; height: 44px; }
+  }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" id="top">
+    <img class="hero__img" src="photos/photo-1.jpg" alt="Einfamilienhaus in Tannheim — Außenansicht" />
+    <div class="hero__scrim"></div>
+
+    <div class="hero__top">
+      <div class="wrap">
+        <div class="hero__bar">
+          <span class="mark">Vogt-Mühlstein-Ring 7</span>
+          <nav>
+            <a href="#eckdaten">Eckdaten</a>
+            <a href="#beschreibung">Beschreibung</a>
+            <a href="#galerie">Galerie</a>
+            <a href="#kontakt">Kontakt</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__content">
+      <div class="wrap">
+        <p class="hero__loc">Villingen-Schwenningen <span class="dot">·</span> Vogt-Mühlstein-Ring 7</p>
+        <h1 class="serif">Einfamilienhaus<br />in <em>Tannheim</em></h1>
+        <a href="#eckdaten" class="hero__scrolldown"><span class="rule"></span> Exposé ansehen</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== FACTS ===================== -->
+  <section class="facts" id="eckdaten">
+    <div class="wrap">
+      <div class="facts__intro reveal">
+        <p class="eyebrow">Auf einen Blick</p>
+        <p class="serif">Ein Haus für die nächsten Jahrzehnte — ruhig gelegen im Stadtbezirk Tannheim, getragen von Charakter und solider Substanz.</p>
+      </div>
+
+      <div class="facts__grid reveal">
+        <div class="fact">
+          <span class="fact__num">01</span>
+          <span class="fact__label">Kaufpreis</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+        <div class="fact">
+          <span class="fact__num">02</span>
+          <span class="fact__label">Wohnfläche</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+        <div class="fact">
+          <span class="fact__num">03</span>
+          <span class="fact__label">Grundstück</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+        <div class="fact">
+          <span class="fact__num">04</span>
+          <span class="fact__label">Zimmer</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+        <div class="fact">
+          <span class="fact__num">05</span>
+          <span class="fact__label">Baujahr</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+        <div class="fact">
+          <span class="fact__num">06</span>
+          <span class="fact__label">Energiewert</span>
+          <span class="fact__value">— folgt —</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DESCRIPTION ===================== -->
+  <section class="descr" id="beschreibung">
+    <div class="wrap">
+      <div class="descr__grid">
+        <div class="descr__lead reveal">
+          <p class="eyebrow ink">Lage &amp; Charakter</p>
+          <h2 class="serif">Ankommen,<br />wo der Tag <em>leiser</em> wird.</h2>
+        </div>
+        <div class="descr__body reveal">
+          <p class="drop">Lagebeschreibung und Highlights — folgt. Dieser Absatz hält künftig die Erzählung des Hauses: die Räume, das Licht über den Tag, den Garten, die Nachbarschaft im Stadtbezirk Tannheim und die Wege nach Villingen-Schwenningen.</p>
+          <p>Der editorische Aufbau ist bewusst zurückhaltend gestaltet, damit echte Texte mühelos Platz finden — ohne dass das Layout neu gedacht werden muss. Großzügiger Weißraum, klare Typografie, eine warme Farbe als Akzent.</p>
+          <dl class="descr__meta">
+            <div>
+              <dt>Objektart</dt>
+              <dd>Einfamilienhaus</dd>
+            </div>
+            <div>
+              <dt>Lage</dt>
+              <dd>Tannheim, VS</dd>
+            </div>
+            <div>
+              <dt>Adresse</dt>
+              <dd>Vogt-Mühlstein-Ring 7</dd>
+            </div>
+            <div>
+              <dt>Verfügbarkeit</dt>
+              <dd>— folgt —</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section class="gallery" id="galerie">
+    <div class="wrap">
+      <div class="gallery__head reveal">
+        <div>
+          <p class="eyebrow ink">Rundgang</p>
+          <h2 class="serif">Galerie</h2>
+        </div>
+        <span class="count">10 Aufnahmen · zum Vergrößern anklicken</span>
+      </div>
+
+      <div class="mosaic reveal" id="mosaic">
+        <figure class="c-wide" data-i="0"><img src="photos/photo-1.jpg"  alt="Außenansicht" loading="lazy"><span class="tag">Außenansicht</span></figure>
+        <figure class="c-tall" data-i="1"><img src="photos/photo-2.jpg"  alt="Ansicht 02" loading="lazy"><span class="tag">Detail</span></figure>
+        <figure class="c-med"  data-i="2"><img src="photos/photo-3.jpg"  alt="Ansicht 03" loading="lazy"><span class="tag">Wohnraum</span></figure>
+        <figure class="c-sq"   data-i="3"><img src="photos/photo-4.jpg"  alt="Ansicht 04" loading="lazy"><span class="tag">Raum</span></figure>
+        <figure class="c-med"  data-i="4"><img src="photos/photo-5.jpg"  alt="Ansicht 05" loading="lazy"><span class="tag">Raum</span></figure>
+        <figure class="c-tall" data-i="5"><img src="photos/photo-6.jpg"  alt="Ansicht 06" loading="lazy"><span class="tag">Detail</span></figure>
+        <figure class="c-sq"   data-i="6"><img src="photos/photo-7.jpg"  alt="Ansicht 07" loading="lazy"><span class="tag">Raum</span></figure>
+        <figure class="c-med"  data-i="7"><img src="photos/photo-8.jpg"  alt="Ansicht 08" loading="lazy"><span class="tag">Raum</span></figure>
+        <figure class="c-med"  data-i="8"><img src="photos/photo-9.jpg"  alt="Ansicht 09" loading="lazy"><span class="tag">Außen</span></figure>
+        <figure class="c-wide" data-i="9"><img src="photos/photo-10.jpg" alt="Ansicht 10" loading="lazy"><span class="tag">Umgebung</span></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="kontakt">
+    <div class="wrap">
+      <div class="contact__grid">
+        <div class="reveal">
+          <p class="eyebrow">Kontakt aufnehmen</p>
+          <h2 class="serif">Interesse?<br />Sprechen wir <em>persönlich</em>.</h2>
+          <p class="contact__lede">Für eine Besichtigung oder weitere Unterlagen genügt eine kurze Nachricht. Wir melden uns zeitnah zurück.</p>
+        </div>
+        <div class="contact__card reveal">
+          <div class="contact__row"><span class="k">Name</span><span class="v">— folgt —</span></div>
+          <div class="contact__row"><span class="k">E-Mail</span><span class="v">— folgt —</span></div>
+          <div class="contact__row"><span class="k">Telefon</span><span class="v">— folgt —</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot__top">
+        <span class="foot__mark serif">Einfamilienhaus · Tannheim</span>
+        <p class="foot__imp">Impressum — Angaben gemäß § 5 TMG — folgt.</p>
+      </div>
+      <p class="foot__legal">Vogt-Mühlstein-Ring 7 · Tannheim, Villingen-Schwenningen · Alle Angaben ohne Gewähr.</p>
+    </div>
+  </footer>
+
+  <!-- ===================== LIGHTBOX ===================== -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Bildergalerie">
+    <span class="lb__counter" id="lbCounter">01 / 10</span>
+    <button class="lb__close" id="lbClose" aria-label="Schließen">&times;</button>
+    <button class="lb__btn lb__prev" id="lbPrev" aria-label="Vorheriges Bild">&#8249;</button>
+    <div class="lb__stage">
+      <img class="lb__img" id="lbImg" src="" alt="" />
+      <span class="lb__caption" id="lbCaption"></span>
+    </div>
+    <button class="lb__btn lb__next" id="lbNext" aria-label="Nächstes Bild">&#8250;</button>
+  </div>
+
+<script>
+(function () {
+  // ---------- Lightbox ----------
+  var figures = Array.prototype.slice.call(document.querySelectorAll('#mosaic figure'));
+  var photos = figures.map(function (f) {
+    var img = f.querySelector('img');
+    var tag = f.querySelector('.tag');
+    return { src: img.getAttribute('src'), caption: tag ? tag.textContent : '' };
+  });
+
+  var lb = document.getElementById('lb');
+  var lbImg = document.getElementById('lbImg');
+  var lbCaption = document.getElementById('lbCaption');
+  var lbCounter = document.getElementById('lbCounter');
+  var current = 0;
+  var lastFocus = null;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function render() {
+    var p = photos[current];
+    lbImg.setAttribute('src', p.src);
+    lbImg.setAttribute('alt', p.caption || 'Bild ' + (current + 1));
+    lbCaption.textContent = p.caption || '';
+    lbCounter.textContent = pad(current + 1) + ' / ' + pad(photos.length);
+  }
+
+  function open(i) {
+    current = i;
+    lastFocus = document.activeElement;
+    render();
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function next() { current = (current + 1) % photos.length; render(); }
+  function prev() { current = (current - 1 + photos.length) % photos.length; render(); }
+
+  figures.forEach(function (f, i) {
+    f.setAttribute('tabindex', '0');
+    f.setAttribute('role', 'button');
+    f.addEventListener('click', function () { open(i); });
+    f.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbNext').addEventListener('click', function (e) { e.stopPropagation(); next(); });
+  document.getElementById('lbPrev').addEventListener('click', function (e) { e.stopPropagation(); prev(); });
+
+  // click on backdrop (not the image) closes
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb || e.target.classList.contains('lb__stage')) close();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') next();
+    else if (e.key === 'ArrowLeft') prev();
+  });
+
+  // ---------- Scroll reveal ----------
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>

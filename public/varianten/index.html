@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Design-Varianten — Haus Tannheim</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        color: #1c1a17;
+        background: #f4efe6;
+        line-height: 1.55;
+      }
+      .wrap { max-width: 880px; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 1.5rem; }
+      h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 0 0 0.5rem; font-weight: 600; }
+      p.lead { color: #6b655c; margin: 0 0 2.5rem; max-width: 60ch; }
+      .grid { display: grid; gap: 1.25rem; }
+      a.card {
+        display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+        padding: 1.5rem 1.75rem; background: #fff; border: 1px solid #e4ddd0;
+        border-radius: 14px; text-decoration: none; color: inherit;
+        transition: transform .15s ease, box-shadow .15s ease;
+      }
+      a.card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgb(28 26 23 / 0.08); }
+      .card .n { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #b4502f; }
+      .card h2 { margin: .3rem 0 .2rem; font-size: 1.3rem; font-weight: 600; }
+      .card .d { color: #6b655c; font-size: .95rem; }
+      .card .go { font-size: 1.5rem; color: #b4502f; align-self: center; }
+      footer { margin-top: 3rem; color: #8a8478; font-size: .85rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Design-Varianten</h1>
+      <p class="lead">
+        Drei Gestaltungsrichtungen für das Exposé „Einfamilienhaus in Tannheim". Mit echten
+        Fotos und funktionierender Galerie. Wähle eine Richtung — sie wird dann sauber ins
+        finale Vue-Projekt übernommen.
+      </p>
+      <div class="grid">
+        <a class="card" href="./variant-1-editorial.html">
+          <div>
+            <div class="n">Variante 1</div>
+            <h2>Editorial</h2>
+            <div class="d">Magazin-Serife (Fraunces), Bone-Papier + Terrakotta, edler Premium-Look.</div>
+          </div>
+          <span class="go">→</span>
+        </a>
+        <a class="card" href="./variant-2-swiss.html">
+          <div>
+            <div class="n">Variante 2</div>
+            <h2>Swiss / Minimal</h2>
+            <div class="d">Inter, reines Schwarz/Weiß/Grau, Haarlinien, sachlich-architektonisch.</div>
+          </div>
+          <span class="go">→</span>
+        </a>
+        <a class="card" href="./variant-3-warm.html">
+          <div>
+            <div class="n">Variante 3</div>
+            <h2>Warm / wohnlich</h2>
+            <div class="d">Sand/Creme + Salbeigrün, weiche Radien, einladendes „Zuhause"-Gefühl.</div>
+          </div>
+          <span class="go">→</span>
+        </a>
+      </div>
+      <footer>Vorschau · nicht indexiert · temporär unter /varianten/</footer>
+    </div>
+  </body>
+</html>
