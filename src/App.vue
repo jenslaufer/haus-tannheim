@@ -8,7 +8,7 @@ import Footer from './components/Footer.vue'
 </script>
 
 <template>
-  <!-- SCAFFOLD ONLY — neutral markup, final design follows via design skill. -->
+  <!-- Neutral baseline layout; final visual design follows via design skill. -->
   <Hero />
   <Facts />
   <Gallery />
