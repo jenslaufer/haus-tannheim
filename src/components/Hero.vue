@@ -4,20 +4,27 @@ const cover = photos[0]
 </script>
 
 <template>
-  <!-- SCAFFOLD: neutral baseline styling via Tailwind; final design follows. -->
   <header class="relative">
     <img
       :src="cover"
-      alt="Einfamilienhaus in Tannheim"
+      alt="Architektenhaus aus den 1960er-Jahren in Tannheim, Villingen-Schwenningen"
       class="block w-full min-h-80 max-h-[720px] h-[70vh] object-cover"
     />
-    <h1
-      class="absolute inset-x-0 bottom-0 px-4 py-6 sm:px-8 lg:px-16 bg-gradient-to-t from-black/60 to-transparent text-white text-2xl font-semibold sm:text-4xl"
+    <div
+      class="absolute inset-x-0 bottom-0 px-4 py-6 sm:px-8 lg:px-16 bg-gradient-to-t from-black/70 to-transparent text-white"
     >
-      Einfamilienhaus in Tannheim, Villingen-Schwenningen
-    </h1>
+      <h1 class="max-w-3xl text-2xl font-semibold sm:text-4xl">
+        Mid-Century-Juwel am Waldrand
+      </h1>
+      <p class="mt-2 max-w-2xl text-sm text-white/90 sm:text-lg">
+        Lichtdurchflutetes Architektenhaus der 1960er-Jahre in traumhafter Natur- und
+        Aussichtslage nahe Villingen-Schwenningen.
+      </p>
+    </div>
   </header>
   <p class="mx-auto mt-6 max-w-prose px-4 text-neutral-600 sm:px-8 lg:px-16">
-    Kurzbeschreibung — folgt
+    Zu verkaufen: lichtdurchflutetes Architektenhaus bei Villingen-Schwenningen in
+    waldrandnaher Aussichtslage. Großes, baumbestandenes Grundstück, verkehrsberuhigte
+    Lage — ideal für junge Familien und Erholungssuchende.
   </p>
 </template>
