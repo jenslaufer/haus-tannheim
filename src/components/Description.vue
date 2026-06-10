@@ -133,9 +133,9 @@ const potenzial = [
         </header>
         <div class="space-y-6 text-lg leading-relaxed text-ink-soft lg:col-span-7 lg:col-start-6">
           <p class="text-pretty">
-            Die Immobilie befindet sich in begehrter Aussichtslage am Rande der
-            Schwarzwaldmetropole Villingen-Schwenningen. Die Kombination aus naturnahem Wohnen und
-            guter Erreichbarkeit macht diesen Standort besonders attraktiv.
+            Die Immobilie befindet sich in begehrter Aussichtslage im Stadtbezirk Tannheim, am
+            Rande der Schwarzwaldmetropole Villingen-Schwenningen. Die Kombination aus naturnahem
+            Wohnen und guter Erreichbarkeit macht diesen Standort besonders attraktiv.
           </p>
           <p class="text-pretty">
             Die Lage zeichnet sich durch ihren hohen Erholungswert aus: Als ehemaliger
