@@ -37,7 +37,7 @@ const facts = [
       </div>
 
       <!-- Ledger column -->
-      <dl class="grid grid-cols-1 self-center sm:grid-cols-2 lg:col-span-7" v-reveal="120">
+      <dl class="grid grid-cols-1 self-center sm:grid-cols-2 sm:gap-x-12 lg:col-span-7 lg:gap-x-16" v-reveal="120">
         <div
           v-for="f in facts"
           :key="f.label"
