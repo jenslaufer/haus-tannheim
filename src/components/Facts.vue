@@ -1,5 +1,6 @@
 <script setup>
 const facts = [
+  { label: 'Ort', value: 'Tannheim', note: 'Villingen-Schwenningen' },
   { label: 'Objektart', value: 'Architektenhaus' },
   { label: 'Baujahr', value: '1966' },
   { label: 'Ausrichtung', value: 'Südwest' },
