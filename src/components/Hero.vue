@@ -1,6 +1,6 @@
 <script setup>
 import { photos } from '../images.js'
-const cover = photos[0]
+const cover = photos[0].full
 </script>
 
 <template>
