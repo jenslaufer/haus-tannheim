@@ -50,9 +50,28 @@ src/
     Gallery.vue           # photo grid + Lightbox
     Lightbox.vue          # fullscreen viewer (← → Esc)
     Description.vue       # location / highlights (placeholder)
+    Besichtigung.vue      # inline Cal.com booking calendar
+    LeadForm.vue          # email opt-in form
     Contact.vue           # contact details (placeholder)
     Footer.vue            # Impressum (legally required in DE)
+  leads.js                # shared lead-capture + Cal.com config
 ```
+
+## Booking & lead capture
+
+Both run on self-hosted solytics infrastructure (DigitalOcean droplet 167.172.176.129):
+
+- **Booking** (`Besichtigung.vue`): inline Cal.com embed of
+  `cal.solytics.de/haus-tannheim/besichtigung`. A successful booking also posts the
+  attendee as a lead. The Caddy on the droplet sends
+  `Content-Security-Policy: frame-ancestors` for `cal.solytics.de` — `haus-tannheim.de`,
+  `www.haus-tannheim.de`, and `jenslaufer.github.io` are allow-listed
+  (`/opt/launch-kit/deploy/Caddyfile` on the droplet). The embed is therefore blocked on
+  `localhost` previews; verify on the live domain.
+- **Lead capture** (`LeadForm.vue`, `src/leads.js`): POST to
+  `auth.solytics.de/t/haus-tannheim/marketing/public/lead-capture` (Launch Kit tenant
+  `haus-tannheim`, segment `interessenten`, honeypot field `hp`). CORS is open; failures
+  never throw.
 
 ## Deploy
 
@@ -61,11 +80,6 @@ Pages. Set the Pages source to **GitHub Actions** once (repo Settings → Pages)
 
 Live: https://jenslaufer.github.io/haus-tannheim/
 
-### Custom domain (later)
+### Custom domain
 
-1. Add `public/CNAME` containing the domain (e.g. `haus-tannheim.de`).
-2. Set the DNS record at the registrar (CNAME → `jenslaufer.github.io`, or A records to
-   GitHub Pages IPs).
-3. Confirm the domain in repo Settings → Pages.
-
-No CNAME is committed yet — the domain is not chosen.
+`public/CNAME` contains `haus-tannheim.de`; DNS points to GitHub Pages.
