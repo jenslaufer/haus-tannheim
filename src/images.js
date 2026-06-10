@@ -1,7 +1,7 @@
 // Eager glob imports: Vite hashes each photo and includes it in the build.
-// vite-imagetools renders two WebP variants per source JPG:
-//   - thumb (960 px, q75) for the gallery grid
-//   - full  (1920 px, q80) for the hero and the Lightbox
+// vite-imagetools renders three WebP variants per source JPG:
+//   - thumbs 480 + 960 px (q75) as srcset for the gallery grid
+//   - full   1920 px (q80) for the hero and the Lightbox
 // Two photo sets live side by side:
 //   - "_KWF####-HDR.jpg"  professional HDR shoot (shown first)
 //   - "VS-Tannheim-#.jpg"  preliminary drone/preview set (shown after;
@@ -11,6 +11,11 @@ const thumbs = import.meta.glob('./assets/images/*.jpg', {
   eager: true,
   import: 'default',
   query: { w: 960, format: 'webp', quality: 75 },
+})
+const thumbsets = import.meta.glob('./assets/images/*.jpg', {
+  eager: true,
+  import: 'default',
+  query: { w: '480;960', format: 'webp', quality: 75, as: 'srcset' },
 })
 const fulls = import.meta.glob('./assets/images/*.jpg', {
   eager: true,
@@ -22,6 +27,7 @@ const collator = new Intl.Collator('de', { numeric: true, sensitivity: 'base' })
 
 const entries = Object.keys(thumbs).map((path) => ({
   thumb: thumbs[path],
+  thumbset: thumbsets[path],
   full: fulls[path],
   name: path.split('/').pop(),
 }))
@@ -31,8 +37,8 @@ const group = (predicate) =>
     .filter((e) => predicate(e.name))
     .sort((a, b) => collator.compare(a.name, b.name))
 
-// Array of { thumb, full } objects, pro shots first.
+// Array of { thumb, thumbset, full } objects, pro shots first.
 export const photos = [
   ...group((n) => n.startsWith('_KWF')),
   ...group((n) => n.startsWith('VS-Tannheim')),
-].map(({ thumb, full }) => ({ thumb, full }))
+].map(({ thumb, thumbset, full }) => ({ thumb, thumbset, full }))

@@ -21,6 +21,13 @@ const spanFor = (i) => {
   if (p === 3) return 'sm:col-span-2 sm:row-span-2'
   return 'sm:col-span-2'
 }
+
+// Rendered tile width hint for the browser's srcset pick: the wide tile
+// (every 6th) spans 4 of 6 columns, all others 2 of 6; mobile is 2-col.
+const sizesFor = (i) =>
+  i % 6 === 0
+    ? '(min-width: 1330px) 880px, (min-width: 640px) 66vw, 50vw'
+    : '(min-width: 1330px) 440px, (min-width: 640px) 33vw, 50vw'
 </script>
 
 <template>
@@ -51,6 +58,8 @@ const spanFor = (i) => {
           >
             <img
               :src="photo.thumb"
+              :srcset="photo.thumbset"
+              :sizes="sizesFor(i)"
               :alt="`Aufnahme ${i + 1}`"
               loading="lazy"
               decoding="async"
