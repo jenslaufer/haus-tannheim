@@ -3,7 +3,6 @@ import Hero from './components/Hero.vue'
 import Facts from './components/Facts.vue'
 import Gallery from './components/Gallery.vue'
 import Description from './components/Description.vue'
-import Besichtigung from './components/Besichtigung.vue'
 import LeadForm from './components/LeadForm.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
@@ -15,7 +14,6 @@ import Footer from './components/Footer.vue'
   <Facts />
   <Gallery />
   <Description />
-  <Besichtigung />
   <LeadForm />
   <Contact />
   <Footer />

@@ -50,28 +50,23 @@ src/
     Gallery.vue           # photo grid + Lightbox
     Lightbox.vue          # fullscreen viewer (← → Esc)
     Description.vue       # location / highlights (placeholder)
-    Besichtigung.vue      # inline Cal.com booking calendar
-    LeadForm.vue          # email opt-in form
+    LeadForm.vue          # opt-in to request documents → booking link
     Contact.vue           # contact details (placeholder)
     Footer.vue            # Impressum (legally required in DE)
-  leads.js                # shared lead-capture + Cal.com config
+  leads.js                # lead-capture config + booking URL
 ```
 
-## Booking & lead capture
+## Lead flow
 
-Both run on self-hosted solytics infrastructure (DigitalOcean droplet 167.172.176.129):
+Opt-in first: visitors request the documents (exposé) via `LeadForm.vue`, which POSTs to
+`auth.solytics.de/t/haus-tannheim/marketing/public/lead-capture` (Launch Kit tenant
+`haus-tannheim`, segment `interessenten`, honeypot field `hp`; CORS open, failures never
+throw). The success state then links to the booking page
+`cal.solytics.de/haus-tannheim/besichtigung` (self-hosted Cal.com, opens in a new tab).
 
-- **Booking** (`Besichtigung.vue`): inline Cal.com embed of
-  `cal.solytics.de/haus-tannheim/besichtigung`. A successful booking also posts the
-  attendee as a lead. The Caddy on the droplet sends
-  `Content-Security-Policy: frame-ancestors` for `cal.solytics.de` — `haus-tannheim.de`,
-  `www.haus-tannheim.de`, and `jenslaufer.github.io` are allow-listed
-  (`/opt/launch-kit/deploy/Caddyfile` on the droplet). The embed is therefore blocked on
-  `localhost` previews; verify on the live domain.
-- **Lead capture** (`LeadForm.vue`, `src/leads.js`): POST to
-  `auth.solytics.de/t/haus-tannheim/marketing/public/lead-capture` (Launch Kit tenant
-  `haus-tannheim`, segment `interessenten`, honeypot field `hp`). CORS is open; failures
-  never throw.
+Both services run on the solytics droplet (167.172.176.129). Its Caddy allow-lists
+`haus-tannheim.de` in the `frame-ancestors` CSP for `cal.solytics.de` — only relevant if
+the calendar is ever embedded again.
 
 ## Deploy
 
