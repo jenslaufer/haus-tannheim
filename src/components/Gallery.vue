@@ -42,7 +42,7 @@ const spanFor = (i) => {
       <ul
         class="mt-12 grid auto-rows-[176px] grid-cols-2 gap-3 sm:auto-rows-[208px] sm:grid-cols-6 sm:gap-4 lg:auto-rows-[232px]"
       >
-        <li v-for="(src, i) in visible" :key="i" :class="spanFor(i)" class="col-span-1">
+        <li v-for="(photo, i) in visible" :key="i" :class="spanFor(i)" class="col-span-1">
           <button
             type="button"
             class="group relative block h-full w-full overflow-hidden rounded-lg bg-forest-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400 focus-visible:ring-offset-2 focus-visible:ring-offset-forest-950"
@@ -50,7 +50,7 @@ const spanFor = (i) => {
             @click="open(i)"
           >
             <img
-              :src="src"
+              :src="photo.thumb"
               :alt="`Aufnahme ${i + 1}`"
               loading="lazy"
               decoding="async"
@@ -75,7 +75,7 @@ const spanFor = (i) => {
 
     <Lightbox
       v-if="current >= 0"
-      :src="photos[current]"
+      :src="photos[current].full"
       :index="current"
       :total="photos.length"
       @close="close"
