@@ -49,6 +49,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Slightly larger type on phones: scales every rem-based size (~+6%),
+   desktop stays at the 16px default. */
+@media (max-width: 40em) {
+  html {
+    font-size: 17px;
+  }
+}
+
 body {
   background-color: var(--color-stone-50);
   color: var(--color-ink);
@@ -66,7 +74,7 @@ body {
 .kicker {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
