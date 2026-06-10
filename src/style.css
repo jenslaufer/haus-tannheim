@@ -1,5 +1,92 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────────────────
+   Design system — "Waldrand"
+   A premium real-estate exposé for a 1966 architect house at the forest edge.
+   Palette derived from the photography: deep forest greens, warm stone/cream
+   neutrals, charcoal ink, and a muted clay accent (the brick terrace, the
+   warm door reveals). Display: Fraunces (opsz). Text: Hanken Grotesk.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Fonts */
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Forest — primary brand green, drawn from the dense foliage */
+  --color-forest-50:  #f1f5f0;
+  --color-forest-100: #dde7da;
+  --color-forest-200: #bccfb6;
+  --color-forest-300: #93b08b;
+  --color-forest-400: #6a8f60;
+  --color-forest-500: #4d7344;
+  --color-forest-600: #3a5a33;
+  --color-forest-700: #2e4729;
+  --color-forest-800: #233621;
+  --color-forest-900: #1a2918;
+  --color-forest-950: #101b0f;
+
+  /* Stone — warm cream/paper neutrals, the rendered facade and light */
+  --color-stone-50:  #faf8f3;
+  --color-stone-100: #f3efe6;
+  --color-stone-200: #e7e0d2;
+  --color-stone-300: #d4c9b4;
+  --color-stone-400: #b3a585;
+  --color-stone-500: #8f8163;
+  --color-stone-600: #6e6249;
+
+  /* Ink — warm charcoal for text */
+  --color-ink: #20231e;
+  --color-ink-soft: #4a4d44;
+
+  /* Clay — the single warm accent (brick terrace, door reveals) */
+  --color-clay-400: #c98a6a;
+  --color-clay-500: #b56f4c;
+  --color-clay-600: #9a5839;
+  --color-clay-700: #7d4530;
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-stone-50);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Optical sizing for the display serif — opsz follows the rendered size */
+.font-display {
+  font-optical-sizing: auto;
+}
+
+/* Reusable eyebrow / kicker label */
+.kicker {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Quiet reveal-on-scroll, motion-safe only */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+::selection {
+  background: var(--color-forest-200);
+  color: var(--color-forest-950);
 }

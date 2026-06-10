@@ -42,8 +42,10 @@ All photos are resized to max 2000 px / JPEG q82 / metadata stripped for the web
 
 ```
 src/
-  App.vue                 # section composition
+  App.vue                 # section composition + sticky nav
   images.js               # glob import of gallery photos
+  style.css               # design tokens (@theme): fonts + forest/stone/clay/ink palette
+  reveal.js               # scroll-reveal directive (motion-safe, no-JS safe)
   components/
     Hero.vue              # cover image + title
     Facts.vue             # key figures (placeholders)
