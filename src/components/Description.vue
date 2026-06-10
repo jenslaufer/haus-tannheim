@@ -138,6 +138,13 @@ const potenzial = [
             guter Erreichbarkeit macht diesen Standort besonders attraktiv.
           </p>
           <p class="text-pretty">
+            Die Lage zeichnet sich durch ihren hohen Erholungswert aus: Als ehemaliger
+            Höhenluftkurort bietet der Ort ein besonders angenehmes und gesundheitsförderndes
+            Klima. Aufgrund dieser außergewöhnlichen Lebens- und Aufenthaltsqualität ist der Ort
+            auch Standort einer renommierten Nachsorgeklinik für Kinder mit lebensbedrohlichen
+            Erkrankungen und ihre Familien.
+          </p>
+          <p class="text-pretty">
             Sie genießen die Ruhe einer gewachsenen Wohnlage mit unmittelbarer Nähe zu Wald und
             Wiesen und profitieren zugleich von den Vorzügen einer leistungsfähigen Infrastruktur.
             Einkaufsmöglichkeiten, medizinische Versorgung, Schulen, kulturelle Angebote sowie
