@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Einfamilienhaus in Tannheim — Villingen-Schwenningen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:        #111111;
+    --ink-soft:   #3a3a3a;
+    --muted:      #8a8a8a;
+    --line:       #e2e2e2;
+    --line-dark:  #111111;
+    --paper:      #ffffff;
+    --grey:       #f4f4f2;
+    --pad:        clamp(20px, 6vw, 96px);
+    --maxw:       1360px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    font-weight: 400;
+    line-height: 1.6;
+    font-feature-settings: "tnum" 1, "cv05" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  img { display: block; max-width: 100%; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding-left: var(--pad);
+    padding-right: var(--pad);
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .topbar .mark {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .topbar .ref { color: var(--muted); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-top: clamp(48px, 9vw, 120px);
+    padding-bottom: clamp(40px, 6vw, 72px);
+  }
+  .hero-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    border-bottom: 1px solid var(--line-dark);
+    padding-bottom: clamp(28px, 4vw, 48px);
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  @media (min-width: 820px) {
+    .hero-head {
+      grid-template-columns: 5fr 7fr;
+      align-items: end;
+      gap: 48px;
+    }
+  }
+  .hero h1 {
+    margin: 14px 0 0;
+    font-weight: 500;
+    font-size: clamp(40px, 7vw, 86px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .hero .place {
+    align-self: end;
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--ink-soft);
+    font-weight: 400;
+    line-height: 1.45;
+    border-left: 1px solid var(--line-dark);
+    padding-left: 20px;
+  }
+  @media (max-width: 819px) {
+    .hero .place { border-left: 0; padding-left: 0; }
+  }
+  .hero-photo {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--grey);
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---------- Facts ---------- */
+  .facts {
+    padding-top: clamp(56px, 8vw, 112px);
+    padding-bottom: clamp(56px, 8vw, 112px);
+  }
+  .facts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--line-dark);
+  }
+  @media (min-width: 600px) { .facts-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .facts-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .fact {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 28px 28px 32px 0;
+  }
+  /* trim the right border on last column visually via container */
+  .facts-grid { border-right: 0; }
+  .fact .k {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fact .v {
+    margin-top: 14px;
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .fact .v.pending { color: var(--muted); font-weight: 400; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: clamp(28px, 4vw, 52px);
+  }
+  @media (min-width: 820px) {
+    .section-head { grid-template-columns: 5fr 7fr; gap: 48px; align-items: baseline; }
+  }
+  .section-head h2 {
+    margin: 0;
+    font-weight: 500;
+    font-size: clamp(26px, 3.4vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* ---------- Gallery ---------- */
+  .gallery { padding-bottom: clamp(56px, 8vw, 112px); }
+  .grid-photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (min-width: 720px) { .grid-photos { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1080px) { .grid-photos { grid-template-columns: repeat(4, 1fr); } }
+  .thumb {
+    position: relative;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: var(--grey);
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  /* feature the cover wider on large screens */
+  @media (min-width: 1080px) {
+    .thumb.feature { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.16, 0.84, 0.44, 1),
+                filter   600ms cubic-bezier(0.16, 0.84, 0.44, 1);
+    filter: grayscale(8%) contrast(1.01);
+  }
+  .thumb:hover img { transform: scale(1.04); filter: grayscale(0%); }
+  .thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .thumb .idx {
+    position: absolute;
+    left: 12px; bottom: 10px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #fff;
+    mix-blend-mode: difference;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .thumb:hover .idx, .thumb:focus-visible .idx { opacity: 1; }
+
+  /* ---------- Description ---------- */
+  .desc {
+    padding-top: clamp(56px, 8vw, 112px);
+    padding-bottom: clamp(56px, 8vw, 112px);
+    border-top: 1px solid var(--line);
+  }
+  .desc-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 820px) {
+    .desc-body { grid-template-columns: 5fr 7fr; gap: 48px; }
+  }
+  .desc-body p {
+    margin: 0;
+    max-width: 62ch;
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .desc-meta { color: var(--muted); }
+  .desc-meta .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .desc-meta .row span:last-child { color: var(--ink); }
+
+  /* ---------- Contact ---------- */
+  .contact {
+    background: var(--ink);
+    color: #fff;
+  }
+  .contact .wrap {
+    padding-top: clamp(56px, 8vw, 112px);
+    padding-bottom: clamp(56px, 8vw, 112px);
+  }
+  .contact .label { color: #8f8f8f; }
+  .contact h2 {
+    margin: 16px 0 clamp(36px, 5vw, 56px);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+  .contact-rows { border-top: 1px solid #2c2c2c; }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 24px 0;
+    border-bottom: 1px solid #2c2c2c;
+  }
+  @media (min-width: 720px) {
+    .contact-row { grid-template-columns: 200px 1fr; gap: 32px; align-items: baseline; }
+  }
+  .contact-row .ck {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8f8f8f;
+  }
+  .contact-row .cv {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    color: #ededed;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.imp {
+    background: var(--ink);
+    color: #6f6f6f;
+    border-top: 1px solid #2c2c2c;
+  }
+  footer.imp .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Lightbox ---------- */
+  .lb {
+    position: fixed;
+    inset: 0;
+    background: rgba(248, 248, 246, 0.97);
+    display: none;
+    z-index: 100;
+    flex-direction: column;
+  }
+  .lb.open { display: flex; }
+  .lb-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px var(--pad);
+    flex: 0 0 auto;
+  }
+  .lb-top .count {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .lb-btn {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 8px 4px;
+    transition: opacity 150ms ease;
+  }
+  .lb-btn:hover { opacity: 0.55; }
+  .lb-stage {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--pad) 12px;
+    min-height: 0;
+  }
+  .lb-stage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background: #fff;
+  }
+  .lb-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px var(--pad) 28px;
+    flex: 0 0 auto;
+    border-top: 1px solid var(--line);
+  }
+  .lb-nav button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    padding: 6px 0;
+    transition: opacity 150ms ease, transform 200ms cubic-bezier(0.16,0.84,0.44,1);
+  }
+  .lb-nav button:hover { opacity: 0.55; }
+  .lb-nav .prev:hover { transform: translateX(-4px); }
+  .lb-nav .next:hover { transform: translateX(4px); }
+</style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="wrap">
+      <span class="mark">Exposé</span>
+      <span class="ref label">Ref. VS-T-07 · 2026</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-head">
+        <div>
+          <span class="label">Privatverkauf · Einfamilienhaus</span>
+          <h1>Einfamilienhaus<br>in Tannheim</h1>
+        </div>
+        <div class="place">
+          Villingen-Schwenningen · Stadtbezirk Tannheim<br>
+          Vogt-Mühlstein-Ring 7
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="photos/photo-1.jpg" alt="Außenansicht Einfamilienhaus, Vogt-Mühlstein-Ring 7, Tannheim" loading="eager" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Facts -->
+  <section class="facts">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Eckdaten</h2>
+        <span class="label" style="align-self:end">Stand der Angaben — wird ergänzt</span>
+      </div>
+      <div class="facts-grid">
+        <div class="fact"><div class="k">Kaufpreis</div><div class="v pending">— folgt —</div></div>
+        <div class="fact"><div class="k">Wohnfläche</div><div class="v pending">— folgt —</div></div>
+        <div class="fact"><div class="k">Grundstück</div><div class="v pending">— folgt —</div></div>
+        <div class="fact"><div class="k">Zimmer</div><div class="v pending">— folgt —</div></div>
+        <div class="fact"><div class="k">Baujahr</div><div class="v pending">— folgt —</div></div>
+        <div class="fact"><div class="k">Energiewert</div><div class="v pending">— folgt —</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Ansichten</h2>
+        <span class="label" style="align-self:end">10 Aufnahmen · zum Vergrößern anklicken</span>
+      </div>
+      <div class="grid-photos" id="gallery"></div>
+    </div>
+  </section>
+
+  <!-- Description -->
+  <section class="desc">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Lage &amp; Objekt</h2>
+        <span class="label" style="align-self:end">Beschreibung</span>
+      </div>
+      <div class="desc-body">
+        <div class="desc-meta">
+          <div class="row"><span>Objektart</span><span>Einfamilienhaus</span></div>
+          <div class="row"><span>Lage</span><span>Tannheim, VS</span></div>
+          <div class="row"><span>Adresse</span><span>Vogt-Mühlstein-Ring 7</span></div>
+          <div class="row"><span>Verfügbarkeit</span><span>nach Vereinbarung</span></div>
+        </div>
+        <p>Lagebeschreibung und Highlights — folgt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact">
+    <div class="wrap">
+      <span class="label">Kontakt</span>
+      <h2>Besichtigung<br>vereinbaren</h2>
+      <div class="contact-rows">
+        <div class="contact-row"><span class="ck">Name</span><span class="cv">— folgt</span></div>
+        <div class="contact-row"><span class="ck">E-Mail</span><span class="cv">— folgt</span></div>
+        <div class="contact-row"><span class="ck">Telefon</span><span class="cv">— folgt</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="imp">
+    <div class="wrap">
+      <span>Impressum — Angaben gemäß § 5 TMG — folgt.</span>
+      <span>Einfamilienhaus Tannheim · Vogt-Mühlstein-Ring 7</span>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Bildergalerie">
+    <div class="lb-top">
+      <span class="count" id="lbCount">01 / 10</span>
+      <button class="lb-btn" id="lbClose" aria-label="Schließen">Schließen ✕</button>
+    </div>
+    <div class="lb-stage">
+      <img id="lbImg" src="" alt="" />
+    </div>
+    <div class="lb-nav">
+      <button class="prev" id="lbPrev" aria-label="Vorheriges Bild">← Zurück</button>
+      <button class="next" id="lbNext" aria-label="Nächstes Bild">Weiter →</button>
+    </div>
+  </div>
+
+<script>
+  (function () {
+    var TOTAL = 10;
+    var galleryEl = document.getElementById('gallery');
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+    // Build thumbnails
+    for (var i = 1; i <= TOTAL; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'thumb' + (i === 1 ? ' feature' : '');
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('data-index', i);
+      btn.setAttribute('aria-label', 'Bild ' + i + ' vergrößern');
+      btn.innerHTML =
+        '<img src="photos/photo-' + i + '.jpg" alt="Ansicht ' + i +
+        ' — Einfamilienhaus Tannheim" loading="lazy" />' +
+        '<span class="idx">' + pad(i) + '</span>';
+      galleryEl.appendChild(btn);
+    }
+
+    var lb     = document.getElementById('lb');
+    var lbImg  = document.getElementById('lbImg');
+    var lbCount= document.getElementById('lbCount');
+    var current = 1;
+
+    function show(n) {
+      if (n < 1) n = TOTAL;
+      if (n > TOTAL) n = 1;
+      current = n;
+      lbImg.src = 'photos/photo-' + n + '.jpg';
+      lbImg.alt = 'Ansicht ' + n + ' — Einfamilienhaus Tannheim';
+      lbCount.textContent = pad(n) + ' / ' + pad(TOTAL);
+    }
+    function open(n) {
+      show(n);
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    galleryEl.addEventListener('click', function (e) {
+      var t = e.target.closest('.thumb');
+      if (t) open(parseInt(t.getAttribute('data-index'), 10));
+    });
+
+    document.getElementById('lbClose').addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', function () { show(current - 1); });
+    document.getElementById('lbNext').addEventListener('click', function () { show(current + 1); });
+
+    // Click on backdrop (not the image) closes
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb || e.target.classList.contains('lb-stage')) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(current - 1);
+      else if (e.key === 'ArrowRight') show(current + 1);
+    });
+  })();
+</script>
+</body>
+</html>
