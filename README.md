@@ -47,8 +47,11 @@ for the gallery grid and 1920 px q80 fulls for hero + Lightbox. `photos` exports
 position without ambiguity. It parses the order straight from `src/images.js` (no
 hand-kept list) and writes two files into `public/`:
 
-- `galerie-mapping.csv` — `position; aktuelle_position_neu; dateiname; status`
+- `galerie-mapping.csv` — `position; aktuelle_position_neu; header; dateiname; status`
 - `galerie-uebersicht.pdf` — A4 contact sheet: thumbnail + original pos + current pos + filename
+
+The hero/cover image is marked (`header` column / `★ HEADER` badge): `HEADER (live)` =
+pinned cover from `Hero.vue` (`index.html`), `HEADER (orig)` = first photo (`index2.html`).
 
 The **primary** number (`position`) is the original/legacy order (`index2.html`: `_KWF*`
 then `VS-Tannheim*`, natural sort, all 80) — the order Anke's feedback refers to. The
