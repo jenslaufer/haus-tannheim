@@ -5,8 +5,7 @@ import Lightbox from './Lightbox.vue'
 
 const props = defineProps({ variant: { type: String, default: 'new' } })
 const pics = computed(() => (props.variant === 'legacy' ? photosLegacy : photos))
-// Live page uses the justified rows (no crop); the legacy page keeps the span grid.
-const justified = computed(() => props.variant !== 'legacy')
+const justified = computed(() => props.variant === 'v3')
 
 const current = ref(-1) // -1 = closed
 const open = (i) => (current.value = i)
@@ -18,7 +17,7 @@ const INITIAL = 12
 const expanded = ref(false)
 const visible = computed(() => (expanded.value ? pics.value : pics.value.slice(0, INITIAL)))
 
-// — Grid layout (variant 'legacy') —
+// — Grid layout (variant 'new' / 'legacy') —
 // Editorial rhythm: a repeating pattern of spans breaks the uniform grid.
 // Pattern cycles every 6 tiles across a 6-column desktop grid.
 const spanFor = (i) => {
@@ -35,7 +34,7 @@ const sizesFor = (i) =>
     ? '(min-width: 1330px) 880px, (min-width: 640px) 66vw, 50vw'
     : '(min-width: 1330px) 440px, (min-width: 640px) 33vw, 50vw'
 
-// — Justified layout (live page) —
+// — Justified layout (variant 'v3') —
 // Google-Photos-style flush rows: every photo keeps its true aspect ratio, so
 // no shot is ever cropped. We pack photos greedily into a row, then scale the
 // row's height so its widths add up to exactly the container width.
@@ -93,7 +92,7 @@ const rows = computed(() => {
         </p>
       </div>
 
-      <!-- Justified rows (live page): no crop, every photo at its true ratio. -->
+      <!-- Justified rows (variant 'v3'): no crop, every photo at its true ratio. -->
       <div v-if="justified" ref="railEl" class="mt-12 flex flex-col gap-4">
         <div v-for="(r, ri) in rows" :key="ri" class="flex gap-4" :class="r.last ? 'justify-start' : ''">
           <button
@@ -119,7 +118,7 @@ const rows = computed(() => {
         </div>
       </div>
 
-      <!-- Span grid (variant 'legacy') -->
+      <!-- Span grid (variant 'new' / 'legacy') -->
       <ul
         v-else
         class="mt-12 grid auto-rows-[176px] grid-cols-2 gap-3 sm:auto-rows-[208px] sm:grid-cols-6 sm:gap-4 lg:auto-rows-[232px]"
