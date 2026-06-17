@@ -1,17 +1,20 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { photos } from '../images.js'
+import { photos, photosLegacy } from '../images.js'
 import Lightbox from './Lightbox.vue'
+
+const props = defineProps({ variant: { type: String, default: 'new' } })
+const pics = computed(() => (props.variant === 'legacy' ? photosLegacy : photos))
 
 const current = ref(-1) // -1 = closed
 const open = (i) => (current.value = i)
 const close = () => (current.value = -1)
-const prev = () => (current.value = (current.value - 1 + photos.length) % photos.length)
-const next = () => (current.value = (current.value + 1) % photos.length)
+const prev = () => (current.value = (current.value - 1 + pics.value.length) % pics.value.length)
+const next = () => (current.value = (current.value + 1) % pics.value.length)
 
 const INITIAL = 12
 const expanded = ref(false)
-const visible = computed(() => (expanded.value ? photos : photos.slice(0, INITIAL)))
+const visible = computed(() => (expanded.value ? pics.value : pics.value.slice(0, INITIAL)))
 
 // Editorial rhythm: a repeating pattern of spans breaks the uniform grid.
 // Pattern cycles every 6 tiles across a 6-column desktop grid.
@@ -41,7 +44,7 @@ const sizesFor = (i) =>
           </h2>
         </div>
         <p class="max-w-sm text-sm leading-relaxed text-stone-300">
-          {{ photos.length }} Aufnahmen vom Haus, dem Grundstück und der Umgebung. Zum Vergrößern
+          {{ pics.length }} Aufnahmen vom Haus, dem Grundstück und der Umgebung. Zum Vergrößern
           ein Bild auswählen.
         </p>
       </div>
@@ -53,7 +56,7 @@ const sizesFor = (i) =>
           <button
             type="button"
             class="group relative block h-full w-full overflow-hidden rounded-lg bg-forest-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400 focus-visible:ring-offset-2 focus-visible:ring-offset-forest-950"
-            :aria-label="`Foto ${i + 1} von ${photos.length} vergrößern`"
+            :aria-label="`Foto ${i + 1} von ${pics.length} vergrößern`"
             @click="open(i)"
           >
             <img
@@ -70,13 +73,13 @@ const sizesFor = (i) =>
         </li>
       </ul>
 
-      <div v-if="!expanded && photos.length > INITIAL" class="mt-10 text-center" v-reveal>
+      <div v-if="!expanded && pics.length > INITIAL" class="mt-10 text-center" v-reveal>
         <button
           type="button"
           class="inline-flex items-center gap-2 rounded-full border border-stone-400/40 px-7 py-3 text-sm font-semibold text-stone-100 transition-colors duration-200 hover:border-clay-400 hover:text-clay-400"
           @click="expanded = true"
         >
-          Alle {{ photos.length }} Fotos ansehen
+          Alle {{ pics.length }} Fotos ansehen
           <span aria-hidden="true">↓</span>
         </button>
       </div>
@@ -84,9 +87,9 @@ const sizesFor = (i) =>
 
     <Lightbox
       v-if="current >= 0"
-      :src="photos[current].full"
+      :src="pics[current].full"
       :index="current"
-      :total="photos.length"
+      :total="pics.length"
       @close="close"
       @prev="prev"
       @next="next"

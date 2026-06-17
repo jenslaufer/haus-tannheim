@@ -1,6 +1,14 @@
 <script setup>
-import { photos } from '../images.js'
-const cover = photos[0].full
+import { computed } from 'vue'
+import { coverLegacy } from '../images.js'
+
+// New cover is pinned to a specific shot (Anke's pick: diagonal terrace view,
+// sunny, no neighbour house, no facade stains) — independent of gallery order.
+// The legacy page keeps its original cover (first gallery photo).
+import coverNew from '../assets/images/_KWF2002-HDR.jpg?w=1920&format=webp&quality=80'
+
+const props = defineProps({ variant: { type: String, default: 'new' } })
+const cover = computed(() => (props.variant === 'legacy' ? coverLegacy : coverNew))
 </script>
 
 <template>
