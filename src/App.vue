@@ -9,7 +9,6 @@ import Facts from './components/Facts.vue'
 import Gallery from './components/Gallery.vue'
 import Description from './components/Description.vue'
 import LeadForm from './components/LeadForm.vue'
-import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
 
 // Sticky top bar appears once the hero has scrolled past.
@@ -22,7 +21,7 @@ const nav = [
   { href: '#eckdaten', label: 'Eckdaten' },
   { href: '#galerie', label: 'Galerie' },
   { href: '#beschreibung', label: 'Beschreibung' },
-  { href: '#kontakt', label: 'Kontakt' },
+  { href: '#unterlagen', label: 'Kontakt' },
 ]
 </script>
 
@@ -75,7 +74,6 @@ const nav = [
     <Description />
     <Gallery :variant="variant" />
     <LeadForm />
-    <Contact />
   </main>
   <Footer />
 </template>

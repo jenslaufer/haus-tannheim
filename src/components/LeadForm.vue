@@ -22,20 +22,20 @@ const benefits = [
 </script>
 
 <template>
-  <section id="unterlagen" class="bg-forest-800">
+  <section id="unterlagen" class="border-t border-stone-200 bg-stone-100">
     <div class="mx-auto grid max-w-[1320px] items-center gap-x-16 gap-y-12 px-5 py-20 lg:grid-cols-2 lg:px-10 lg:py-32">
       <!-- Persuasion column -->
       <div v-reveal>
-        <p class="kicker text-clay-400">Ihr nächster Schritt</p>
-        <h2 class="font-display mt-6 text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-stone-50">
+        <p class="kicker text-clay-600">Ihr nächster Schritt</p>
+        <h2 class="font-display mt-6 text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-forest-900">
           Unterlagen anfordern.
         </h2>
-        <p class="mt-6 max-w-md text-lg leading-relaxed text-forest-100">
+        <p class="mt-6 max-w-md text-lg leading-relaxed text-ink-soft">
           Hinterlassen Sie Ihre E-Mail-Adresse — Sie erhalten das vollständige Exposé mit allen
           Unterlagen zur Immobilie.
         </p>
         <ul class="mt-8 space-y-3">
-          <li v-for="b in benefits" :key="b" class="flex items-start gap-3 text-forest-50">
+          <li v-for="b in benefits" :key="b" class="flex items-start gap-3 text-ink">
             <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-clay-500 text-xs text-white" aria-hidden="true">✓</span>
             <span class="leading-relaxed">{{ b }}</span>
           </li>
@@ -43,7 +43,7 @@ const benefits = [
       </div>
 
       <!-- Form card -->
-      <div class="rounded-3xl bg-stone-50 p-7 shadow-2xl shadow-forest-950/30 sm:p-10" v-reveal="120">
+      <div class="rounded-3xl border border-stone-200 bg-white p-7 shadow-2xl shadow-forest-900/10 sm:p-10" v-reveal="120">
         <template v-if="state === 'done'">
           <div class="flex h-full flex-col justify-center text-center sm:py-6">
             <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-forest-100 text-2xl text-forest-700" aria-hidden="true">✓</span>
@@ -117,7 +117,8 @@ const benefits = [
 
             <p v-if="state === 'error'" class="text-sm leading-relaxed text-clay-700">
               Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie uns
-              direkt — siehe Kontakt unten.
+              direkt an
+              <a href="mailto:jens@haus-tannheim.de" class="font-medium underline underline-offset-4">jens@haus-tannheim.de</a>.
             </p>
             <p class="text-xs leading-relaxed text-stone-500">
               Ihre Daten verwenden wir ausschließlich zur Bearbeitung Ihrer Anfrage. Kein Tracking,
