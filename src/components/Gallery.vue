@@ -1,10 +1,12 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { photos, photosLegacy } from '../images.js'
 import Lightbox from './Lightbox.vue'
 
 const props = defineProps({ variant: { type: String, default: 'new' } })
 const pics = computed(() => (props.variant === 'legacy' ? photosLegacy : photos))
+// Live page uses the justified rows (no crop); the legacy page keeps the span grid.
+const justified = computed(() => props.variant !== 'legacy')
 
 const current = ref(-1) // -1 = closed
 const open = (i) => (current.value = i)
@@ -16,6 +18,7 @@ const INITIAL = 12
 const expanded = ref(false)
 const visible = computed(() => (expanded.value ? pics.value : pics.value.slice(0, INITIAL)))
 
+// — Grid layout (variant 'legacy') —
 // Editorial rhythm: a repeating pattern of spans breaks the uniform grid.
 // Pattern cycles every 6 tiles across a 6-column desktop grid.
 const spanFor = (i) => {
@@ -31,6 +34,47 @@ const sizesFor = (i) =>
   i % 6 === 0
     ? '(min-width: 1330px) 880px, (min-width: 640px) 66vw, 50vw'
     : '(min-width: 1330px) 440px, (min-width: 640px) 33vw, 50vw'
+
+// — Justified layout (live page) —
+// Google-Photos-style flush rows: every photo keeps its true aspect ratio, so
+// no shot is ever cropped. We pack photos greedily into a row, then scale the
+// row's height so its widths add up to exactly the container width.
+const GAP = 16
+const railEl = ref(null)
+const railW = ref(1240)
+let ro
+onMounted(() => {
+  if (!justified.value) return
+  ro = new ResizeObserver(([e]) => (railW.value = e.contentRect.width))
+  if (railEl.value) ro.observe(railEl.value)
+})
+onUnmounted(() => ro && ro.disconnect())
+
+// Taller rows on wider screens; fewer, larger photos per row on phones.
+const targetRowH = computed(() => (railW.value < 640 ? 210 : railW.value < 1024 ? 250 : 300))
+
+const rows = computed(() => {
+  const out = []
+  let row = []
+  let sumAR = 0
+  visible.value.forEach((photo, idx) => {
+    row.push({ photo, idx })
+    sumAR += photo.ar
+    // Height at which this row's photos fill the full width.
+    const h = (railW.value - GAP * (row.length - 1)) / sumAR
+    if (h <= targetRowH.value) {
+      out.push({ items: row, h })
+      row = []
+      sumAR = 0
+    }
+  })
+  // Trailing partial row: keep at target height, left-aligned (don't blow it up).
+  if (row.length) {
+    const h = Math.min(targetRowH.value, (railW.value - GAP * (row.length - 1)) / sumAR)
+    out.push({ items: row, h, last: true })
+  }
+  return out
+})
 </script>
 
 <template>
@@ -49,7 +93,35 @@ const sizesFor = (i) =>
         </p>
       </div>
 
+      <!-- Justified rows (live page): no crop, every photo at its true ratio. -->
+      <div v-if="justified" ref="railEl" class="mt-12 flex flex-col gap-4">
+        <div v-for="(r, ri) in rows" :key="ri" class="flex gap-4" :class="r.last ? 'justify-start' : ''">
+          <button
+            v-for="it in r.items"
+            :key="it.idx"
+            type="button"
+            class="group relative block shrink-0 overflow-hidden rounded-lg bg-forest-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400 focus-visible:ring-offset-2 focus-visible:ring-offset-forest-950"
+            :style="{ width: it.photo.ar * r.h + 'px', height: r.h + 'px' }"
+            :aria-label="`Foto ${it.idx + 1} von ${pics.length} vergrößern`"
+            @click="open(it.idx)"
+          >
+            <img
+              :src="it.photo.thumb"
+              :srcset="it.photo.thumbset"
+              :sizes="Math.round(it.photo.ar * r.h) + 'px'"
+              :alt="`Aufnahme ${it.idx + 1}`"
+              loading="lazy"
+              decoding="async"
+              class="block h-full w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+            />
+            <span class="pointer-events-none absolute inset-0 bg-forest-950/0 transition-colors duration-300 group-hover:bg-forest-950/15" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Span grid (variant 'legacy') -->
       <ul
+        v-else
         class="mt-12 grid auto-rows-[176px] grid-cols-2 gap-3 sm:auto-rows-[208px] sm:grid-cols-6 sm:gap-4 lg:auto-rows-[232px]"
       >
         <li v-for="(photo, i) in visible" :key="i" :class="spanFor(i)" class="col-span-1">
