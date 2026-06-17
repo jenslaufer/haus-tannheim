@@ -5,8 +5,8 @@ const provider = {
   name: 'Jens Laufer',
   street: 'Hörsteiner Str. 20a',
   city: '63791 Karlstein a. Main',
-  // E-Mail ist nach § 5 DDG Pflicht — von Jens noch zu bestätigen, welche Adresse öffentlich genannt wird.
-  email: '',
+  // E-Mail ist nach § 5 DDG Pflicht (öffentlich im Impressum genannt).
+  email: 'jens@haus-tannheim.de',
 }
 </script>
 
@@ -16,7 +16,7 @@ const provider = {
       <!-- Brand line -->
       <div class="flex flex-col gap-2 border-b border-forest-800 pb-10 sm:flex-row sm:items-end sm:justify-between">
         <p class="font-display text-2xl font-semibold text-stone-50">Haus&nbsp;Tannheim</p>
-        <p class="kicker text-forest-300">Villingen-Schwenningen · Architektenhaus 1966</p>
+        <p class="kicker text-forest-300">Villingen-Schwenningen · Architektenhaus 1965</p>
       </div>
 
       <div class="mt-12 grid gap-x-16 gap-y-12 text-sm leading-relaxed lg:grid-cols-12">

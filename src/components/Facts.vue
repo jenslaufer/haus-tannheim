@@ -2,7 +2,7 @@
 const facts = [
   { label: 'Ort', value: 'Tannheim', note: 'Villingen-Schwenningen' },
   { label: 'Objektart', value: 'Architektenhaus' },
-  { label: 'Baujahr', value: '1966' },
+  { label: 'Baujahr', value: '1965' },
   { label: 'Ausrichtung', value: 'Südwest' },
   { label: 'Wohnfläche', value: 'ca. 108 m²' },
   { label: 'Grundstück', value: 'ca. 800 m²' },

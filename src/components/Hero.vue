@@ -15,7 +15,7 @@ const cover = computed(() => (props.variant === 'legacy' ? coverLegacy : coverNe
   <header class="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden">
     <img
       :src="cover"
-      alt="Architektenhaus aus dem Jahr 1966 am Waldrand in Tannheim, Villingen-Schwenningen"
+      alt="Architektenhaus aus dem Jahr 1965 am Waldrand in Tannheim, Villingen-Schwenningen"
       fetchpriority="high"
       class="absolute inset-0 -z-10 h-full w-full object-cover"
     />
@@ -33,7 +33,7 @@ const cover = computed(() => (props.variant === 'legacy' ? coverLegacy : coverNe
     </div>
 
     <div class="mx-auto w-full max-w-[1320px] px-5 pb-12 lg:px-10 lg:pb-20">
-      <p class="kicker mb-5 text-clay-400">Architektenhaus · Baujahr 1966 · Waldrandlage</p>
+      <p class="kicker mb-5 text-clay-400">Architektenhaus · Baujahr 1965 · Waldrandlage</p>
       <h1
         class="font-display max-w-4xl text-[clamp(2.6rem,7vw,5.75rem)] font-semibold leading-[1.02] tracking-[-0.025em] text-stone-50"
       >
