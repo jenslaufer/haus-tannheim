@@ -47,12 +47,14 @@ for the gallery grid and 1920 px q80 fulls for hero + Lightbox. `photos` exports
 position without ambiguity. It parses the order straight from `src/images.js` (no
 hand-kept list) and writes two files into `public/`:
 
-- `galerie-mapping.csv` — `aktuelle_position; urspruengliche_position; dateiname; status`
-- `galerie-uebersicht.pdf` — A4 contact sheet: thumbnail + current pos + original pos + filename
+- `galerie-mapping.csv` — `position; aktuelle_position_neu; dateiname; status`
+- `galerie-uebersicht.pdf` — A4 contact sheet: thumbnail + original pos + current pos + filename
 
-Two positions per photo: **aktuelle** = curated live order (`index.html`, the `order`
-array, `_KWF2044` dropped); **urspruengliche** = legacy/original order (`index2.html`).
-Regenerate after reordering in `src/images.js`:
+The **primary** number (`position`) is the original/legacy order (`index2.html`: `_KWF*`
+then `VS-Tannheim*`, natural sort, all 80) — the order Anke's feedback refers to. The
+curated live position (`index.html`, `_KWF2044` dropped) is shown only as a secondary
+`(neu N)` annotation; `(entfernt)` marks the dropped photo. Regenerate after reordering in
+`src/images.js`:
 
 ```bash
 python3 scripts/galerie-uebersicht.py   # needs Pillow
