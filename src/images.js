@@ -129,8 +129,8 @@ const rankOf = (name) => (rank.has(name) ? rank.get(name) : Number.POSITIVE_INFI
 // Aspect ratio (width / height) per source shot, derived from the filename.
 // The whole set is landscape in exactly two ratios: the professional HDR shots
 // (_KWF…) are 3:2, the drone/aerial set (VS-Tannheim…) is 16:9. The justified
-// gallery (index3.html) uses this to size each tile to its photo so nothing is
-// cropped. Verified against every source file (`identify`) on 2026-06-17.
+// gallery sizes each tile to its photo so nothing is cropped. Verified against
+// every source file (`identify`) on 2026-06-17.
 const arFor = (name) => (name.startsWith('VS-Tannheim') ? 16 / 9 : 3 / 2)
 
 const strip = ({ thumb, thumbset, full, name }) => ({ thumb, thumbset, full, ar: arFor(name) })

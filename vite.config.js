@@ -9,14 +9,12 @@ export default defineConfig({
   base: './',
   plugins: [vue(), tailwindcss(), imagetools()],
   build: {
-    // Three pages: the live site, the legacy comparison page, and the
-    // justified-gallery candidate (index3.html). They share the same source
-    // images, so imagetools emits each WebP variant only once.
+    // Two pages: the live site and the legacy comparison page. They share the
+    // same source images, so imagetools emits each WebP variant only once.
     rollupOptions: {
       input: {
         main: 'index.html',
         legacy: 'index2.html',
-        v3: 'index3.html',
       },
     },
   },
