@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import Hero from './components/Hero.vue'
+
+// 'new' (index.html, Anke's rework) or 'legacy' (index2.html, pre-rework
+// gallery order + cover). Set by the page's entry file; defaults to 'new'.
+defineProps({ variant: { type: String, default: 'new' } })
 import Facts from './components/Facts.vue'
 import Gallery from './components/Gallery.vue'
 import Description from './components/Description.vue'
@@ -66,10 +70,10 @@ const nav = [
   </Transition>
 
   <main id="top">
-    <Hero />
+    <Hero :variant="variant" />
     <Facts />
     <Description />
-    <Gallery />
+    <Gallery :variant="variant" />
     <LeadForm />
     <Contact />
   </main>
