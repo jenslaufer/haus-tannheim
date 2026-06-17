@@ -41,6 +41,27 @@ At build time `vite-imagetools` renders two WebP variants per photo: 960 px q75 
 for the gallery grid and 1920 px q80 fulls for hero + Lightbox. `photos` exports
 `{ thumb, full }` objects.
 
+### Gallery overview (for feedback rounds)
+
+`scripts/galerie-uebersicht.py` builds a reference sheet so photos can be discussed by
+position without ambiguity. It parses the order straight from `src/images.js` (no
+hand-kept list) and writes two files into `public/`:
+
+- `galerie-mapping.csv` — `aktuelle_position; urspruengliche_position; dateiname; status`
+- `galerie-uebersicht.pdf` — A4 contact sheet: thumbnail + current pos + original pos + filename
+
+Two positions per photo: **aktuelle** = curated live order (`index.html`, the `order`
+array, `_KWF2044` dropped); **urspruengliche** = legacy/original order (`index2.html`).
+Regenerate after reordering in `src/images.js`:
+
+```bash
+python3 scripts/galerie-uebersicht.py   # needs Pillow
+```
+
+Both outputs land in `public/`, so they ship with the build and are reachable at
+`haus-tannheim.de/galerie-uebersicht.pdf`. Move them out of `public/` if they should not
+be public.
+
 ## Structure
 
 ```
