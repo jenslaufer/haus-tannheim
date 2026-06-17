@@ -52,14 +52,28 @@ legacy = sorted((f for f in files if f.startswith("_KWF")), key=natkey) + \
          sorted((f for f in files if f.startswith("VS-Tannheim")), key=natkey)
 legacy_pos = {n: i + 1 for i, n in enumerate(legacy)}
 
+# header / cover images (Hero.vue): live = pinned shot, legacy = first gallery photo
+hero = open(os.path.join(ROOT, "src/components/Hero.vue")).read()
+m = re.search(r"coverNew from '\.\./assets/images/([^?']+)", hero)
+new_cover = m.group(1) if m else None
+legacy_cover = legacy[0] if legacy else None
+header_label = {}
+if new_cover and new_cover == legacy_cover:
+    header_label[new_cover] = "HEADER (live+orig)"
+else:
+    if new_cover:
+        header_label[new_cover] = "HEADER (live)"
+    if legacy_cover:
+        header_label[legacy_cover] = "HEADER (orig)"
+
 # --- CSV mapping ---
 csv_path = os.path.join(OUT_DIR, "galerie-mapping.csv")
 with open(csv_path, "w", newline="") as fh:
     w = csv.writer(fh, delimiter=";")
-    w.writerow(["position", "aktuelle_position_neu", "dateiname", "status"])
+    w.writerow(["position", "aktuelle_position_neu", "header", "dateiname", "status"])
     for n in sorted(files, key=lambda n: legacy_pos.get(n, 10**9)):
         ap = new_pos.get(n)
-        w.writerow([legacy_pos.get(n, ""), ap if ap else "", n,
+        w.writerow([legacy_pos.get(n, ""), ap if ap else "", header_label.get(n, ""), n,
                     "live" if n in new_pos else "nicht auf Live-Seite (entfernt)"])
 print("CSV:", csv_path)
 
@@ -102,7 +116,14 @@ for pi in range(total_pages):
         th = load_thumb(n)
         ratio = min((cell_w - 20) / th.width, (cell_h - 64) / th.height)
         th = th.resize((int(th.width * ratio), int(th.height * ratio)))
-        page.paste(th, (x + (cell_w - 20 - th.width) // 2 + 10, y))
+        ix = x + (cell_w - 20 - th.width) // 2 + 10
+        page.paste(th, (ix, y))
+        if n in header_label:                       # corner badge for header/cover
+            btxt = "★ " + header_label[n]
+            tb = d.textbbox((0, 0), btxt, font=F_NAME)
+            d.rectangle([ix, y, ix + (tb[2]-tb[0]) + 16, y + (tb[3]-tb[1]) + 12],
+                        fill=(176, 109, 61))
+            d.text((ix + 8, y + 5), btxt, font=F_NAME, fill="white")
         ap = new_pos.get(n)
         label = f"Pos {legacy_pos.get(n)}"
         label += f"  (neu {ap})" if ap else "  (entfernt)"
