@@ -114,7 +114,16 @@ const provider = {
         </section>
       </div>
 
-      <p class="mt-14 text-xs text-stone-500">© {{ new Date().getFullYear() }} {{ provider.name }}</p>
+      <p class="mt-14 text-xs text-stone-500">
+        © {{ new Date().getFullYear() }} {{ provider.name }} · Fotografie:
+        <a
+          href="https://www.katja-wickert.de"
+          target="_blank"
+          rel="noopener"
+          class="underline underline-offset-4 hover:text-stone-300"
+          >Katja Wickert Fotografie</a
+        >
+      </p>
     </div>
   </footer>
 </template>
