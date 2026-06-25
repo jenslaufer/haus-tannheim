@@ -5,3 +5,6 @@ dist-ssr
 .DS_Store
 .vite
 .gstack/
+
+# Private property notes — never commit (repo is public via Pages)
+notes/
