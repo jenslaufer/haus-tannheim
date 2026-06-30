@@ -9,7 +9,7 @@ const facts = [
   { label: 'Grundbuch', value: 'lastenfreie Übergabe' },
   { label: 'Heizung', value: 'Gas-Zentralheizung', note: 'erneuert 2017' },
   { label: 'Warmwasser', value: 'erneuert 2017' },
-  { label: 'Energieausweis', value: 'in Erstellung' },
+  { label: 'Energieausweis', value: 'Bedarfsausweis', note: 'Klasse H' },
 ]
 </script>
 

@@ -14,10 +14,19 @@ const obergeschoss = [
 ]
 
 const energie = [
-  'Gas-Zentralheizung aus dem Jahr 2017',
+  'Gas-Brennwertheizung (Brötje, 15 kW) aus dem Jahr 2017',
   'Warmwasserbereitung ebenfalls aus 2017',
   'Offener Kamin im Wohnbereich',
-  'Ein aktueller Energieausweis befindet sich in Erstellung und liegt spätestens zur Besichtigung vor',
+  'Energieausweis (Bedarfsausweis) liegt vor — Pflichtangaben siehe unten',
+]
+
+const pflichtangaben = [
+  { label: 'Art des Energieausweises', value: 'Bedarfsausweis' },
+  { label: 'Endenergiebedarf', value: '631,2 kWh/(m²·a)' },
+  { label: 'Wesentliche Energieträger', value: 'Erdgas, Brennholz' },
+  { label: 'Baujahr (laut Ausweis)', value: '1965' },
+  { label: 'Energieeffizienzklasse', value: 'H' },
+  { label: 'Ausgestellt / gültig bis', value: '16.06.2026 – 15.06.2036' },
 ]
 
 const potenzial = [
@@ -167,12 +176,27 @@ const potenzial = [
             Verlässliche Basis
           </h3>
         </header>
-        <ul class="space-y-3 lg:col-span-7 lg:col-start-6">
-          <li v-for="point in energie" :key="point" class="flex gap-3 text-lg text-ink-soft">
-            <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-clay-500" aria-hidden="true" />
-            <span class="leading-relaxed">{{ point }}</span>
-          </li>
-        </ul>
+        <div class="lg:col-span-7 lg:col-start-6">
+          <ul class="space-y-3">
+            <li v-for="point in energie" :key="point" class="flex gap-3 text-lg text-ink-soft">
+              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-clay-500" aria-hidden="true" />
+              <span class="leading-relaxed">{{ point }}</span>
+            </li>
+          </ul>
+          <div class="mt-8 rounded-2xl border border-stone-200 bg-stone-50 p-6">
+            <p class="kicker text-stone-500">Pflichtangaben gemäß GEG</p>
+            <dl class="mt-4 space-y-2 text-sm sm:text-base">
+              <div
+                v-for="p in pflichtangaben"
+                :key="p.label"
+                class="flex items-baseline justify-between gap-6 border-b border-stone-200/70 pb-2"
+              >
+                <dt class="text-ink-soft">{{ p.label }}</dt>
+                <dd class="text-right font-medium text-forest-900">{{ p.value }}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
       </article>
 
       <!-- Potenzial -->
