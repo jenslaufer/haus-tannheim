@@ -120,6 +120,11 @@ const potenzial = [
             genießen.
           </p>
           <p>Hier finden Gartenliebhaber, Naturliebhaber und Familien gleichermaßen Raum zur Entfaltung.</p>
+          <p class="text-pretty">
+            Das Grundstück umfasst 804 m² als ein zusammenhängendes Flurstück und ist frei von
+            Rechten Dritter — Abteilung II des Grundbuchs weist keine Eintragungen auf (keine Wege-,
+            Wohn- oder Nießbrauchrechte). Die Übergabe erfolgt lastenfrei.
+          </p>
         </div>
       </article>
 
