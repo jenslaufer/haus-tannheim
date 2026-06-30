@@ -6,7 +6,7 @@ const facts = [
   { label: 'Ausrichtung', value: 'Südwest' },
   { label: 'Wohnfläche', value: 'ca. 108 m²' },
   { label: 'Grundstück', value: '804 m²', note: 'ein Flurstück' },
-  { label: 'Grundbuch', value: 'lastenfreie Übergabe', note: 'frei von Rechten Dritter' },
+  { label: 'Grundbuch', value: 'lastenfreie Übergabe' },
   { label: 'Heizung', value: 'Gas-Zentralheizung', note: 'erneuert 2017' },
   { label: 'Warmwasser', value: 'erneuert 2017' },
   { label: 'Energieausweis', value: 'in Erstellung' },
