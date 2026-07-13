@@ -99,6 +99,21 @@ Both services run on the solytics droplet (167.172.176.129). Its Caddy allow-lis
 `haus-tannheim.de` in the `frame-ancestors` CSP for `cal.solytics.de` — only relevant if
 the calendar is ever embedded again.
 
+## Mail (haus-tannheim.de)
+
+Fully on AWS SES us-east-1, account 777607929386 (set up 2026-07-13).
+
+- **Outbound**: SES domain identity `haus-tannheim.de`, Easy-DKIM verified (3 DKIM
+  CNAMEs in Namecheap DNS). The Launch Kit tenant sends as `jens@haus-tannheim.de`
+  (marketing) / `noreply@haus-tannheim.de` (transactional) via the SES SMTP relay.
+- **Inbound**: MX `10 inbound-smtp.us-east-1.amazonaws.com` → SES receipt rule
+  `default-rule-set/mail` (catch-all) → S3 `mail-hch849hwocg47ohhco/incoming` →
+  Lambda `ses_forward`, which forwards `@haus-tannheim.de` to `jenslaufer@gmail.com`
+  (mapping hardcoded in the Lambda's `forwardMapping`).
+- **DMARC**: `_dmarc` TXT `v=DMARC1; p=none;` (DKIM-aligned, monitoring only).
+- Namecheap gotcha: DNS writes must send `EmailType=MX` or the MX record is silently
+  dropped — `namecheap-add-host.sh` handles this since 2026-07-13.
+
 ## Deploy
 
 Push to `main` → GitHub Actions (`.github/workflows/deploy.yml`) builds and publishes to
