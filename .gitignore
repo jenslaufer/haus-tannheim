@@ -5,3 +5,6 @@ dist-ssr
 .DS_Store
 .vite
 .gstack/
+
+# private personal data — never publish
+notes/vollmacht-entwurf.md
