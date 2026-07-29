@@ -7,4 +7,5 @@ dist-ssr
 .gstack/
 
 # private personal data — never publish
-notes/vollmacht-entwurf.md
+notes/
+.firecrawl/
