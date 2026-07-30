@@ -45,9 +45,9 @@ const facts = [
           class="flex items-baseline justify-between gap-6 border-b border-stone-300/70 py-5"
         >
           <dt class="kicker text-stone-500">{{ f.label }}</dt>
-          <dd class="text-right">
+          <dd class="flex min-w-0 flex-wrap items-baseline justify-end gap-x-2 text-right">
             <span class="text-lg font-semibold text-forest-900">{{ f.value }}</span>
-            <span v-if="f.note" class="ml-2 text-sm text-ink-soft">{{ f.note }}</span>
+            <span v-if="f.note" class="text-sm text-ink-soft">{{ f.note }}</span>
           </dd>
         </div>
       </dl>
