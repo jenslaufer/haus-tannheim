@@ -29,6 +29,21 @@ const pflichtangaben = [
   { label: 'Ausgestellt / gültig bis', value: '16.06.2026 – 15.06.2036' },
 ]
 
+const einordnung = [
+  {
+    titel: 'Ein Rechenwert, kein gemessener Verbrauch',
+    text: 'Der ausgewiesene Endenergiebedarf stammt aus einem Bedarfsausweis. Er wird nach genormten Annahmen zu Klima und Nutzerverhalten berechnet und nicht am tatsächlichen Verbrauch gemessen. Für die Einschätzung Ihrer künftigen Heizkosten ist er deshalb ein Anhaltspunkt und keine Abrechnung.',
+  },
+  {
+    titel: 'Kein gesetzlicher Zwang zum Heizungstausch',
+    text: 'Die Gas-Brennwertheizung stammt aus dem Jahr 2017. Seit dem 29. Juli 2026 gilt das Gebäudemodernisierungsgesetz. Die frühere Pflicht, neu eingebaute Heizungen zu 65 Prozent mit erneuerbaren Energien zu betreiben, ist entfallen, ebenso das Betriebsverbot für alte Heizkessel. Für künftig neu eingebaute fossile Heizungen steigt schrittweise eine Quote für erneuerbare Brennstoffe; das wirkt über den Brennstoffpreis und nicht als Austauschpflicht.',
+  },
+  {
+    titel: 'Vorgeschrieben ist eine einzige Maßnahme',
+    text: 'Bestehen bleibt die Nachrüstpflicht für die oberste Geschossdecke: Sie muss einen Wärmedurchgangskoeffizienten von 0,24 W/(m²·K) einhalten, erfüllbar auch durch eine entsprechende Dachdämmung. Überschlägig geschätzt liegt das je nach Ausführung bei etwa 1.400 bis 3.800 Euro. Ein Handwerkerangebot liegt dazu nicht vor, die Spanne ist eine Schätzung.',
+  },
+]
+
 const potenzial = [
   'Erweiterung des Wohnbereichs durch einen Wintergarten',
   'Umnutzung der integrierten Garage zu zusätzlichem Wohn- oder Arbeitsraum',
@@ -184,7 +199,7 @@ const potenzial = [
             </li>
           </ul>
           <div class="mt-8 rounded-2xl border border-stone-200 bg-stone-50 p-6">
-            <p class="kicker text-stone-500">Pflichtangaben gemäß GEG</p>
+            <p class="kicker text-stone-500">Pflichtangaben aus dem Energieausweis</p>
             <dl class="mt-4 space-y-2 text-sm sm:text-base">
               <div
                 v-for="p in pflichtangaben"
@@ -195,6 +210,19 @@ const potenzial = [
                 <dd class="text-right font-medium text-forest-900">{{ p.value }}</dd>
               </div>
             </dl>
+          </div>
+          <div class="mt-6 border-l-2 border-clay-500 pl-6">
+            <p class="kicker text-stone-500">Was diese Zahlen bedeuten</p>
+            <div class="mt-4 space-y-5">
+              <div v-for="punkt in einordnung" :key="punkt.titel">
+                <p class="font-medium text-forest-900">{{ punkt.titel }}</p>
+                <p class="mt-1.5 text-pretty leading-relaxed text-ink-soft">{{ punkt.text }}</p>
+              </div>
+            </div>
+            <p class="mt-5 text-sm text-stone-500">
+              Angaben zum Rechtsstand vom 30. Juli 2026. Keine Rechts- oder Energieberatung,
+              maßgeblich sind der Energieausweis und die gesetzlichen Vorschriften.
+            </p>
           </div>
         </div>
       </article>
