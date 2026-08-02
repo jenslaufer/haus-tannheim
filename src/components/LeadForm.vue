@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { captureLead, BOOKING_URL } from '../leads.js'
+import { captureLead, BOOKING_URL, CONTACT_EMAIL } from '../leads.js'
 
 const name = ref('')
 const email = ref('')
@@ -17,7 +17,7 @@ async function submit() {
 const benefits = [
   'Vollständiges Exposé mit allen Detailangaben',
   'Grundrisse und weitere Aufnahmen',
-  'Im Anschluss direkt einen Besichtigungstermin wählen',
+  'Besichtigungstermin im Anschluss abstimmen',
 ]
 </script>
 
@@ -52,7 +52,7 @@ const benefits = [
             </p>
             <p class="mt-3 leading-relaxed text-ink-soft">
               Sie erhalten die Unterlagen in Kürze per E-Mail. Sie möchten das Haus persönlich
-              kennenlernen? Wählen Sie direkt einen Besichtigungstermin:
+              kennenlernen? Hier sehen Sie die aktuellen Besichtigungstermine:
             </p>
             <a
               :href="BOOKING_URL"
@@ -63,6 +63,17 @@ const benefits = [
               Besichtigungstermin vereinbaren
               <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
             </a>
+            <!-- Second path on purpose: the calendar only shows hand-set
+                 viewing days and is empty between them. Without this line the
+                 funnel ends on a page with nothing to click. -->
+            <p class="mt-5 text-sm leading-relaxed text-ink-soft">
+              Kein passender Termin dabei? Schreiben Sie an
+              <a
+                :href="`mailto:${CONTACT_EMAIL}`"
+                class="font-medium underline underline-offset-4 hover:text-forest-800"
+                >{{ CONTACT_EMAIL }}</a
+              >, wir stimmen einen Termin persönlich ab.
+            </p>
           </div>
         </template>
 
@@ -118,7 +129,7 @@ const benefits = [
             <p v-if="state === 'error'" class="text-sm leading-relaxed text-clay-700">
               Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie uns
               direkt an
-              <a href="mailto:jens@haus-tannheim.de" class="font-medium underline underline-offset-4">jens@haus-tannheim.de</a>.
+              <a :href="`mailto:${CONTACT_EMAIL}`" class="font-medium underline underline-offset-4">{{ CONTACT_EMAIL }}</a>.
             </p>
             <p class="text-xs leading-relaxed text-stone-500">
               Ihre Daten verwenden wir ausschließlich zur Bearbeitung Ihrer Anfrage. Kein Tracking,
