@@ -3,6 +3,11 @@
 
 export const BOOKING_URL = 'https://cal.solytics.de/haus-tannheim/besichtigung'
 
+// The way in that always works. The booking calendar only offers hand-set
+// viewing days, so it is empty between them — every dead end must fall back
+// to a human.
+export const CONTACT_EMAIL = 'jens@haus-tannheim.de'
+
 export const LEAD_CAPTURE_URL =
   'https://auth.solytics.de/t/haus-tannheim/marketing/public/lead-capture'
 export const LEAD_SEGMENT = 'interessenten'
