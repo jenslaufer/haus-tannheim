@@ -74,3 +74,62 @@ describe('LeadForm success card', () => {
     expect(wrapper.text()).not.toMatch(/direkt einen Besichtigungstermin/)
   })
 })
+
+// Why this block exists (2026-08-06):
+//
+// Measured on the live page this morning with a mobile client: the rendered
+// page carries no link to the calendar at all — the only hrefs are the page's
+// own anchors and one mailto. The booking link exists, but it lives in the
+// success card, i.e. behind the form. So the calendar is reachable only after
+// a visitor has handed over an e-mail address.
+//
+// That gate is right for someone who wants to READ (the expose is the thing
+// being traded for the address). It is a detour for someone who wants to
+// VIEW: they must submit a form to find out whether a viewing day exists.
+// Two days before the last viewing day before a four-week gap, that detour is
+// the expensive one, and the gate costs nothing to keep open in parallel —
+// Cal.com asks for name and e-mail before it confirms a slot, so a booked
+// viewer hands over the same contact and is worth more than an address.
+//
+// These tests pin the second entrance, not a replacement: the form stays the
+// primary call to action in the idle state.
+describe('LeadForm idle state', () => {
+  it('reaches the calendar without submitting the form first', () => {
+    const wrapper = mount(LeadForm, { global })
+
+    expect(wrapper.text()).not.toContain('Vielen Dank') // still the idle card
+    const links = wrapper.findAll('a').map((a) => a.attributes('href'))
+    expect(links).toContain(BOOKING_URL)
+  })
+
+  it('keeps the expose form as the primary call to action', () => {
+    const wrapper = mount(LeadForm, { global })
+
+    // The gate is not replaced by the shortcut: both entrances stay open.
+    expect(wrapper.find('form').exists()).toBe(true)
+    expect(wrapper.find('input[type="email"]').exists()).toBe(true)
+    expect(wrapper.find('button[type="submit"]').exists()).toBe(true)
+  })
+
+  it('opens the calendar in a new tab so the form is not lost', () => {
+    const wrapper = mount(LeadForm, { global })
+
+    const booking = wrapper
+      .findAll('a')
+      .find((a) => a.attributes('href') === BOOKING_URL)
+    expect(booking.attributes('target')).toBe('_blank')
+    expect(booking.attributes('rel')).toContain('noopener')
+  })
+
+  it('names no date, because the page cannot know one', () => {
+    // The calendar cannot be read from the browser: cal.solytics.de answers
+    // getSchedule with no Access-Control-Allow-Origin header (re-measured
+    // 2026-08-06, still true). A date baked in at build time would be a lie
+    // the morning after the viewing day, so the link promises a list, not a
+    // slot — the booking page itself states what is actually free.
+    const wrapper = mount(LeadForm, { global })
+
+    expect(wrapper.text()).not.toMatch(/\d{1,2}\.\s*(August|September|\d{1,2}\.)/)
+    expect(wrapper.text()).not.toMatch(/Samstag|Sonntag|Montag/)
+  })
+})
