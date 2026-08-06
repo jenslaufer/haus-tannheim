@@ -40,6 +40,21 @@ const benefits = [
             <span class="leading-relaxed">{{ b }}</span>
           </li>
         </ul>
+        <!-- Second entrance, deliberately secondary to the form: whoever wants
+             to see the house rather than read about it should not have to hand
+             over an address first. No date is named here — the calendar cannot
+             be read from the browser (no CORS header on cal.solytics.de), and a
+             date baked in at build time would be wrong the morning after. -->
+        <p class="mt-8 border-t border-stone-200 pt-6 text-[15px] leading-relaxed text-ink-soft">
+          Sie möchten das Haus lieber gleich ansehen?
+          <a
+            :href="BOOKING_URL"
+            target="_blank"
+            rel="noopener"
+            class="font-medium text-forest-800 underline decoration-clay-400 underline-offset-4 transition-colors duration-150 hover:text-forest-900"
+            >Hier stehen die Besichtigungstermine.</a
+          >
+        </p>
       </div>
 
       <!-- Form card -->
