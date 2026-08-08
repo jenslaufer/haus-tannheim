@@ -133,3 +133,51 @@ describe('LeadForm idle state', () => {
     expect(wrapper.text()).not.toMatch(/Samstag|Sonntag|Montag/)
   })
 })
+
+// Why this block exists (2026-08-08):
+//
+// The rule is written down in leads.js — "every dead end must fall back to a
+// human" — and it was enforced per STATE instead of per LINK. The success card
+// got its escape hatch on 2026-08-02; the second entrance added on 2026-08-06
+// got the calendar link and nothing beside it. Nothing failed, because the
+// idle-state tests assert that the booking link exists and stop there.
+//
+// That gap is live today: measured 2026-08-08 against cal.solytics.de, the
+// booking page has 0 bookable days (8 listed slots, all full at 3 of 3 seats,
+// every August day rendered `disabled`). A visitor who takes the shortcut
+// lands on an empty page, and the only mailto on the idle card sits behind
+// `v-if="state === 'error'"`, so they never see it.
+//
+// So this is deliberately not another per-state test. It walks every state a
+// visitor can reach and checks the invariant itself: wherever the calendar is
+// offered, a way to a human is offered next to it. A future third entrance
+// inherits the guard without anyone remembering to write one.
+describe('booking link never stands alone', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true }))
+  })
+
+  const escapeHatches = (wrapper) =>
+    wrapper
+      .findAll('a')
+      .map((a) => a.attributes('href'))
+      .filter((href) => href === `mailto:${CONTACT_EMAIL}`)
+
+  const offersBooking = (wrapper) =>
+    wrapper.findAll('a').some((a) => a.attributes('href') === BOOKING_URL)
+
+  it('idle state: calendar and a human, not just the calendar', () => {
+    const wrapper = mount(LeadForm, { global })
+
+    expect(offersBooking(wrapper)).toBe(true)
+    expect(escapeHatches(wrapper).length).toBeGreaterThan(0)
+  })
+
+  it('success state: calendar and a human', async () => {
+    const wrapper = mount(LeadForm, { global })
+    await submitForm(wrapper)
+
+    expect(offersBooking(wrapper)).toBe(true)
+    expect(escapeHatches(wrapper).length).toBeGreaterThan(0)
+  })
+})

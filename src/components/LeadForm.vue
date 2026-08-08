@@ -55,6 +55,19 @@ const benefits = [
             >Hier stehen die Besichtigungstermine.</a
           >
         </p>
+        <!-- The same escape hatch the success card carries. leads.js states the
+             rule ("every dead end must fall back to a human"); it was enforced
+             per state, so this entrance shipped without it and pointed at an
+             empty calendar. Whoever adds a third entrance inherits the guard
+             from the test, not from memory. -->
+        <p class="mt-3 text-sm leading-relaxed text-ink-soft">
+          Kein passender Termin dabei oder gerade keiner eingestellt? Schreiben Sie kurz an
+          <a
+            :href="`mailto:${CONTACT_EMAIL}`"
+            class="font-medium underline underline-offset-4 hover:text-forest-800"
+            >{{ CONTACT_EMAIL }}</a
+          >, wir stimmen einen Termin persönlich ab.
+        </p>
       </div>
 
       <!-- Form card -->
