@@ -1,0 +1,39 @@
+ANTWORTVORLAGE FÜR IMMOSCOUT-ANFRAGEN
+=====================================
+Exposé: https://www.immobilienscout24.de/expose/171300421 (Scout-ID 171300421)
+
+Einsatz: Antwort auf jede Kontaktanfrage über ImmoScout. [Name] ersetzen; geht die
+Anfrage auf eine konkrete Frage ein, einen Satz dazu vor „Am besten lernen Sie …“ setzen.
+
+Regel (leads.js, #25): Nie den Kalender anbieten, ohne einen Menschen anzubieten —
+der Kalender zeigt nur von Hand eingestellte Besichtigungstage und ist dazwischen leer.
+
+utm_source=immoscout: Cal.com zeigt die UTM-Parameter an der Buchung, so ist sichtbar,
+welche Besichtigungen aus ImmoScout kommen.
+
+-------------------------------------------------------------------------------
+BETREFF
+-------------------------------------------------------------------------------
+Ihre Anfrage zum Architektenhaus in VS-Tannheim
+
+-------------------------------------------------------------------------------
+TEXT (ab hier kopieren)
+-------------------------------------------------------------------------------
+Guten Tag [Name],
+
+vielen Dank für Ihr Interesse an unserem Haus in Tannheim.
+
+Am besten lernen Sie es bei einer Besichtigung kennen. Die aktuellen Termine sehen Sie
+hier und können direkt einen Platz buchen:
+
+https://cal.solytics.de/haus-tannheim/besichtigung?utm_source=immoscout
+
+Kein passender Termin dabei, oder gerade keiner eingestellt? Antworten Sie einfach auf
+diese Nachricht oder schreiben Sie an jens@haus-tannheim.de – dann stimmen wir einen
+Termin persönlich ab.
+
+Alle Fotos, die Lage und die Angaben aus dem Energieausweis finden Sie auch auf
+www.haus-tannheim.de.
+
+Viele Grüße
+Jens Laufer
