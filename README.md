@@ -99,6 +99,11 @@ Both services run on the solytics droplet (167.172.176.129). Its Caddy allow-lis
 `haus-tannheim.de` in the `frame-ancestors` CSP for `cal.solytics.de` — only relevant if
 the calendar is ever embedded again.
 
+Listings: Kleinanzeigen (`marketing/kleinanzeigen.txt`) and ImmoScout24 (exposé
+171300421, since 2026-09-29). ImmoScout gets no links in the ad text; replies to its
+inquiries use `marketing/immoscout-antwort.txt`, which carries the booking link with
+`?utm_source=immoscout`.
+
 ## Mail (haus-tannheim.de)
 
 Fully on AWS SES us-east-1, account 777607929386 (set up 2026-07-13).
