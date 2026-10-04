@@ -1,6 +1,10 @@
+<script>
+export const HERO_INTERVAL_MS = 3000
+</script>
+
 <script setup>
-import { computed } from 'vue'
-import { coverLegacy } from '../images.js'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { coverLegacy, photos } from '../images.js'
 
 // New cover is pinned to a specific shot (Anke's pick: diagonal terrace view,
 // sunny, no neighbour house, no facade stains) — independent of gallery order.
@@ -8,16 +12,45 @@ import { coverLegacy } from '../images.js'
 import coverNew from '../assets/images/_KWF2002-HDR.jpg?w=1920&format=webp&quality=80'
 
 const props = defineProps({ variant: { type: String, default: 'new' } })
-const cover = computed(() => (props.variant === 'legacy' ? coverLegacy : coverNew))
+
+// The new page rotates the cover plus the curated opening 15 of the gallery
+// (Jens, 2026-10-04: change every three seconds). Legacy stays static.
+const slides = computed(() =>
+  props.variant === 'legacy'
+    ? [coverLegacy]
+    : [coverNew, ...photos.slice(0, 15).map((p) => p.full).filter((src) => src !== coverNew)],
+)
+
+const current = ref(0)
+// Highest index ever due + 1: only those photos and the next one sit in the
+// DOM, so the browser fetches one photo per step instead of all at once.
+const reached = ref(0)
+const rendered = computed(() => slides.value.slice(0, Math.min(reached.value + 2, slides.value.length)))
+
+let timer
+onMounted(() => {
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  if (slides.value.length < 2 || reduce) return
+  timer = setInterval(() => {
+    current.value = (current.value + 1) % slides.value.length
+    reached.value = Math.max(reached.value, current.value)
+  }, HERO_INTERVAL_MS)
+})
+onUnmounted(() => clearInterval(timer))
 </script>
 
 <template>
   <header class="relative isolate flex min-h-[88svh] flex-col justify-end overflow-hidden">
     <img
-      :src="cover"
-      alt="Architektenhaus aus dem Jahr 1965 am Waldrand in Tannheim, Villingen-Schwenningen"
-      fetchpriority="high"
-      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      v-for="(src, i) in rendered"
+      :key="src"
+      :src="src"
+      :alt="i === 0 ? 'Architektenhaus aus dem Jahr 1965 am Waldrand in Tannheim, Villingen-Schwenningen' : ''"
+      :fetchpriority="i === 0 ? 'high' : 'low'"
+      :data-active="i === current"
+      :aria-hidden="i !== current"
+      class="absolute inset-0 -z-10 h-full w-full object-cover transition-opacity duration-1000 motion-reduce:transition-none"
+      :class="i === current ? 'opacity-100' : 'opacity-0'"
     />
     <!-- Forest-toned scrim: lifts contrast for the headline (≥ 4.5:1) -->
     <div
