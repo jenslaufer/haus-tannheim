@@ -103,6 +103,11 @@ test('unknown income yields two scenarios without income bonus', () => {
     expect(s.zuschuesse.einkommensbonusEingerechnet).toBe(false)
     expect(s.zuschuesse.heizungSatzPct).toBe(30)
   }
+  // 308 limit 100.000 € is above the 358 limit: scenario A cannot promise 358,
+  // but both scenarios point to it.
+  expect(a.sanierungskredit.programm).toBe('bank')
+  expect(a.hinweis358).toBe(true)
+  expect(b.hinweis358).toBe(true)
 })
 
 test('unknown income without 308 path yields one scenario via bank', () => {
@@ -239,4 +244,8 @@ test('unknown income without 308 path hints at 358', () => {
   expect(one({ zve: null, kinder: 0, kostenHuelle: 20000 }).hinweis358).toBe(true)
   expect(one({ zve: null, kinder: 0 }).hinweis358).toBe(false)
   expect(one({ zve: 50000, kinder: 0, kostenHuelle: 20000 }).hinweis358).toBe(false)
+})
+
+test('no 358 hint when equity covers the renovation', () => {
+  expect(one({ zve: null, kinder: 0, kostenHuelle: 20000, eigenkapital: 1e6 }).hinweis358).toBe(false)
 })

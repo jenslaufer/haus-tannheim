@@ -122,7 +122,7 @@ function scenario(input, { label, zve, kfw308Reason, use358, hinweis358 = false 
     bank,
     rateGesamt: kfw308.rate + sanierungskredit.rate + bank.rate,
     // Income unknown, renovation on the bank loan: 358 may still apply.
-    hinweis358: hinweis358 && netto > 0,
+    hinweis358: hinweis358 && netto > 0 && bankBetrag > 0,
     sanierungOffen: !(num(input.kostenHeizung) > 0) && !(huelleKosten > 0),
     // One field filled, the other empty: the empty part is still needed.
     sanierungTeilweiseOffen:
@@ -167,10 +167,15 @@ export function evaluate(raw, today) {
           zve: null,
           kfw308Reason: null,
           use358: grenze <= KFW358.einkommenGrenze,
+          hinweis358: grenze > KFW358.einkommenGrenze,
         },
         today,
       ),
-      scenario(input, { label: 'Falls darüber', zve: null, kfw308Reason: 'einkommen', use358: false }, today),
+      scenario(
+        input,
+        { label: 'Falls darüber', zve: null, kfw308Reason: 'einkommen', use358: false, hinweis358: true },
+        today,
+      ),
     ]
   } else {
     const reason = reasonOhneEinkommen ?? (zve !== null && zve > grenze ? 'einkommen' : null)

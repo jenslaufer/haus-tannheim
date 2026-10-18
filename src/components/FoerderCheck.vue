@@ -107,12 +107,16 @@ const BEISPIEL = 'Bitte einen Betrag in Euro eingeben, z. B. 280.000'
 function validate() {
   const key = current.value.key
   if (current.value.type === 'sanierung') {
-    return [answers.kostenHeizung, answers.kostenHuelle].some((v) => Number.isNaN(parse(v))) ? BEISPIEL : ''
+    const kosten = [answers.kostenHeizung, answers.kostenHuelle].map(parse)
+    return kosten.some((v) => Number.isNaN(v) || (v > 0 && v < 100)) ? BEISPIEL : ''
   }
   if (current.value.type !== 'number') return ''
   const v = parse(answers[key])
   if (Number.isNaN(v)) return BEISPIEL
-  if (key === 'kaufpreis' && !(v > 0)) return 'Bitte geben Sie den Kaufpreis ein, z. B. 280.000'
+  // Plausibility floors catch "120" meant as 120.000 before it turns into a
+  // subsidy the visitor would not get.
+  if (key === 'kaufpreis' && !(v >= 10000)) return 'Bitte geben Sie den Kaufpreis ein, z. B. 280.000'
+  if (key === 'zve' && v > 0 && v < 1000) return 'Bitte das Jahreseinkommen in Euro eingeben, z. B. 80.000'
   return ''
 }
 

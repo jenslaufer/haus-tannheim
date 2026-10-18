@@ -221,4 +221,38 @@ describe('FoerderCheck', () => {
     expect(t).toContain('über der Grenze')
     expect(t).toContain('+10 bis +40 Prozentpunkte')
   })
+
+  it('rejects ambiguous renovation costs', async () => {
+    const w = mount(FoerderCheck, { global })
+    await click(w, 'start')
+    await click(w, 'choice-ja')
+    await click(w, 'choice-2')
+    await click(w, 'choice-nein')
+    await fill(w, 'input', 80000)
+    await click(w, 'next')
+    await click(w, 'next')
+    await fill(w, 'input', 50000)
+    await click(w, 'next')
+    await fill(w, 'input-heizung', '40k')
+    await click(w, 'next')
+    expect(w.find('[data-test="error"]').exists()).toBe(true)
+    expect(w.find('.fc-print').exists()).toBe(false)
+  })
+
+  it('rejects implausibly small amounts', async () => {
+    const w = mount(FoerderCheck, { global })
+    await click(w, 'start')
+    await click(w, 'choice-ja')
+    await click(w, 'choice-2')
+    await click(w, 'choice-nein')
+    await fill(w, 'input', 120) // "120" meant as 120.000
+    await click(w, 'next')
+    expect(w.find('[data-test="error"]').exists()).toBe(true)
+    await fill(w, 'input', 0) // zero income is plausible
+    await click(w, 'next')
+    await fill(w, 'input', 280) // purchase price typo
+    await click(w, 'next')
+    expect(w.find('[data-test="error"]').exists()).toBe(true)
+    expect(w.text()).toContain('Mit welchem Kaufpreis')
+  })
 })

@@ -4,13 +4,17 @@
 const FORMS = [
   [/^\d+$/, (s) => s], // 280000
   [/^\d{1,3}(\.\d{3})+(,\d{1,2})?$/, (s) => s.split(',')[0].replaceAll('.', '')], // 280.000,00
-  [/^\d+,\d{1,2}$/, (s) => s.split(',')[0]], // 1,5
+  // Plain decimals only from 1.000 € up: "120,5" is more likely a typo for
+  // 120.500 than 120 € and 50 cents.
+  [/^\d{4,},\d{1,2}$/, (s) => s.split(',')[0]], // 2500,50
   [/^\d{1,3}(,\d{3})+$/, (s) => s.replaceAll(',', '')], // 80,000
-  [/^\d+\.\d{1,2}$/, (s) => s.split('.')[0]], // 250000.50
+  [/^\d{4,}\.\d{1,2}$/, (s) => s.split('.')[0]], // 250000.50
 ]
 
 export function parseEuro(v) {
-  const s = String(v ?? '').replace(/[\s€]/g, '')
+  const s = String(v ?? '')
+    .replace(/[\s€]/g, '')
+    .replace(/,-+$/, '') // 280.000,-
   if (s === '') return null
   const form = FORMS.find(([re]) => re.test(s))
   return form ? Number(form[1](s)) : NaN

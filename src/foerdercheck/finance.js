@@ -2,7 +2,7 @@
 
 // Monthly annuity that repays `principal` in `years`. `ratePct` is used as a
 // nominal annual rate (rate / 12 per month). Fed with an effective rate this
-// overstates the payment slightly — about 1–2 € a month — which is on the safe side.
+// overstates the payment slightly — at most about 2 € a month — which is on the safe side.
 export function annuity(principal, ratePct, years) {
   if (!(principal > 0)) return 0
   const n = years * 12
