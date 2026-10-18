@@ -53,7 +53,7 @@ const printResult = () => window.print()
         <article
           v-for="(s, i) in result.scenarios"
           :key="i"
-          class="rounded-2xl bg-white p-6 shadow-sm sm:p-8"
+          class="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-8"
         >
           <p class="kicker text-clay-600">{{ s.label ?? 'Ihr Ergebnis' }}</p>
 
@@ -61,36 +61,37 @@ const printResult = () => window.print()
             {{ reasonText(s.kfw308) }}
           </p>
 
-          <table class="mt-6 w-full text-left text-sm">
+          <table class="mt-6 w-full text-left text-xs sm:text-sm">
             <thead class="kicker text-stone-500">
               <tr>
                 <th class="pb-2 font-normal">Kredit</th>
-                <th class="pb-2 text-right font-normal">Betrag</th>
-                <th class="pb-2 text-right font-normal">Zins eff.</th>
-                <th class="pb-2 text-right font-normal">Rate / Monat</th>
+                <th class="whitespace-nowrap pb-2 pl-2 text-right font-normal">Betrag</th>
+                <th class="whitespace-nowrap pb-2 pl-2 text-right font-normal">Zins</th>
+                <th class="whitespace-nowrap pb-2 pl-2 text-right font-normal">Rate</th>
               </tr>
             </thead>
             <tbody class="text-ink">
               <tr v-if="s.kfw308.eligible" data-test="loan-308" class="border-t border-stone-200">
                 <td class="py-3">KfW 308 „Jung kauft Alt“<br /><span class="text-ink-soft">{{ KFW308.laufzeitJahre }} Jahre, {{ KFW308.zinsbindungJahre }} Jahre Zinsbindung</span></td>
-                <td class="py-3 text-right">{{ eur(s.kfw308.betrag) }}</td>
-                <td class="py-3 text-right">{{ pct(s.kfw308.zinsPct) }}</td>
-                <td class="py-3 text-right">{{ eur(s.kfw308.rate) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.kfw308.betrag) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ pct(s.kfw308.zinsPct) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.kfw308.rate) }}</td>
               </tr>
               <tr v-if="s.sanierungskredit.programm === '358'" data-test="loan-358" class="border-t border-stone-200">
                 <td class="py-3">KfW 358 Ergänzungskredit Sanierung<br /><span class="text-ink-soft">{{ KFW358.laufzeitJahre }} Jahre, {{ KFW358.zinsbindungJahre }} Jahre Zinsbindung</span></td>
-                <td class="py-3 text-right">{{ eur(s.sanierungskredit.betrag) }}</td>
-                <td class="py-3 text-right">{{ pct(s.sanierungskredit.zinsPct) }}</td>
-                <td class="py-3 text-right">{{ eur(s.sanierungskredit.rate) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.sanierungskredit.betrag) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ pct(s.sanierungskredit.zinsPct) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.sanierungskredit.rate) }}</td>
               </tr>
               <tr data-test="loan-bank" class="border-t border-stone-200">
                 <td class="py-3">Bankdarlehen<br /><span class="text-ink-soft">Annahme, {{ BANK.tilgungPct }} % Anfangstilgung</span></td>
-                <td class="py-3 text-right">{{ eur(s.bank.betrag) }}</td>
-                <td class="py-3 text-right">{{ pct(s.bank.zinsPct) }}</td>
-                <td class="py-3 text-right">{{ eur(s.bank.rate) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.bank.betrag) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ pct(s.bank.zinsPct) }}</td>
+                <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.bank.rate) }}</td>
               </tr>
             </tbody>
           </table>
+          <p class="mt-2 text-xs text-ink-soft">Zins effektiv pro Jahr, Rate pro Monat.</p>
 
           <div class="mt-6 rounded-xl bg-forest-800 p-5 text-stone-50">
             <p class="kicker text-forest-200">{{ s.sanierungOffen ? 'Rate ohne Sanierung' : 'Rate gesamt' }}</p>

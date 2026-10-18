@@ -8,6 +8,7 @@ defineProps({ variant: { type: String, default: 'new' } })
 import Facts from './components/Facts.vue'
 import Gallery from './components/Gallery.vue'
 import Description from './components/Description.vue'
+import FoerderCheck from './components/FoerderCheck.vue'
 import LeadForm from './components/LeadForm.vue'
 import Footer from './components/Footer.vue'
 
@@ -21,6 +22,7 @@ const nav = [
   { href: '#eckdaten', label: 'Eckdaten' },
   { href: '#galerie', label: 'Galerie' },
   { href: '#beschreibung', label: 'Beschreibung' },
+  { href: '#foerdercheck', label: 'Fördercheck' },
   { href: '#unterlagen', label: 'Kontakt' },
 ]
 </script>
@@ -73,6 +75,7 @@ const nav = [
     <Facts />
     <Description />
     <Gallery :variant="variant" />
+    <FoerderCheck />
     <LeadForm />
   </main>
   <Footer />

@@ -100,3 +100,18 @@ body {
   background: var(--color-forest-200);
   color: var(--color-forest-950);
 }
+
+/* Fördercheck: "Ergebnis drucken" prints only the result. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .fc-print,
+  .fc-print * {
+    visibility: visible;
+  }
+  .fc-print {
+    position: absolute;
+    inset: 0;
+  }
+}
