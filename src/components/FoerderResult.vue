@@ -33,6 +33,9 @@ const bonusOffen = computed(() =>
 )
 const vorteil = (s) => s.kfw308.vorteil + s.sanierungskredit.vorteil
 const printResult = () => window.print()
+const bonusPcts = KFW458.einkommensbonus.map((b) => b.pct)
+const bonusMin = Math.min(...bonusPcts)
+const bonusMax = Math.max(...bonusPcts)
 </script>
 
 <template>
@@ -103,7 +106,7 @@ const printResult = () => window.print()
 
           <p v-if="s.sanierungOffen" class="mt-4 rounded-xl border border-clay-500/40 bg-clay-500/10 p-4 text-sm leading-relaxed text-ink">
             <strong>Sanierung: umfassend nötig, Kosten offen.</strong> Das Haus (Baujahr 1965, Klasse H)
-            braucht eine umfassende Sanierung. Möglich sind Zuschüsse von 30–70 % für die Heizung
+            braucht eine umfassende Sanierung. Möglich sind Zuschüsse von {{ KFW458.grundPct }}–{{ KFW458.maxPct }} % für die Heizung
             (förderfähig bis {{ eur(KFW458.foerderfaehigStart) }}) und {{ BAFA_HUELLE.pct }} % für Fenster,
             Fassade und Dach (förderfähig bis {{ eur(BAFA_HUELLE.maxFoerderfaehig) }}).
           </p>
@@ -112,7 +115,7 @@ const printResult = () => window.print()
             <strong v-for="teil in s.sanierungTeilweiseOffen" :key="teil" class="block">
               {{ teil === 'heizung' ? 'Heizung' : 'Fenster, Fassade, Dach' }}: notwendig, Kosten offen.
             </strong>
-            Für „Jung kauft Alt“ gehören Heizung, Fenster, Fassade und Dach zur Pflichtsanierung.
+            <template v-if="s.kfw308.betrag > 0">Für „Jung kauft Alt“ gehören Heizung, Fenster, Fassade und Dach zur Pflichtsanierung.</template>
           </p>
 
           <div v-if="s.zuschuesse.summe > 0" class="mt-4 rounded-xl border border-stone-300 p-4 text-sm">
@@ -123,6 +126,11 @@ const printResult = () => window.print()
             </ul>
             <p class="mt-2 text-ink-soft">Die Zuschüsse sind bereits vom Finanzierungsbedarf abgezogen. Bis zur Auszahlung müssen Sie sie vorfinanzieren.</p>
           </div>
+
+          <p v-if="s.hinweis358" class="mt-4 text-sm leading-relaxed text-ink-soft">
+            Liegt Ihr zu versteuerndes Einkommen bei höchstens {{ eur(KFW358.einkommenGrenze) }}, kommt für die
+            Sanierung statt des Bankdarlehens der KfW 358 Ergänzungskredit zu {{ pct(KFW358.effZinsPct) }} in Frage.
+          </p>
 
           <p v-if="s.eigenkapitalUnterNebenkosten" class="mt-4 text-sm text-ink-soft">
             Ihr Eigenkapital deckt die Kaufnebenkosten ({{ eur(s.nebenkosten) }}) nicht. Banken verlangen das meist.
@@ -143,7 +151,7 @@ const printResult = () => window.print()
 
       <div v-if="anyHeizung || anyHuelle" class="mt-6 space-y-2 text-sm leading-relaxed text-ink-soft">
         <p v-if="anyHeizung">Heizungszuschuss: Antrag erst, wenn die Auflassungsvormerkung im Grundbuch steht, und nach Ihrem Einzug.</p>
-        <p v-if="bonusOffen">Bei niedrigem Einkommen kommen zur Heizungsförderung +10 bis +40 Prozentpunkte hinzu – hier nicht eingerechnet.</p>
+        <p v-if="bonusOffen">Bei niedrigem Einkommen kommen zur Heizungsförderung +{{ bonusMin }} bis +{{ bonusMax }} Prozentpunkte hinzu – hier nicht eingerechnet.</p>
         <p v-if="anyHuelle">Gebäudehülle: Mit Sanierungsfahrplan (iSFP) gibt es +5 Prozentpunkte auf Kosten über 30.000 €; ab 2027 kommt ein Bonus für Häuser der schlechtesten Klassen hinzu. Alternativ: Steuerabzug nach § 35c EStG.</p>
       </div>
 

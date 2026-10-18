@@ -120,6 +120,7 @@ test('kfw358 used up to 90000 income', () => {
 test('kfw358 capped at 120000, rest to bank', () => {
   const s = one({ zve: 50000, kinder: 0, kostenHuelle: 200000 })
   expect(s.sanierungskredit.betrag).toBe(120000)
+  // rest = renovation after grants (195.500) minus the KfW 358 cap (120.000) = 75.500
   // bank = kaufpreis + nebenkosten + rest - eigenkapital
   expect(s.bank.betrag).toBeCloseTo(280000 + 19600 + 75500 - 50000, 6)
 })
@@ -182,4 +183,60 @@ test('partial renovation costs flag the missing part', () => {
   expect(one({ kostenHeizung: null, kostenHuelle: 5000 }).sanierungTeilweiseOffen).toEqual(['heizung'])
   expect(one({ kostenHeizung: 1, kostenHuelle: 1 }).sanierungTeilweiseOffen).toEqual([])
   expect(one().sanierungTeilweiseOffen).toEqual([])
+})
+
+test('rateGesamt pins the family headline payment', () => {
+  const s = one()
+  // 308: annuity(160000, 1 %, 35 y); bank: 89.600 € at 4,45 % + 2 % repayment.
+  expect(s.bank.betrag).toBeCloseTo(89600, 6)
+  expect(s.rateGesamt).toBeCloseTo(annuity(160000, 1, 35) + (89600 * 6.45) / 100 / 12, 6)
+  expect(s.rateGesamt).toBeCloseTo(933.25, 1)
+})
+
+test('kfw308, kfw358 and bank together in one scenario', () => {
+  const s = one({ kostenHuelle: 40000 })
+  expect(s.kfw308.betrag).toBe(160000)
+  expect(s.sanierungskredit.programm).toBe('358')
+  expect(s.sanierungskredit.betrag).toBeCloseTo(35500, 6)
+  expect(s.bank.betrag).toBeCloseTo(89600, 6)
+  expect(s.rateGesamt).toBeCloseTo(s.kfw308.rate + s.sanierungskredit.rate + s.bank.rate, 6)
+  expect(s.sanierungskredit.vorteil).toBeCloseTo(annuity(35500, 4.45, 25) - annuity(35500, 2.56, 25), 6)
+})
+
+test('kfw308 eligible but income above 358 limit finances renovation via bank', () => {
+  const s = one({ kinder: 2, zve: 95000, kostenHuelle: 40000 })
+  expect(s.kfw308.eligible).toBe(true)
+  expect(s.sanierungskredit.programm).toBe('bank')
+})
+
+test('unknown income with one child: scenario A uses 358, B the bank', () => {
+  const [a, b] = run({ kinder: 1, zve: null, kostenHuelle: 40000 }).scenarios
+  expect(a.sanierungskredit.programm).toBe('358')
+  expect(b.sanierungskredit.programm).toBe('bank')
+})
+
+test('kfw458 income bonus band edges', () => {
+  expect(one({ kinder: 0, zve: 50000, kostenHeizung: 10000 }).zuschuesse.heizungSatzPct).toBe(40)
+  expect(one({ kinder: 0, zve: 50001, kostenHeizung: 10000 }).zuschuesse.heizungSatzPct).toBe(30)
+  expect(one({ kinder: 1, zve: 60000, kostenHeizung: 10000 }).zuschuesse.heizungSatzPct).toBe(40)
+  expect(one({ kinder: 0, zve: 200000, kostenHeizung: 10000 }).zuschuesse.heizungSatzPct).toBe(30)
+})
+
+test('first failing condition wins', () => {
+  expect(one({ kinder: 2, eigentum: true, zve: 500000 }).kfw308.reason).toBe('eigentum')
+  expect(one({ eigentum: true, zve: null }).kfw308.reason).toBe('eigentum')
+})
+
+test('non-number income counts as unknown, never as zero income', () => {
+  for (const zve of [undefined, NaN, -1, '']) {
+    const r = run({ zve, kostenHeizung: 30000 })
+    expect(r.scenarios).toHaveLength(2)
+    for (const s of r.scenarios) expect(s.zuschuesse.einkommensbonusEingerechnet).toBe(false)
+  }
+})
+
+test('unknown income without 308 path hints at 358', () => {
+  expect(one({ zve: null, kinder: 0, kostenHuelle: 20000 }).hinweis358).toBe(true)
+  expect(one({ zve: null, kinder: 0 }).hinweis358).toBe(false)
+  expect(one({ zve: 50000, kinder: 0, kostenHuelle: 20000 }).hinweis358).toBe(false)
 })

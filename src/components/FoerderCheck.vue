@@ -4,7 +4,7 @@
 // Spec: docs/superpowers/specs/2026-10-18-foerdercheck-design.md
 import { ref, reactive, computed } from 'vue'
 import { evaluate } from '../foerdercheck/evaluate.js'
-import { ANGEBOTSPREIS } from '../foerdercheck/data.js'
+import { ANGEBOTSPREIS, KFW308 } from '../foerdercheck/data.js'
 import { parseEuro as parse } from '../foerdercheck/parse.js'
 import FoerderResult from './FoerderResult.vue'
 
@@ -100,7 +100,25 @@ const result = computed(() =>
   ),
 )
 
+const error = ref('')
+const BEISPIEL = 'Bitte einen Betrag in Euro eingeben, z. B. 280.000'
+
+// Returns an error text for the current step's input, or ''.
+function validate() {
+  const key = current.value.key
+  if (current.value.type === 'sanierung') {
+    return [answers.kostenHeizung, answers.kostenHuelle].some((v) => Number.isNaN(parse(v))) ? BEISPIEL : ''
+  }
+  if (current.value.type !== 'number') return ''
+  const v = parse(answers[key])
+  if (Number.isNaN(v)) return BEISPIEL
+  if (key === 'kaufpreis' && !(v > 0)) return 'Bitte geben Sie den Kaufpreis ein, z. B. 280.000'
+  return ''
+}
+
 function next() {
+  error.value = phase.value === 'quiz' ? validate() : ''
+  if (error.value) return
   if (step.value >= lastStep.value) phase.value = 'result'
   else step.value++
 }
@@ -109,6 +127,7 @@ function choose(value) {
   next()
 }
 function unknown() {
+  error.value = ''
   if (current.value.key === 'zve') answers.zve = ''
   else {
     answers.kostenHeizung = ''
@@ -117,6 +136,7 @@ function unknown() {
   next()
 }
 function back() {
+  error.value = ''
   if (phase.value === 'result') {
     phase.value = 'quiz'
     step.value = lastStep.value
@@ -129,9 +149,13 @@ function start() {
 }
 function restart() {
   Object.assign(answers, freshAnswers())
+  error.value = ''
   phase.value = 'intro'
   step.value = 0
 }
+
+const introBetrag = `${new Intl.NumberFormat('de-DE').format(KFW308.betragNachKindern[3])} €`
+const introZins = `${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2 }).format(KFW308.effZinsPct)} %`
 
 const inputClass =
   'w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-lg text-ink outline-none transition focus:border-forest-700 focus:ring-2 focus:ring-forest-700/20'
@@ -151,7 +175,7 @@ const secondaryBtn =
         </h2>
         <p class="mt-6 text-lg leading-relaxed text-ink-soft">
           Die Energieklasse H klingt nach Nachteil – sie öffnet aber die Förderung „Jung kauft Alt“:
-          bis 180.000 € Kredit ab 1 % Zins für Familien. Sieben kurze Fragen, dann sehen Sie, welche
+          bis {{ introBetrag }} Kredit ab {{ introZins }} Zins für Familien. Sieben kurze Fragen, dann sehen Sie, welche
           Programme für Sie passen und wie hoch Ihre Monatsrate ist. Ihre Angaben bleiben in Ihrem
           Browser.
         </p>
@@ -205,6 +229,8 @@ const secondaryBtn =
               <input v-model="answers.kostenHuelle" data-test="input-huelle" type="text" inputmode="numeric" :class="[inputClass, 'mt-1']" />
             </label>
           </form>
+
+          <p v-if="error" data-test="error" role="alert" class="mt-4 text-sm font-semibold text-clay-600">{{ error }}</p>
 
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <button type="button" data-test="back" class="px-3 py-3 text-sm text-ink-soft underline hover:text-forest-700" @click="back">

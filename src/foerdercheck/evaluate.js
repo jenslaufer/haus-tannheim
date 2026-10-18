@@ -16,7 +16,8 @@ import { annuity, initialRepaymentRate } from './finance.js'
 const num = (v) => (Number.isFinite(v) && v > 0 ? v : 0)
 const fmt = (n) => new Intl.NumberFormat('de-DE').format(n)
 
-// Eligible heating costs fall by 750 € each 1 Feb / 1 Aug from 2027-02-01.
+// Eligible heating costs fall by KFW458.degressionSchritt every half year
+// (1 Feb / 1 Aug) from KFW458.degressionAb down to KFW458.foerderfaehigMin.
 export function heizungFoerderfaehig(today) {
   const iso = today.toISOString().slice(0, 10)
   let wert = KFW458.foerderfaehigStart
@@ -53,7 +54,7 @@ function heizungsZuschuss(input, zve, today) {
 
 // One financing scenario. `zve` is known income or null; `kfw308Reason`
 // (null = eligible) and `use358` fix what the scenario assumes.
-function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
+function scenario(input, { label, zve, kfw308Reason, use358, hinweis358 = false }, today) {
   const kaufpreis = num(input.kaufpreis)
   const eigenkapital = num(input.eigenkapital)
   const nebenkosten = (kaufpreis * (GRUNDERWERBSTEUER_PCT + NOTAR_GRUNDBUCH_PCT)) / 100
@@ -120,6 +121,8 @@ function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
     sanierungskredit,
     bank,
     rateGesamt: kfw308.rate + sanierungskredit.rate + bank.rate,
+    // Income unknown, renovation on the bank loan: 358 may still apply.
+    hinweis358: hinweis358 && netto > 0,
     sanierungOffen: !(num(input.kostenHeizung) > 0) && !(huelleKosten > 0),
     // One field filled, the other empty: the empty part is still needed.
     sanierungTeilweiseOffen:
@@ -136,7 +139,8 @@ export function evaluate(raw, today) {
   const input = {
     ...raw,
     kinder: Math.min(Math.max(Math.floor(num(raw.kinder)), 0), 5),
-    zve: raw.zve === null ? null : num(raw.zve),
+    // Anything but a non-negative number means "unknown" — never zero income.
+    zve: Number.isFinite(raw.zve) && raw.zve >= 0 ? raw.zve : null,
   }
   const { selbstnutzung, kinder, eigentum, zve } = input
   const grenze = einkommensgrenze308(kinder)
@@ -171,7 +175,9 @@ export function evaluate(raw, today) {
   } else {
     const reason = reasonOhneEinkommen ?? (zve !== null && zve > grenze ? 'einkommen' : null)
     const use358 = zve !== null && zve <= KFW358.einkommenGrenze
-    scenarios = [scenario(input, { label: null, zve, kfw308Reason: reason, use358 }, today)]
+    scenarios = [
+      scenario(input, { label: null, zve, kfw308Reason: reason, use358, hinweis358: zve === null }, today),
+    ]
   }
 
   const auchPruefen = [
