@@ -100,3 +100,13 @@ body {
   background: var(--color-forest-200);
   color: var(--color-forest-950);
 }
+
+/* Fördercheck: "Ergebnis drucken" prints only the result. display:none
+   (not visibility) so the rest of the page takes no paper. */
+@media print {
+  body:has(.fc-print) #app > :not(main),
+  body:has(.fc-print) main > :not(#foerdercheck),
+  .fc-print-hide {
+    display: none !important;
+  }
+}
