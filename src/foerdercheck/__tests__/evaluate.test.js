@@ -53,7 +53,7 @@ test('kfw308 exclusions', () => {
 })
 
 test('kfw308 capped at kaufpreis', () => {
-  expect(one({ kinder: 3, kaufpreis: 120000 }).kfw308.betrag).toBe(120000)
+  expect(one({ kinder: 3, kaufpreis: 120000, eigenkapital: 0 }).kfw308.betrag).toBe(120000)
 })
 
 test('nebenkosten 7 percent', () => {
@@ -162,4 +162,24 @@ test('auchPruefen lists', () => {
 
 test('stand is passed through', () => {
   expect(run().stand).toBe('2026-10-18')
+})
+
+test('subsidised loans capped at remaining need', () => {
+  // Equity covers price + fees: nothing left to finance.
+  const s = one({ eigenkapital: 400000 })
+  expect(s.kfw308.betrag).toBe(0)
+  expect(s.bank.betrag).toBe(0)
+  expect(s.rateGesamt).toBe(0)
+  // Need after equity: 280000 + 19600 + 130000 - 4500 - 380000 = 45100.
+  const t = one({ kinder: 1, zve: 50000, eigenkapital: 380000, kostenHuelle: 130000 })
+  expect(t.kfw308.betrag + t.sanierungskredit.betrag + t.bank.betrag).toBeCloseTo(45100, 6)
+})
+
+test('partial renovation costs flag the missing part', () => {
+  const s = one({ kostenHeizung: 20000, kostenHuelle: null })
+  expect(s.sanierungOffen).toBe(false)
+  expect(s.sanierungTeilweiseOffen).toEqual(['huelle'])
+  expect(one({ kostenHeizung: null, kostenHuelle: 5000 }).sanierungTeilweiseOffen).toEqual(['heizung'])
+  expect(one({ kostenHeizung: 1, kostenHuelle: 1 }).sanierungTeilweiseOffen).toEqual([])
+  expect(one().sanierungTeilweiseOffen).toEqual([])
 })

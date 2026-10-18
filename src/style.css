@@ -101,17 +101,12 @@ body {
   color: var(--color-forest-950);
 }
 
-/* Fördercheck: "Ergebnis drucken" prints only the result. */
+/* Fördercheck: "Ergebnis drucken" prints only the result. display:none
+   (not visibility) so the rest of the page takes no paper. */
 @media print {
-  body * {
-    visibility: hidden;
-  }
-  .fc-print,
-  .fc-print * {
-    visibility: visible;
-  }
-  .fc-print {
-    position: absolute;
-    inset: 0;
+  body:has(.fc-print) #app > :not(main),
+  body:has(.fc-print) main > :not(#foerdercheck),
+  .fc-print-hide {
+    display: none !important;
   }
 }

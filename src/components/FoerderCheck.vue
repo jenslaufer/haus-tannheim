@@ -5,6 +5,7 @@
 import { ref, reactive, computed } from 'vue'
 import { evaluate } from '../foerdercheck/evaluate.js'
 import { ANGEBOTSPREIS } from '../foerdercheck/data.js'
+import { parseEuro as parse } from '../foerdercheck/parse.js'
 import FoerderResult from './FoerderResult.vue'
 
 const freshAnswers = () => ({
@@ -83,11 +84,6 @@ const steps = [
 const lastStep = computed(() => (answers.selbstnutzung === false ? 0 : steps.length - 1))
 const current = computed(() => steps[step.value])
 
-const parse = (v) => {
-  const digits = String(v ?? '').replace(/\D/g, '')
-  return digits === '' ? null : Number(digits)
-}
-
 const result = computed(() =>
   evaluate(
     {
@@ -148,7 +144,7 @@ const secondaryBtn =
 <template>
   <section id="foerdercheck" class="border-t border-stone-200 bg-stone-50">
     <div class="mx-auto max-w-[1320px] px-5 py-20 lg:px-10 lg:py-28">
-      <div class="max-w-2xl" v-reveal>
+      <div class="fc-print-hide max-w-2xl" v-reveal>
         <p class="kicker text-clay-600">Fördercheck</p>
         <h2 class="font-display mt-6 text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-forest-900">
           Was kostet Sie das Haus wirklich?

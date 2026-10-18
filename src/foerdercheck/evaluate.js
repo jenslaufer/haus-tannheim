@@ -59,18 +59,6 @@ function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
   const nebenkosten = (kaufpreis * (GRUNDERWERBSTEUER_PCT + NOTAR_GRUNDBUCH_PCT)) / 100
 
   const eligible = kfw308Reason === null
-  const betrag308 = eligible ? Math.min(KFW308.betragNachKindern[Math.min(input.kinder, 3)], kaufpreis) : 0
-  const rate308 = annuity(betrag308, KFW308.effZinsPct, KFW308.laufzeitJahre)
-  const kfw308 = {
-    eligible,
-    reason: kfw308Reason,
-    betrag: betrag308,
-    zinsPct: KFW308.effZinsPct,
-    rate: rate308,
-    vorteil: annuity(betrag308, BANK.zinsPct, KFW308.laufzeitJahre) - rate308,
-    einkommensgrenze: einkommensgrenze308(input.kinder),
-  }
-
   const heizung = heizungsZuschuss(input, zve, today)
   const huelleKosten = num(input.kostenHuelle)
   const huelle = input.selbstnutzung
@@ -85,9 +73,25 @@ function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
   }
 
   const netto = num(input.kostenHeizung) + huelleKosten - zuschuesse.summe
+  // Subsidised loans never exceed what is left to finance after equity.
+  const bedarf = Math.max(0, kaufpreis + nebenkosten + Math.max(netto, 0) - eigenkapital)
+  const betrag308 = eligible
+    ? Math.min(KFW308.betragNachKindern[Math.min(input.kinder, 3)], kaufpreis, bedarf)
+    : 0
+  const rate308 = annuity(betrag308, KFW308.effZinsPct, KFW308.laufzeitJahre)
+  const kfw308 = {
+    eligible,
+    reason: kfw308Reason,
+    betrag: betrag308,
+    zinsPct: KFW308.effZinsPct,
+    rate: rate308,
+    vorteil: annuity(betrag308, BANK.zinsPct, KFW308.laufzeitJahre) - rate308,
+    einkommensgrenze: einkommensgrenze308(input.kinder),
+  }
+
   let sanierungskredit = { programm: null, betrag: 0, zinsPct: 0, rate: 0, vorteil: 0 }
-  if (netto > 0 && use358) {
-    const betrag = Math.min(netto, KFW358.maxBetrag)
+  if (netto > 0 && use358 && bedarf - betrag308 > 0) {
+    const betrag = Math.min(netto, KFW358.maxBetrag, bedarf - betrag308)
     const rate = annuity(betrag, KFW358.effZinsPct, KFW358.laufzeitJahre)
     sanierungskredit = {
       programm: '358',
@@ -100,10 +104,7 @@ function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
     sanierungskredit = { programm: 'bank', betrag: 0, zinsPct: 0, rate: 0, vorteil: 0 }
   }
 
-  const bankBetrag = Math.max(
-    0,
-    kaufpreis + nebenkosten + Math.max(netto, 0) - eigenkapital - betrag308 - sanierungskredit.betrag,
-  )
+  const bankBetrag = Math.max(0, bedarf - betrag308 - sanierungskredit.betrag)
   const bank = {
     betrag: bankBetrag,
     zinsPct: BANK.zinsPct,
@@ -120,6 +121,14 @@ function scenario(input, { label, zve, kfw308Reason, use358 }, today) {
     bank,
     rateGesamt: kfw308.rate + sanierungskredit.rate + bank.rate,
     sanierungOffen: !(num(input.kostenHeizung) > 0) && !(huelleKosten > 0),
+    // One field filled, the other empty: the empty part is still needed.
+    sanierungTeilweiseOffen:
+      num(input.kostenHeizung) > 0 || huelleKosten > 0
+        ? [
+            ...(num(input.kostenHeizung) > 0 ? [] : ['heizung']),
+            ...(huelleKosten > 0 ? [] : ['huelle']),
+          ]
+        : [],
   }
 }
 

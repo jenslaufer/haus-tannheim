@@ -20,17 +20,22 @@ async function fill(w, sel, value) {
 
 // Family: self-use, 2 children, no property, zvE 80.000, asking price,
 // 50.000 equity, renovation costs unknown.
-async function walkFamily(w) {
+async function walkFamily(w, { zve = 80000, eigenkapital = 50000, heizung = null } = {}) {
   await click(w, 'start')
   await click(w, 'choice-ja') // selbst einziehen
   await click(w, 'choice-2') // Kinder
   await click(w, 'choice-nein') // Eigentum
-  await fill(w, 'input', 80000)
+  await fill(w, 'input', zve)
   await click(w, 'next')
   await click(w, 'next') // Kaufpreis vorbelegt
-  await fill(w, 'input', 50000)
+  await fill(w, 'input', eigenkapital)
   await click(w, 'next')
-  await click(w, 'unknown') // Sanierungskosten noch unbekannt
+  if (heizung === null) {
+    await click(w, 'unknown') // Sanierungskosten noch unbekannt
+  } else {
+    await fill(w, 'input-heizung', heizung)
+    await click(w, 'next')
+  }
 }
 
 describe('FoerderCheck', () => {
@@ -123,5 +128,26 @@ describe('FoerderCheck', () => {
     expect(html).not.toMatch(/\d{3,}\s?\/?\s?\d{4,}/)
     // Generic street-address shape — never the real street name in this public repo.
     expect(html).not.toMatch(/\b\w+(str(\.|aße)|weg|ring|gasse|allee|platz)\s+\d+/i)
+  })
+
+  it('reads amounts typed with a decimal comma', async () => {
+    const w = mount(FoerderCheck, { global })
+    await walkFamily(w, { zve: '80.000,00' })
+    expect(w.find('[data-test="loan-308"]').exists()).toBe(true)
+    expect(w.text()).toContain('160.000 €')
+  })
+
+  it('partial renovation costs name the missing part', async () => {
+    const w = mount(FoerderCheck, { global })
+    await walkFamily(w, { heizung: 20000 })
+    expect(w.text()).toContain('Rate ohne vollständige Sanierung')
+    expect(w.text()).toContain('Fenster, Fassade, Dach: notwendig, Kosten offen')
+  })
+
+  it('shows no KfW 308 loan when equity covers everything', async () => {
+    const w = mount(FoerderCheck, { global })
+    await walkFamily(w, { eigenkapital: 400000 })
+    expect(w.find('[data-test="loan-308"]').exists()).toBe(false)
+    expect(w.text()).not.toContain('Pflichten bei KfW 308')
   })
 })

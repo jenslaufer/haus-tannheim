@@ -25,7 +25,7 @@ const reasonText = (k) =>
 const auchPruefen = computed(() =>
   props.result.auchPruefen.map((key) => AUCH_PRUEFEN.find((a) => a.key === key)).filter(Boolean),
 )
-const eligible308 = computed(() => props.result.scenarios.some((s) => s.kfw308.eligible))
+const eligible308 = computed(() => props.result.scenarios.some((s) => s.kfw308.betrag > 0))
 const anyHeizung = computed(() => props.result.scenarios.some((s) => s.zuschuesse.heizung > 0))
 const anyHuelle = computed(() => props.result.scenarios.some((s) => s.zuschuesse.huelle > 0))
 const bonusOffen = computed(() =>
@@ -71,7 +71,7 @@ const printResult = () => window.print()
               </tr>
             </thead>
             <tbody class="text-ink">
-              <tr v-if="s.kfw308.eligible" data-test="loan-308" class="border-t border-stone-200">
+              <tr v-if="s.kfw308.betrag > 0" data-test="loan-308" class="border-t border-stone-200">
                 <td class="py-3">KfW 308 „Jung kauft Alt“<br /><span class="text-ink-soft">{{ KFW308.laufzeitJahre }} Jahre, {{ KFW308.zinsbindungJahre }} Jahre Zinsbindung</span></td>
                 <td class="whitespace-nowrap py-3 pl-2 text-right">{{ eur(s.kfw308.betrag) }}</td>
                 <td class="whitespace-nowrap py-3 pl-2 text-right">{{ pct(s.kfw308.zinsPct) }}</td>
@@ -94,7 +94,7 @@ const printResult = () => window.print()
           <p class="mt-2 text-xs text-ink-soft">Zins effektiv pro Jahr, Rate pro Monat.</p>
 
           <div class="mt-6 rounded-xl bg-forest-800 p-5 text-stone-50">
-            <p class="kicker text-forest-200">{{ s.sanierungOffen ? 'Rate ohne Sanierung' : 'Rate gesamt' }}</p>
+            <p class="kicker text-forest-200">{{ s.sanierungOffen ? 'Rate ohne Sanierung' : s.sanierungTeilweiseOffen.length ? 'Rate ohne vollständige Sanierung' : 'Rate gesamt' }}</p>
             <p class="font-display mt-1 text-4xl font-semibold">{{ eur(s.rateGesamt) }} <span class="text-lg font-normal">/ Monat</span></p>
             <p v-if="vorteil(s) > 0" class="mt-2 text-sm text-forest-100/90">
               Förderkredite: {{ eur(vorteil(s)) }} / Monat günstiger als ein Bankkredit gleicher Laufzeit.
@@ -106,6 +106,13 @@ const printResult = () => window.print()
             braucht eine umfassende Sanierung. Möglich sind Zuschüsse von 30–70 % für die Heizung
             (förderfähig bis {{ eur(KFW458.foerderfaehigStart) }}) und {{ BAFA_HUELLE.pct }} % für Fenster,
             Fassade und Dach (förderfähig bis {{ eur(BAFA_HUELLE.maxFoerderfaehig) }}).
+          </p>
+
+          <p v-if="s.sanierungTeilweiseOffen.length" class="mt-4 rounded-xl border border-clay-500/40 bg-clay-500/10 p-4 text-sm leading-relaxed text-ink">
+            <strong v-for="teil in s.sanierungTeilweiseOffen" :key="teil" class="block">
+              {{ teil === 'heizung' ? 'Heizung' : 'Fenster, Fassade, Dach' }}: notwendig, Kosten offen.
+            </strong>
+            Für „Jung kauft Alt“ gehören Heizung, Fenster, Fassade und Dach zur Pflichtsanierung.
           </p>
 
           <div v-if="s.zuschuesse.summe > 0" class="mt-4 rounded-xl border border-stone-300 p-4 text-sm">
