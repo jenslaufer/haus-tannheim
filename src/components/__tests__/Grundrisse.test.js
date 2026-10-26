@@ -42,6 +42,11 @@ describe('Grundrisse', () => {
     await w.find('button').trigger('click')
     expect(w.find('iframe').classes()).not.toContain('pointer-events-none')
     expect(w.find('a[href="./3d/"]').text()).toMatch(/3D-Modell.*Vollbild/)
+    // a way back, so a phone can scroll past the model again
+    const stop = w.find('button')
+    expect(stop.text()).toMatch(/beenden/)
+    await stop.trigger('click')
+    expect(w.find('iframe').classes()).toContain('pointer-events-none')
   })
 
   it('links to the 3D model and the PDF, and both ship', () => {

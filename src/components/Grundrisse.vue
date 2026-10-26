@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
 // Plans redrawn from the 1963 Bauantrag; source of truth is haus-tannheim-private
 // (scripts/plaene.py, scripts/modell3d.py). Floor names follow Description.vue:
@@ -20,8 +20,15 @@ const floors = [
   },
 ]
 
-// The embedded model takes no input until clicked, so it cannot trap a phone's scroll.
+// The embedded model takes no input until clicked, so it cannot trap a phone's scroll;
+// "Bedienung beenden" gives the scroll back.
 const modelActive = ref(false)
+const frame = ref(null)
+async function activate() {
+  modelActive.value = true
+  await nextTick()
+  frame.value?.focus() // the button that had focus is gone
+}
 
 const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200'
 </script>
@@ -85,6 +92,7 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
           </figcaption>
           <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white">
             <iframe
+              ref="frame"
               src="./3d/"
               title="3D-Modell Haus Tannheim"
               loading="lazy"
@@ -95,9 +103,17 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
               v-if="!modelActive"
               type="button"
               class="absolute inset-0 flex items-end justify-center bg-forest-900/10 pb-8 transition-colors duration-200 hover:bg-forest-900/20"
-              @click="modelActive = true"
+              @click="activate"
             >
               <span :class="[button, 'bg-forest-700 text-stone-50 shadow-lg']">3D-Modell bedienen</span>
+            </button>
+            <button
+              v-else
+              type="button"
+              :class="[button, 'absolute right-4 top-4 bg-stone-50/95 text-forest-800 shadow-lg hover:bg-stone-100']"
+              @click="modelActive = false"
+            >
+              Bedienung beenden
             </button>
           </div>
           <a
