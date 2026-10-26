@@ -47,8 +47,17 @@ describe('Grundrisse', () => {
       expect(url.startsWith('./')).toBe(true)
       expect(existsSync(pub(`3d/${url}`)) || url.endsWith('/')).toBe(true)
     }
-    expect(html).not.toMatch(/<script[^>]+src=["']https?:/)
+    // no address anywhere: catches script src, remote imports, fetch, CSS url() alike
+    // (the embedded model is base64, which cannot contain "://")
+    expect(html).not.toMatch(/https?:\/\//)
     expect(existsSync(pub('3d/three/addons/loaders/GLTFLoader.js'))).toBe(true)
     expect(existsSync(pub('3d/three/addons/controls/OrbitControls.js'))).toBe(true)
+  })
+
+  it('can hide the loading notice once the model is shown', () => {
+    // #status is laid out with display: grid, which beats the hidden attribute
+    // unless a [hidden] rule restores it; without it the notice covers the model.
+    const html = readFileSync(pub('3d/index.html'), 'utf8')
+    expect(html).toMatch(/#status\[hidden\]\s*\{\s*display:\s*none/)
   })
 })

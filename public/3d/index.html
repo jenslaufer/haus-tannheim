@@ -14,6 +14,7 @@
          padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   #view { position: fixed; inset: 0; }
   #status { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; color: var(--muted); font-size: 15px; }
+  #status[hidden] { display: none; }  /* display: grid above would otherwise override hidden */
   .panel { position: fixed; left: calc(16px + env(safe-area-inset-left, 0px)); top: calc(16px + env(safe-area-inset-top, 0px)); max-width: min(340px, calc(100vw - 32px)); background: var(--panel);
            border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; backdrop-filter: blur(6px); }
   h1 { font-size: 17px; margin: 0 0 2px; }
@@ -41,9 +42,9 @@
 </div>
 <div class="note">Wohnfläche ca. 108 m² · Maße ohne Gewähr · Stand 26.10.2026</div>
 <script>
-  // a module that never loads (blocked CDN, old browser) runs no code, so say so from here
-  setTimeout(() => { const s = document.getElementById("status");
-    if (!s.hidden) s.textContent = "Die 3D-Ansicht konnte nicht geladen werden."; }, 15000);
+  // a module that never loads (network error, old browser) runs no code, so say so from here
+  window.loadTimeout = setTimeout(() => {
+    document.getElementById("status").textContent = "Die 3D-Ansicht konnte nicht geladen werden."; }, 15000);
 </script>
 <script type="importmap">{"imports": {"three": "./three/three.module.min.js", "three/addons/": "./three/addons/"}}</script>
 <script type="module">
@@ -53,7 +54,11 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const el = document.getElementById("view");
 const status = document.getElementById("status");
-const fail = () => { status.textContent = "Die 3D-Ansicht lässt sich in diesem Browser nicht anzeigen."; };
+const fail = () => {
+  clearTimeout(window.loadTimeout);
+  status.textContent = "Die 3D-Ansicht lässt sich in diesem Browser nicht anzeigen.";
+};
+const showGroup = (b) => (groups[b.dataset.group] || []).forEach(o => (o.visible = b.getAttribute("aria-pressed") === "true"));
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
 catch (e) { fail(); throw e; }
@@ -84,13 +89,14 @@ new GLTFLoader().parse(bytes.buffer, "", gltf => {
   camera.position.set(-16, 11, 18);
   controls.target.set(0, 0, 0);
   controls.update();
+  document.querySelectorAll("button[data-group]").forEach(showGroup);  // clicks made while loading
+  clearTimeout(window.loadTimeout);
   status.hidden = true;
 }, fail);
 
 document.querySelectorAll("button[data-group]").forEach(b => b.addEventListener("click", () => {
-  const on = b.getAttribute("aria-pressed") !== "true";
-  b.setAttribute("aria-pressed", on);
-  (groups[b.dataset.group] || []).forEach(o => (o.visible = on));
+  b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+  showGroup(b);
 }));
 
 function resize() {
