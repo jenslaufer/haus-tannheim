@@ -8,6 +8,7 @@ defineProps({ variant: { type: String, default: 'new' } })
 import Facts from './components/Facts.vue'
 import Gallery from './components/Gallery.vue'
 import Description from './components/Description.vue'
+import Grundrisse from './components/Grundrisse.vue'
 import FoerderCheck from './components/FoerderCheck.vue'
 import LeadForm from './components/LeadForm.vue'
 import Footer from './components/Footer.vue'
@@ -22,6 +23,7 @@ const nav = [
   { href: '#eckdaten', label: 'Eckdaten' },
   { href: '#galerie', label: 'Galerie' },
   { href: '#beschreibung', label: 'Beschreibung' },
+  { href: '#grundrisse', label: 'Grundrisse' },
   { href: '#foerdercheck', label: 'Fördercheck' },
   { href: '#unterlagen', label: 'Kontakt' },
 ]
@@ -74,6 +76,7 @@ const nav = [
     <Hero :variant="variant" />
     <Facts />
     <Description />
+    <Grundrisse />
     <Gallery :variant="variant" />
     <FoerderCheck />
     <LeadForm />
