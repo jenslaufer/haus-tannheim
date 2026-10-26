@@ -81,11 +81,28 @@ src/
     Gallery.vue           # photo grid + Lightbox
     Lightbox.vue          # fullscreen viewer (← → Esc)
     Description.vue       # location / highlights (placeholder)
+    Grundrisse.vue        # floor plans + links to the 3D model and the plan PDF
     LeadForm.vue          # opt-in to request documents → booking link
     Contact.vue           # contact details (placeholder)
     Footer.vue            # Impressum (legally required in DE)
   leads.js                # lead-capture config + booking URL
 ```
+
+## Floor plans and 3D model
+
+Generated in the private repo `haus-tannheim-private` (`scripts/plaene.py`,
+`scripts/modell3d.py`, output in `documents/plaene/`) and copied in by hand — never edit
+them here. The generators refuse to write a buyer file that names the street.
+
+- `grundriss-eg.png` / `grundriss-gg.png` → `src/assets/plaene/` (EG = street level, shown
+  as **Obergeschoss**; GG = garden level, shown as **Erdgeschoss**, matching `Description.vue`)
+- `haus-tannheim-grundrisse.pdf` → `public/grundrisse.pdf`
+- `web/3d/` → `public/3d/` (served at `/3d/`). It carries its own pinned three.js under
+  `three/`, because the privacy notice in `Footer.vue` promises no external scripts; a
+  test keeps it that way.
+
+Only buyer versions come here. The technical plan PDF prints the address, so it, the DXF
+and the IFC stay in the private download package.
 
 ## Lead flow
 
