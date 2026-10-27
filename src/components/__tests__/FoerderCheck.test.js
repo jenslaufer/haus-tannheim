@@ -18,16 +18,17 @@ async function fill(w, sel, value) {
   await w.find(`[data-test="${sel}"]`).setValue(String(value))
 }
 
-// Family: self-use, 2 children, no property, zvE 80.000, asking price,
+// Family: self-use, 2 children, no property, zvE 80.000, price 280.000,
 // 50.000 equity, renovation costs unknown.
-async function walkFamily(w, { zve = 80000, eigenkapital = 50000, heizung = null } = {}) {
+async function walkFamily(w, { zve = 80000, kaufpreis = 280000, eigenkapital = 50000, heizung = null } = {}) {
   await click(w, 'start')
   await click(w, 'choice-ja') // selbst einziehen
   await click(w, 'choice-2') // Kinder
   await click(w, 'choice-nein') // Eigentum
   await fill(w, 'input', zve)
   await click(w, 'next')
-  await click(w, 'next') // Kaufpreis vorbelegt
+  await fill(w, 'input', kaufpreis)
+  await click(w, 'next')
   await fill(w, 'input', eigenkapital)
   await click(w, 'next')
   if (heizung === null) {
@@ -166,7 +167,7 @@ describe('FoerderCheck', () => {
     await click(w, 'choice-nein')
     await fill(w, 'input', '45k')
     await click(w, 'next')
-    expect(w.find('[data-test="error"]').text()).toContain('280.000')
+    expect(w.find('[data-test="error"]').text()).toContain('50.000')
     expect(w.text()).toContain('zu versteuerndes Haushaltseinkommen')
   })
 
@@ -191,6 +192,7 @@ describe('FoerderCheck', () => {
     await click(w, 'choice-0')
     await click(w, 'choice-nein')
     await click(w, 'unknown') // Einkommen unbekannt
+    await fill(w, 'input', 280000) // Kaufpreis
     await click(w, 'next')
     await fill(w, 'input', 50000)
     await click(w, 'next')
@@ -210,6 +212,7 @@ describe('FoerderCheck', () => {
     await click(w, 'choice-2')
     await click(w, 'choice-nein')
     await click(w, 'unknown')
+    await fill(w, 'input', 280000) // Kaufpreis
     await click(w, 'next')
     await fill(w, 'input', 50000)
     await click(w, 'next')
@@ -230,6 +233,7 @@ describe('FoerderCheck', () => {
     await click(w, 'choice-nein')
     await fill(w, 'input', 80000)
     await click(w, 'next')
+    await fill(w, 'input', 280000) // Kaufpreis
     await click(w, 'next')
     await fill(w, 'input', 50000)
     await click(w, 'next')

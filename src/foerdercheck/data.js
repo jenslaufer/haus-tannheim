@@ -4,10 +4,6 @@
 
 export const STAND = '2026-10-18'
 
-// Asking price. Keep in sync with Facts.vue by hand — that file's shape is
-// parsed by the private repo's expose-pdf.py and must not import from here.
-export const ANGEBOTSPREIS = 280000
-
 export const GRUNDERWERBSTEUER_PCT = 5.0 // Baden-Württemberg
 export const NOTAR_GRUNDBUCH_PCT = 2.0 // flat estimate; no broker fee
 

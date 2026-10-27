@@ -29,11 +29,9 @@ const facts = [
         </p>
 
         <div class="mt-10 rounded-2xl bg-forest-800 p-8 text-stone-50">
-          <p class="kicker text-forest-200">Kaufpreis</p>
-          <p class="font-display mt-2 text-5xl font-semibold tracking-tight">280.000&nbsp;€</p>
-          <p class="mt-2 text-sm text-forest-100/90">
-            VHB · Privatverkauf — provisionsfrei für Käufer.
-          </p>
+          <p class="kicker text-forest-200">Verkauf</p>
+          <p class="font-display mt-2 text-3xl font-semibold tracking-tight">Provisionsfrei für Käufer</p>
+          <p class="mt-2 text-sm text-forest-100/90">Privatverkauf direkt vom Eigentümer.</p>
         </div>
       </div>
 
