@@ -19,7 +19,7 @@ const provider = {
         <p class="kicker text-forest-300">Villingen-Schwenningen · Architektenhaus 1965</p>
       </div>
 
-      <div class="mt-12 grid gap-x-16 gap-y-12 text-sm leading-relaxed lg:grid-cols-12">
+      <div class="mt-12 grid grid-cols-1 gap-x-16 gap-y-12 text-sm leading-relaxed lg:grid-cols-12">
         <!-- Impressum: leicht erkennbar, unmittelbar erreichbar, ständig verfügbar -->
         <section id="impressum" class="lg:col-span-4">
           <h2 class="kicker text-forest-300">Impressum</h2>

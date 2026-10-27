@@ -54,7 +54,7 @@ const potenzial = [
 <template>
   <section id="beschreibung" class="mx-auto max-w-[1320px] px-5 py-20 lg:px-10 lg:py-32">
     <!-- Intro: editorial lede -->
-    <div class="grid gap-x-16 gap-y-10 lg:grid-cols-12">
+    <div class="grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-12">
       <div class="lg:col-span-4" v-reveal>
         <p class="kicker text-clay-600">Objektbeschreibung</p>
         <h2 class="font-display mt-6 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.06] tracking-[-0.02em] text-forest-900">
@@ -81,7 +81,7 @@ const potenzial = [
     <!-- Detail blocks: label / content split -->
     <div class="mt-20 space-y-px lg:mt-28">
       <!-- Erdgeschoss -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">01 — Erdgeschoss</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">
@@ -108,7 +108,7 @@ const potenzial = [
       </article>
 
       <!-- Obergeschoss -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">02 — Obergeschoss</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">
@@ -129,7 +129,7 @@ const potenzial = [
       </article>
 
       <!-- Grundstück -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">03 — Grundstück</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">
@@ -153,7 +153,7 @@ const potenzial = [
       </article>
 
       <!-- Lage -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">04 — Lage</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">
@@ -184,7 +184,7 @@ const potenzial = [
       </article>
 
       <!-- Energie & Technik -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">05 — Energie &amp; Technik</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">
@@ -228,7 +228,7 @@ const potenzial = [
       </article>
 
       <!-- Potenzial -->
-      <article class="grid gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
+      <article class="grid grid-cols-1 gap-x-16 gap-y-6 border-t border-stone-200 py-12 lg:grid-cols-12" v-reveal>
         <header class="lg:col-span-4">
           <p class="kicker text-stone-500">06 — Potenzial</p>
           <h3 class="font-display mt-3 text-2xl font-semibold tracking-tight text-forest-900 sm:text-3xl">

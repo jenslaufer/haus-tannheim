@@ -52,7 +52,7 @@ const nav = [
         <a href="#top" class="font-display text-lg font-semibold leading-none text-forest-800">
           Haus&nbsp;Tannheim
         </a>
-        <nav class="hidden items-center gap-8 md:flex">
+        <nav class="hidden items-center gap-8 xl:flex">
           <a
             v-for="item in nav"
             :key="item.href"
@@ -64,9 +64,10 @@ const nav = [
         </nav>
         <a
           href="#unterlagen"
-          class="inline-flex items-center rounded-full bg-forest-700 px-5 py-2.5 text-sm font-semibold text-stone-50 transition-colors duration-200 hover:bg-forest-800"
+          class="inline-flex items-center whitespace-nowrap rounded-full bg-forest-700 px-4 py-2.5 text-sm font-semibold text-stone-50 transition-colors duration-200 hover:bg-forest-800 sm:px-5"
         >
-          Unterlagen anfordern
+          <!-- phones show "Unterlagen": the full label wrapped to two lines next to the logo -->
+          Unterlagen<span class="hidden sm:inline"> anfordern</span>
         </a>
       </div>
     </header>

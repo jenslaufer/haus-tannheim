@@ -160,7 +160,7 @@ const bonusMax = Math.max(...bonusPcts)
     <!-- Auch prüfen -->
     <div v-if="auchPruefen.length" class="mt-8">
       <p class="kicker text-clay-600">Auch prüfen</p>
-      <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      <ul class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <li v-for="a in auchPruefen" :key="a.key" class="rounded-xl border border-stone-300 p-4 text-sm">
           <p class="font-semibold text-forest-900">{{ a.titel }}</p>
           <p class="mt-1 leading-relaxed text-ink-soft">{{ a.text }}</p>

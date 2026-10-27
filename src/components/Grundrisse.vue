@@ -36,7 +36,7 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
 <template>
   <section id="grundrisse" class="border-y border-stone-200 bg-stone-100">
     <div class="mx-auto max-w-[1320px] px-5 py-20 lg:px-10 lg:py-28">
-      <div class="grid gap-x-16 gap-y-8 lg:grid-cols-12" v-reveal>
+      <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-12" v-reveal>
         <div class="lg:col-span-5">
           <p class="kicker text-clay-600">Grundrisse</p>
           <h2 class="font-display mt-6 text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-forest-900">
