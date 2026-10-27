@@ -15,7 +15,7 @@ const facts = [
 
 <template>
   <section id="eckdaten" class="border-y border-stone-200 bg-stone-100">
-    <div class="mx-auto grid max-w-[1320px] gap-x-16 gap-y-12 px-5 py-20 lg:grid-cols-12 lg:px-10 lg:py-28">
+    <div class="mx-auto grid max-w-[1320px] gap-x-16 gap-y-12 px-5 py-20 grid-cols-1 lg:grid-cols-12 lg:px-10 lg:py-28">
       <!-- Lead column -->
       <div class="lg:col-span-5" v-reveal>
         <p class="kicker text-clay-600">Eckdaten</p>

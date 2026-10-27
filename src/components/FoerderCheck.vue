@@ -222,7 +222,7 @@ const secondaryBtn =
             </label>
           </form>
 
-          <form v-else class="mt-6 grid gap-4 sm:grid-cols-2" @submit.prevent="next">
+          <form v-else class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2" @submit.prevent="next">
             <label class="block">
               <span class="text-sm text-ink-soft">Heizung (z. B. Wärmepumpe)</span>
               <input v-model="answers.kostenHeizung" data-test="input-heizung" type="text" inputmode="numeric" :class="[inputClass, 'mt-1']" />

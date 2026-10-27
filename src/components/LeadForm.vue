@@ -23,7 +23,7 @@ const benefits = [
 
 <template>
   <section id="unterlagen" class="border-t border-stone-200 bg-stone-100">
-    <div class="mx-auto grid max-w-[1320px] items-center gap-x-16 gap-y-12 px-5 py-20 lg:grid-cols-2 lg:px-10 lg:py-32">
+    <div class="mx-auto grid grid-cols-1 max-w-[1320px] items-center gap-x-16 gap-y-12 px-5 py-20 lg:grid-cols-2 lg:px-10 lg:py-32">
       <!-- Persuasion column -->
       <div v-reveal>
         <p class="kicker text-clay-600">Ihr nächster Schritt</p>
@@ -71,7 +71,7 @@ const benefits = [
       </div>
 
       <!-- Form card -->
-      <div class="rounded-3xl border border-stone-200 bg-white p-7 shadow-2xl shadow-forest-900/10 sm:p-10" v-reveal="120">
+      <div class="rounded-3xl border border-stone-200 bg-white p-5 shadow-2xl shadow-forest-900/10 sm:p-10" v-reveal="120">
         <template v-if="state === 'done'">
           <div class="flex h-full flex-col justify-center text-center sm:py-6">
             <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-forest-100 text-2xl text-forest-700" aria-hidden="true">✓</span>
@@ -148,7 +148,7 @@ const benefits = [
             <button
               type="submit"
               :disabled="state === 'sending'"
-              class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest-700 px-7 py-3.5 font-semibold text-stone-50 transition-colors duration-200 hover:bg-forest-800 disabled:cursor-not-allowed disabled:opacity-60"
+              class="group inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-forest-700 px-5 py-3.5 font-semibold sm:px-7 text-stone-50 transition-colors duration-200 hover:bg-forest-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {{ state === 'sending' ? 'Wird gesendet …' : 'Unterlagen anfordern' }}
               <span v-if="state !== 'sending'" class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
