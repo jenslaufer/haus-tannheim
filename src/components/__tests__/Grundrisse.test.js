@@ -45,6 +45,8 @@ describe('Grundrisse', () => {
     // a way back, so a phone can scroll past the model again
     const stop = w.find('button')
     expect(stop.text()).toMatch(/beenden/)
+    // outside the frame's box: over the model it hid the panel on phones
+    expect(w.find('iframe').element.parentElement.contains(stop.element)).toBe(false)
     await stop.trigger('click')
     expect(w.find('iframe').classes()).toContain('pointer-events-none')
   })

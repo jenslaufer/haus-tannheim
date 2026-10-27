@@ -107,23 +107,25 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
             >
               <span :class="[button, 'bg-forest-700 text-stone-50 shadow-lg']">3D-Modell bedienen</span>
             </button>
+          </div>
+          <div class="mt-4 flex flex-wrap gap-3">
             <button
-              v-else
+              v-if="modelActive"
               type="button"
-              :class="[button, 'absolute right-4 top-4 bg-stone-50/95 text-forest-800 shadow-lg hover:bg-stone-100']"
+              :class="[button, 'bg-forest-700 text-stone-50 hover:bg-forest-800']"
               @click="modelActive = false"
             >
               Bedienung beenden
             </button>
+            <a
+              href="./3d/"
+              target="_blank"
+              rel="noopener"
+              :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']"
+            >
+              3D-Modell im Vollbild öffnen<span class="sr-only"> (neuer Tab)</span>
+            </a>
           </div>
-          <a
-            href="./3d/"
-            target="_blank"
-            rel="noopener"
-            :class="[button, 'mt-4 border border-forest-700 text-forest-800 hover:bg-forest-50']"
-          >
-            3D-Modell im Vollbild öffnen<span class="sr-only"> (neuer Tab)</span>
-          </a>
         </figure>
       </div>
 
