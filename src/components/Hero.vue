@@ -86,10 +86,6 @@ onUnmounted(() => clearInterval(timer))
           Unterlagen anfordern
           <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
         </a>
-        <div class="flex items-baseline gap-3 text-stone-50">
-          <span class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">280.000&nbsp;€</span>
-          <span class="kicker text-stone-200/80">VHB</span>
-        </div>
       </div>
     </div>
   </header>

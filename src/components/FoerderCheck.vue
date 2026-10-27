@@ -4,7 +4,7 @@
 // Spec: docs/superpowers/specs/2026-10-18-foerdercheck-design.md
 import { ref, reactive, computed } from 'vue'
 import { evaluate } from '../foerdercheck/evaluate.js'
-import { ANGEBOTSPREIS, KFW308 } from '../foerdercheck/data.js'
+import { KFW308 } from '../foerdercheck/data.js'
 import { parseEuro as parse } from '../foerdercheck/parse.js'
 import FoerderResult from './FoerderResult.vue'
 
@@ -13,7 +13,7 @@ const freshAnswers = () => ({
   kinder: null,
   eigentum: null,
   zve: '',
-  kaufpreis: String(ANGEBOTSPREIS),
+  kaufpreis: '',
   eigenkapital: '',
   kostenHeizung: '',
   kostenHuelle: '',
@@ -62,7 +62,6 @@ const steps = [
     key: 'kaufpreis',
     type: 'number',
     frage: 'Mit welchem Kaufpreis rechnen Sie?',
-    hilfe: 'Vorbelegt mit dem Angebotspreis.',
   },
   {
     key: 'eigenkapital',
@@ -101,7 +100,7 @@ const result = computed(() =>
 )
 
 const error = ref('')
-const BEISPIEL = 'Bitte einen Betrag in Euro eingeben, z. B. 280.000'
+const BEISPIEL = 'Bitte einen Betrag in Euro eingeben, z. B. 50.000'
 
 // Returns an error text for the current step's input, or ''.
 function validate() {
@@ -115,7 +114,7 @@ function validate() {
   if (Number.isNaN(v)) return BEISPIEL
   // Plausibility floors catch "120" meant as 120.000 before it turns into a
   // subsidy the visitor would not get.
-  if (key === 'kaufpreis' && !(v >= 10000)) return 'Bitte geben Sie den Kaufpreis ein, z. B. 280.000'
+  if (key === 'kaufpreis' && !(v >= 10000)) return 'Bitte geben Sie den Kaufpreis in Euro ein.'
   if (key === 'zve' && v > 0 && v < 1000) return 'Bitte das Jahreseinkommen in Euro eingeben, z. B. 80.000'
   return ''
 }
