@@ -31,6 +31,24 @@ describe('Grundrisse', () => {
     expect(text).toMatch(/Garage[^.]*keine Wohnfläche/)
   })
 
+  it('embeds the 3D model, inactive until clicked, with a full-screen link', async () => {
+    // Jens missed the small link (2026-10-26): the model now sits in the section.
+    // It loads lazily and takes no input until clicked, so it never traps a phone's scroll.
+    const w = mountIt()
+    const frame = w.find('iframe')
+    expect(frame.attributes('src')).toBe('./3d/')
+    expect(frame.attributes('loading')).toBe('lazy')
+    expect(frame.classes()).toContain('pointer-events-none')
+    await w.find('button').trigger('click')
+    expect(w.find('iframe').classes()).not.toContain('pointer-events-none')
+    expect(w.find('a[href="./3d/"]').text()).toMatch(/3D-Modell.*Vollbild/)
+    // a way back, so a phone can scroll past the model again
+    const stop = w.find('button')
+    expect(stop.text()).toMatch(/beenden/)
+    await stop.trigger('click')
+    expect(w.find('iframe').classes()).toContain('pointer-events-none')
+  })
+
   it('links to the 3D model and the PDF, and both ship', () => {
     const hrefs = mountIt().findAll('a').map((a) => a.attributes('href'))
     expect(hrefs).toContain('./3d/')
