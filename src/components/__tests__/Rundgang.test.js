@@ -101,6 +101,21 @@ describe('Rundgang on a wide screen', () => {
     input.remove()
   })
 
+  it('full screen starts the tour like the small frame does', async () => {
+    // Jens (2026-10-28): full screen landed in the overview, the small frame on photo 1
+    breite(false)
+    const w = mountIt()
+    const frame = w.find('[data-test="buehne"]').element.parentElement
+    frame.requestFullscreen = vi.fn(async () => {})
+    const vollbild = () => w.findAll('button').find((b) => /im Vollbild/.test(b.text()))
+    await vollbild().trigger('click')
+    expect(w.find('[role="dialog"]').text()).toContain(`1/${stationen.length}`)
+    // an open photo stays open
+    await w.find('button[aria-label="Nächstes Foto"]').trigger('click')
+    await vollbild().trigger('click')
+    expect(w.find('[role="dialog"]').text()).toContain(`2/${stationen.length}`)
+  })
+
   it('opens the tour itself full screen, photos included', async () => {
     // Jens (2026-10-28): the full-screen link opened the plain model without photos
     breite(false)
