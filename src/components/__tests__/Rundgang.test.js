@@ -101,9 +101,25 @@ describe('Rundgang on a wide screen', () => {
     input.remove()
   })
 
-  it('keeps the link to the plain model', () => {
+  it('opens the tour itself full screen, photos included', async () => {
+    // Jens (2026-10-28): the full-screen link opened the plain model without photos
     breite(false)
-    expect(mountIt().find('a[href="./3d/"]').text()).toMatch(/3D-Modell.*Vollbild/)
+    const w = mountIt()
+    expect(w.find('a[href="./3d/"]').exists()).toBe(false)
+    const frame = w.find('[data-test="buehne"]').element.parentElement
+    frame.requestFullscreen = vi.fn(async () => {
+      Object.defineProperty(document, 'fullscreenElement', { value: frame, configurable: true })
+      document.dispatchEvent(new Event('fullscreenchange'))
+    })
+    await w.findAll('button').find((b) => /Vollbild/.test(b.text())).trigger('click')
+    expect(frame.requestFullscreen).toHaveBeenCalled()
+    // full screen takes input right away and fills the screen
+    expect(w.find('[data-test="buehne"]').classes()).not.toContain('pointer-events-none')
+    expect(frame.className).toContain('h-screen')
+    delete document.fullscreenElement
+    document.dispatchEvent(new Event('fullscreenchange'))
+    await w.vm.$nextTick()
+    expect(frame.className).not.toContain('h-screen')
   })
 })
 

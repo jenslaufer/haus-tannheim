@@ -65,6 +65,17 @@ function beenden() {
   aktiv.value = false
 }
 
+// full screen shows the tour itself, photos included (the plain ./3d/ page has none)
+const rahmen = ref(null)
+const vollbild = ref(false)
+function vollbildAn() {
+  aktiv.value = true
+  const el = rahmen.value
+  ;(el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el)
+}
+const vollbildAus = () => (document.exitFullscreen ?? document.webkitExitFullscreen)?.call(document)
+const onVollbild = () => (vollbild.value = !!rahmen.value && document.fullscreenElement === rahmen.value)
+
 const onKey = (e) => {
   if (!aktiv.value || aktuell.value < 0 || e.defaultPrevented) return
   if (e.target.closest?.('input, textarea, select, [contenteditable]')) return // keep the caret keys
@@ -96,6 +107,7 @@ async function laden() {
 }
 onMounted(() => {
   window.addEventListener('keydown', onKey)
+  document.addEventListener('fullscreenchange', onVollbild)
   if (galerie.value) return
   if (typeof IntersectionObserver === 'undefined') return laden()
   // load three.js and the model only when the section comes near the viewport
@@ -112,6 +124,7 @@ onMounted(() => {
 onUnmounted(() => {
   weg = true
   window.removeEventListener('keydown', onKey)
+  document.removeEventListener('fullscreenchange', onVollbild)
   io?.disconnect()
   szene?.dispose()
 })
@@ -136,7 +149,11 @@ const rund =
     <RaumGalerie v-if="galerie" />
 
     <template v-else>
-      <div class="relative h-[72vh] max-h-[680px] min-h-[420px] overflow-hidden rounded-2xl border border-stone-200 bg-white">
+      <div
+        ref="rahmen"
+        class="relative overflow-hidden bg-white"
+        :class="vollbild ? 'h-screen w-screen' : 'h-[72vh] max-h-[680px] min-h-[420px] rounded-2xl border border-stone-200'"
+      >
         <div
           ref="buehne"
           data-test="buehne"
@@ -214,6 +231,15 @@ const rund =
         </div>
 
         <button
+          v-if="vollbild"
+          type="button"
+          :class="[button, 'absolute right-4 top-4 z-20 bg-forest-700 text-stone-50 shadow-lg hover:bg-forest-800']"
+          @click="vollbildAus"
+        >
+          Vollbild beenden
+        </button>
+
+        <button
           v-if="!aktiv"
           type="button"
           class="absolute inset-0 flex items-end justify-center bg-forest-900/10 pb-8 transition-colors duration-200 hover:bg-forest-900/20"
@@ -227,14 +253,9 @@ const rund =
         <button v-if="aktiv" type="button" :class="[button, 'bg-forest-700 text-stone-50 hover:bg-forest-800']" @click="beenden">
           Bedienung beenden
         </button>
-        <a
-          href="./3d/"
-          target="_blank"
-          rel="noopener"
-          :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']"
-        >
-          3D-Modell im Vollbild öffnen<span class="sr-only"> (neuer Tab)</span>
-        </a>
+        <button type="button" :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']" @click="vollbildAn">
+          Rundgang im Vollbild
+        </button>
       </div>
     </template>
   </figure>
