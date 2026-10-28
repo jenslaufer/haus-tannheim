@@ -69,7 +69,8 @@ function beenden() {
 const rahmen = ref(null)
 const vollbild = ref(false)
 function vollbildAn() {
-  aktiv.value = true
+  // starts like "Rundgang starten", at photo 1; an open photo stays open
+  if (aktuell.value < 0) zeige(0)
   const el = rahmen.value
   ;(el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el)
 }
