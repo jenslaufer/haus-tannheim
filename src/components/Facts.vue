@@ -35,20 +35,26 @@ const facts = [
         </div>
       </div>
 
-      <!-- Ledger column -->
-      <dl class="grid grid-cols-1 self-center sm:grid-cols-2 sm:gap-x-12 lg:col-span-7 lg:gap-x-16" v-reveal="120">
-        <div
-          v-for="f in facts"
-          :key="f.label"
-          class="flex items-baseline justify-between gap-6 border-b border-stone-300/70 py-5"
-        >
-          <dt class="kicker text-stone-500">{{ f.label }}</dt>
-          <dd class="flex min-w-0 flex-wrap items-baseline justify-end gap-x-2 text-right">
-            <span class="text-lg font-semibold text-forest-900">{{ f.value }}</span>
-            <span v-if="f.note" class="text-sm text-ink-soft">{{ f.note }}</span>
-          </dd>
-        </div>
-      </dl>
+      <!-- Ledger column; the note says where the figures come from (Jens, 2026-10-28) -->
+      <div class="self-center lg:col-span-7" v-reveal="120">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-12 lg:gap-x-16">
+          <div
+            v-for="f in facts"
+            :key="f.label"
+            class="flex items-baseline justify-between gap-6 border-b border-stone-300/70 py-5"
+          >
+            <dt class="kicker text-stone-500">{{ f.label }}</dt>
+            <dd class="flex min-w-0 flex-wrap items-baseline justify-end gap-x-2 text-right">
+              <span class="text-lg font-semibold text-forest-900">{{ f.value }}</span>
+              <span v-if="f.note" class="text-sm text-ink-soft">{{ f.note }}</span>
+            </dd>
+          </div>
+        </dl>
+        <p class="mt-6 text-sm leading-relaxed text-stone-600">
+          Flächen und Daten nach den Bauplänen von 1963, dem Energieausweis und dem Grundbuch,
+          ohne Gewähr. Verbindlich ist allein der notarielle Kaufvertrag.
+        </p>
+      </div>
     </div>
   </section>
 </template>
