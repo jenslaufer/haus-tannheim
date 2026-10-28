@@ -40,9 +40,9 @@ describe('Grundrisse', () => {
     expect(w.find('a[href="#modell-3d"]').exists()).toBe(true)
   })
 
-  it('links to the 3D model and the PDF, and both ship', () => {
+  it('links to the PDF, and both the PDF and the plain 3D page ship', () => {
+    // the page links the tour's own full screen; ./3d/ stays for links sent before
     const hrefs = mountIt().findAll('a').map((a) => a.attributes('href'))
-    expect(hrefs).toContain('./3d/')
     expect(hrefs).toContain('./grundrisse.pdf')
     expect(existsSync(pub('3d/index.html'))).toBe(true)
     expect(existsSync(pub('grundrisse.pdf'))).toBe(true)
