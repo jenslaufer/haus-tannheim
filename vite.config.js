@@ -9,6 +9,8 @@ export default defineConfig({
   base: './',
   plugins: [vue(), tailwindcss(), imagetools()],
   build: {
+    // three.js is one lazily loaded chunk (src/rundgang/szene.js), about 570 kB
+    chunkSizeWarningLimit: 600,
     // Three pages: the live site, the legacy comparison page, and the
     // justified-gallery candidate (index3.html). They share the same source
     // images, so imagetools emits each WebP variant only once.
