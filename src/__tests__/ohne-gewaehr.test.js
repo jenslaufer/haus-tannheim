@@ -5,18 +5,22 @@
 import { it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import Facts from '../components/Facts.vue'
-
-const FOERDER = Object.values(import.meta.glob('../components/FoerderResult.vue', { query: '?raw', import: 'default', eager: true }))[0]
+import FoerderResult from '../components/FoerderResult.vue'
 
 it('the key facts name their sources, carry no warranty and defer to the contract', () => {
   const text = mount(Facts, { global: { directives: { reveal: {} } } }).text()
-  expect(text).toMatch(/Bauplan 1963/)
+  expect(text).toMatch(/Bauplänen von 1963/)
   expect(text).toMatch(/Energieausweis/)
   expect(text).toMatch(/ohne Gewähr/)
   expect(text).toMatch(/Verbindlich ist allein der notarielle Kaufvertrag/)
 })
 
-it('the Fördercheck asks to confirm the result with the bank or the KfW', () => {
-  expect(FOERDER).toMatch(/keine Förder-, Finanz- oder Steuerberatung/)
-  expect(FOERDER).toMatch(/von Ihrer Bank oder der KfW bestätigen/)
+it('the Fördercheck asks to confirm the result with whoever grants it', () => {
+  // review of #44: KfW 458 can only be applied for after the purchase, and the
+  // envelope grant comes from the BAFA, so no "before the purchase, bank or KfW"
+  const result = { investor: true, scenarios: [], auchPruefen: [] } // the footer shows in every branch
+  const text = mount(FoerderResult, { props: { result } }).text().replace(/\s+/g, ' ')
+  expect(text).toMatch(/keine Förder-, Finanz- oder Steuerberatung/)
+  expect(text).toMatch(/von Ihrer Bank, der KfW oder dem BAFA bestätigen/)
+  expect(text).not.toMatch(/vor dem Kauf/)
 })

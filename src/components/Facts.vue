@@ -51,8 +51,8 @@ const facts = [
           </div>
         </dl>
         <p class="mt-6 text-sm leading-relaxed text-stone-600">
-          Angaben nach Bauplan 1963, Energieausweis und Grundbuch, ohne Gewähr. Verbindlich ist
-          allein der notarielle Kaufvertrag.
+          Flächen und Daten nach den Bauplänen von 1963, dem Energieausweis und dem Grundbuch,
+          ohne Gewähr. Verbindlich ist allein der notarielle Kaufvertrag.
         </p>
       </div>
     </div>

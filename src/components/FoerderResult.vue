@@ -172,8 +172,8 @@ const bonusMax = Math.max(...bonusPcts)
     <div class="mt-10 border-t border-stone-300 pt-6 text-sm leading-relaxed text-ink-soft">
       <p>
         Stand {{ stand }}. Orientierung, keine Förder-, Finanz- oder Steuerberatung. Konditionen gelten
-        am Tag der Zusage. Bankzins: {{ BANK.quelle }}, als Annahme. Lassen Sie Förderung und
-        Finanzierung vor dem Kauf von Ihrer Bank oder der KfW bestätigen.
+        am Tag der Zusage. Bankzins: {{ BANK.quelle }}, als Annahme. Lassen Sie Finanzierung und
+        Förderung von Ihrer Bank, der KfW oder dem BAFA bestätigen.
       </p>
       <p class="mt-2">
         Programme:
