@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { fotoNach } from '../images.js'
 import { stationen, RAUM_NAMEN } from '../rundgang/stationen.js'
 import { gruppen, titel, geschoss, schritt } from '../rundgang/tour.js'
@@ -50,6 +50,7 @@ async function zeige(i) {
   if (await szene.zeige(i)) angekommen.value = true
 }
 function zurueck() {
+  warteAuf = null // a station asked for while loading must not reopen after cancelling
   aktuell.value = -1
   angekommen.value = false
   szene?.uebersicht()
@@ -59,39 +60,44 @@ function umschalten(e) {
   ebeneAn.value[e.gruppe] = !ebeneAn.value[e.gruppe]
   szene?.setzeGruppe(e.gruppe, ebeneAn.value[e.gruppe])
 }
-async function beenden() {
+function beenden() {
   if (aktuell.value >= 0) zurueck()
   aktiv.value = false
-  await nextTick()
 }
 
 const onKey = (e) => {
-  if (!aktiv.value || aktuell.value < 0) return
+  if (!aktiv.value || aktuell.value < 0 || e.defaultPrevented) return
+  if (e.target.closest?.('input, textarea, select, [contenteditable]')) return // keep the caret keys
   if (e.key === 'Escape') zurueck()
   else if (e.key === 'ArrowLeft') blaettern(-1)
   else if (e.key === 'ArrowRight') blaettern(1)
 }
 
 let io
+let weg = false // unmounted while the scene was still loading
 async function laden() {
   try {
     const { erstelleSzene } = await import('../rundgang/szene.js')
-    szene = await erstelleSzene(buehne.value, stationen, {
+    const s = await erstelleSzene(buehne.value, stationen, {
       onHover: (i, x, y) => {
         const r = buehne.value.getBoundingClientRect()
         hover.value = i >= 0 ? { i, x: x - r.left, y: y - r.top } : null
       },
     })
+    if (weg) return s.dispose()
+    szene = s
     szene.beiAuswahl(zeige)
     geladen.value = true
     if (warteAuf !== null) zeige(warteAuf)
-  } catch {
-    fehler.value = true // no WebGL, or the model failed to load
+  } catch (e) {
+    console.error(e)
+    fehler.value = true // no WebGL, or the model failed to load: show the room gallery
   }
 }
 onMounted(() => {
   window.addEventListener('keydown', onKey)
-  if (galerie.value || typeof IntersectionObserver === 'undefined') return
+  if (galerie.value) return
+  if (typeof IntersectionObserver === 'undefined') return laden()
   // load three.js and the model only when the section comes near the viewport
   io = new IntersectionObserver(
     ([e]) => {
@@ -104,6 +110,7 @@ onMounted(() => {
   io.observe(buehne.value)
 })
 onUnmounted(() => {
+  weg = true
   window.removeEventListener('keydown', onKey)
   io?.disconnect()
   szene?.dispose()

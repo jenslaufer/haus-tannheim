@@ -47,7 +47,14 @@ export async function erstelleSzene(el, stationen, { onHover = () => {} } = {}) 
   sun.position.set(-15, 25, -20)
   scene.add(sun)
 
-  const gltf = await new GLTFLoader().loadAsync(modellUrl)
+  let gltf
+  try {
+    gltf = await new GLTFLoader().loadAsync(modellUrl)
+  } catch (e) {
+    renderer.dispose()
+    renderer.domElement.remove()
+    throw e
+  }
   const gruppen = {}
   gltf.scene.position.set(-raeume.breite / 2, 0, raeume.tiefe / 2)
   gltf.scene.traverse((o) => o.isMesh && (gruppen[o.name.split('__')[0]] ||= []).push(o))
@@ -142,16 +149,17 @@ export async function erstelleSzene(el, stationen, { onHover = () => {} } = {}) 
     const hits = ray.intersectObjects(marken.filter((m) => m.g.visible).map((m) => m.hit))
     return hits.length ? marken.findIndex((m) => m.hit === hits[0].object) : -1
   }
-  const onMove = (e) => {
-    const i = aktiv === -1 ? treffer(e) : -1
+  const setzeHover = (i, x, y) => {
     if (i !== hover) {
       if (hover >= 0) marken[hover].material.color.copy(FARBE)
       if (i >= 0) marken[i].material.color.copy(FARBE_HOVER)
       hover = i
       renderer.domElement.style.cursor = i >= 0 ? 'pointer' : ''
     }
-    onHover(i, e.clientX, e.clientY)
+    onHover(i, x, y)
   }
+  const onMove = (e) => setzeHover(aktiv === -1 ? treffer(e) : -1, e.clientX, e.clientY)
+  const onLeave = () => setzeHover(-1) // leaving the canvas over a marker must not leave its tooltip behind
   const onDown = (e) => (unten = [e.clientX, e.clientY])
   let onPick = () => {}
   const onUp = (e) => {
@@ -163,6 +171,7 @@ export async function erstelleSzene(el, stationen, { onHover = () => {} } = {}) 
   canvas.addEventListener('pointermove', onMove)
   canvas.addEventListener('pointerdown', onDown)
   canvas.addEventListener('pointerup', onUp)
+  canvas.addEventListener('pointerleave', onLeave)
 
   const resize = () => {
     const { clientWidth: w, clientHeight: h } = el
