@@ -6,14 +6,16 @@ import { gruppen, titel, geschoss, schritt } from '../rundgang/tour.js'
 import RaumGalerie from './RaumGalerie.vue'
 
 // 3D tour: the model with a marker for every photo. A click flies to where the
-// photo was taken and lays the photo over that view. Phones and browsers without
-// WebGL get the same tour as a room gallery with small plans (RaumGalerie).
+// photo was taken and lays the photo over that view. Phones get the 3D tour too,
+// with all photos by room to unfold below it (Jens, 2026-10-28: the phone had
+// lost the 3D view); browsers without WebGL get only that room gallery.
 // Like the old embedded model, the stage takes no input until started, so it
 // cannot trap a phone's scroll; "Bedienung beenden" gives the scroll back.
 
 const schmal = typeof matchMedia === 'function' && matchMedia('(max-width: 767px)').matches
 const fehler = ref(false)
-const galerie = computed(() => schmal || fehler.value)
+const galerie = computed(() => fehler.value)
+const raeumeOffen = ref(!schmal) // on a phone the room list would cover the small model
 
 const buehne = ref(null)
 const geladen = ref(false)
@@ -149,7 +151,9 @@ const rund =
       <span class="font-display text-2xl font-semibold text-forest-900">3D-Rundgang</span>
       <span class="text-sm text-ink-soft">
         <template v-if="galerie">Jedes Foto mit seinem Standort im Grundriss</template>
-        <template v-else>Jeder Punkt im Modell ist ein Foto: anklicken, und Sie stehen dort, wo es aufgenommen wurde</template>
+        <template v-else>
+          Jeder Punkt im Modell ist ein Foto: {{ schmal ? 'antippen' : 'anklicken' }}, und Sie stehen dort, wo es aufgenommen wurde
+        </template>
       </span>
     </figcaption>
 
@@ -173,10 +177,21 @@ const rund =
           3D-Modell wird geladen …
         </p>
 
+        <button
+          v-if="schmal && aktiv && aktuell < 0"
+          type="button"
+          :class="[chip, 'absolute left-3 top-3 z-10 bg-stone-50/90 backdrop-blur']"
+          :aria-expanded="raeumeOffen"
+          @click="raeumeOffen = !raeumeOffen"
+        >
+          {{ raeumeOffen ? 'Räume ausblenden' : 'Räume und Ebenen' }}
+        </button>
+
         <!-- overview: floors and places -->
         <div
-          v-if="aktiv && aktuell < 0"
-          class="absolute left-4 top-4 max-h-[calc(100%-2rem)] w-[min(320px,calc(100%-2rem))] overflow-y-auto rounded-xl border border-stone-200 bg-stone-50/90 p-4 backdrop-blur"
+          v-if="aktiv && aktuell < 0 && raeumeOffen"
+          :class="schmal ? 'top-12 max-h-[calc(100%-3.75rem)]' : 'top-4 max-h-[calc(100%-2rem)]'"
+          class="absolute left-4 w-[min(320px,calc(100%-2rem))] overflow-y-auto rounded-xl border border-stone-200 bg-stone-50/90 p-4 backdrop-blur"
         >
           <p class="kicker text-clay-600">Ebenen</p>
           <div class="mt-2 flex flex-wrap gap-1.5">
@@ -259,6 +274,11 @@ const rund =
           {{ vollbild ? 'Vollbild beenden' : 'Rundgang im Vollbild' }}
         </button>
       </div>
+
+      <details v-if="schmal && !vollbild" class="mt-8">
+        <summary class="cursor-pointer font-display text-xl font-semibold text-forest-900">Alle Fotos nach Räumen</summary>
+        <RaumGalerie class="mt-6" />
+      </details>
     </div>
   </figure>
 </template>
