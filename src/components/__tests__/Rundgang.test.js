@@ -1,6 +1,6 @@
 // The 3D tour (2026-10-28): WebGL does not run in jsdom, so these pin the shell
 // around the scene: the stage stays inert until started (no scroll trap on a
-// phone), there is a way back, and phones get the tour as a room gallery.
+// phone), there is a way back, and phones get the 3D tour plus the room gallery.
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import Rundgang from '../Rundgang.vue'
@@ -24,6 +24,7 @@ const breite = (schmal) => vi.stubGlobal('matchMedia', () => ({ matches: schmal 
 afterEach(() => {
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
+  for (const p of ['fullscreenEnabled', 'fullscreenElement', 'webkitFullscreenElement', 'exitFullscreen']) delete document[p]
 })
 
 describe('Rundgang on a wide screen', () => {
@@ -143,9 +144,24 @@ describe('Rundgang on a wide screen', () => {
     expect(row).toHaveLength(2)
     row.forEach((b) => expect(block.contains(b.element)).toBe(true))
     expect(labels().filter((t) => /Vollbild/.test(t))).toEqual(['Vollbild beenden']) // one toggle, same place
-    setzeVollbild('fullscreenElement', 'fullscreenchange', null)
+    document.exitFullscreen = vi.fn(async () => setzeVollbild('fullscreenElement', 'fullscreenchange', null))
+    await w.findAll('button').find((b) => b.text() === 'Vollbild beenden').trigger('click')
+    expect(document.exitFullscreen).toHaveBeenCalledTimes(1)
     await w.vm.$nextTick()
     expect(labels()).toContain('Rundgang im Vollbild')
+  })
+
+  it('"Bedienung beenden" also leaves full screen', async () => {
+    breite(false)
+    vollbildMoeglich(true)
+    const w = mountIt()
+    const block = w.find('[data-test="vollbild"]').element
+    block.requestFullscreen = vi.fn(async () => setzeVollbild('fullscreenElement', 'fullscreenchange', block))
+    document.exitFullscreen = vi.fn(async () => {})
+    await w.findAll('button').find((b) => /Vollbild/.test(b.text())).trigger('click')
+    await w.vm.$nextTick()
+    await w.findAll('button').find((b) => /Bedienung beenden/.test(b.text())).trigger('click')
+    expect(document.exitFullscreen).toHaveBeenCalledTimes(1)
   })
 
   it('follows Safari before 16.4, which only knows the webkit names', async () => {
@@ -169,14 +185,30 @@ describe('Rundgang on a wide screen', () => {
 })
 
 describe('Rundgang on a phone', () => {
-  it('shows every photo by room, each room with a plan', () => {
+  // Jens (2026-10-28): the phone showed no 3D any more; now 3D on top, gallery below
+  it('shows the 3D tour, and all photos by room below it to unfold', () => {
     breite(true)
     const w = mountIt()
-    expect(w.find('[data-test="buehne"]').exists()).toBe(false)
-    expect(w.findAll('img')).toHaveLength(stationen.length)
-    expect(w.findAll('h3').map((h) => h.text())).toContain('Wohnen/Essen · Erdgeschoss · 39,53 m²')
+    expect(w.find('[data-test="buehne"]').exists()).toBe(true)
+    expect(w.find('button').text()).toMatch(/Rundgang starten/)
+    const details = w.find('details')
+    expect(details.find('summary').text()).toMatch(/Alle Fotos nach Räumen/)
+    expect(details.attributes('open')).toBeUndefined()
+    expect(details.findAll('img')).toHaveLength(stationen.length)
+    expect(details.findAll('h3').map((h) => h.text())).toContain('Wohnen/Essen · Erdgeschoss · 39,53 m²')
     // one plan per place, but none for the aerial shots far off the plan
-    expect(w.findAll('svg').length).toBe(w.findAll('h3').length - 1)
+    expect(details.findAll('svg').length).toBe(details.findAll('h3').length - 1)
+  })
+
+  it('keeps the room list folded, so it does not cover the small model', async () => {
+    breite(true)
+    const w = mountIt()
+    await w.find('button').trigger('click') // start
+    await w.find('button[aria-label="Zurück zum Modell"]').trigger('click')
+    const chips = () => w.findAll('button').filter((b) => b.text() === 'Wohnen/Essen')
+    expect(chips()).toHaveLength(0)
+    await w.findAll('button').find((b) => /Räume und Ebenen/.test(b.text())).trigger('click')
+    expect(chips()).toHaveLength(1)
   })
 
   it('never hides the gallery behind the scroll reveal', () => {
@@ -192,7 +224,7 @@ describe('Rundgang on a phone', () => {
   it('opens a photo large', async () => {
     breite(true)
     const w = mountIt()
-    await w.find('section button').trigger('click')
+    await w.find('details section button').trigger('click')
     expect(w.findComponent(Lightbox).exists()).toBe(true)
   })
 })
