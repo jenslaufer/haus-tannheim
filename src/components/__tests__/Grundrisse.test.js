@@ -7,6 +7,7 @@
 // These tests pin what a visitor gets: both floors under the site's own floor
 // names, the living area with the garage kept out of it, working links, and a
 // 3D page that keeps the privacy notice true (no external scripts).
+// The tour's own behaviour is pinned in Rundgang.test.js.
 
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
@@ -31,24 +32,12 @@ describe('Grundrisse', () => {
     expect(text).toMatch(/Garage[^.]*keine Wohnfläche/)
   })
 
-  it('embeds the 3D model, inactive until clicked, with a full-screen link', async () => {
-    // Jens missed the small link (2026-10-26): the model now sits in the section.
-    // It loads lazily and takes no input until clicked, so it never traps a phone's scroll.
+  it('shows the 3D tour in the section', () => {
+    // Jens missed the small link (2026-10-26), so the model sits in the section;
+    // since 2026-10-28 it carries the photo standpoints (Rundgang.vue).
     const w = mountIt()
-    const frame = w.find('iframe')
-    expect(frame.attributes('src')).toBe('./3d/')
-    expect(frame.attributes('loading')).toBe('lazy')
-    expect(frame.classes()).toContain('pointer-events-none')
-    await w.find('button').trigger('click')
-    expect(w.find('iframe').classes()).not.toContain('pointer-events-none')
-    expect(w.find('a[href="./3d/"]').text()).toMatch(/3D-Modell.*Vollbild/)
-    // a way back, so a phone can scroll past the model again
-    const stop = w.find('button')
-    expect(stop.text()).toMatch(/beenden/)
-    // outside the frame's box: over the model it hid the panel on phones
-    expect(w.find('iframe').element.parentElement.contains(stop.element)).toBe(false)
-    await stop.trigger('click')
-    expect(w.find('iframe').classes()).toContain('pointer-events-none')
+    expect(w.find('#modell-3d').text()).toMatch(/3D-Rundgang/)
+    expect(w.find('a[href="#modell-3d"]').exists()).toBe(true)
   })
 
   it('links to the 3D model and the PDF, and both ship', () => {

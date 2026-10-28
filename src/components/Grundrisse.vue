@@ -1,11 +1,10 @@
 <script setup>
-import { ref, nextTick } from 'vue'
-
 // Plans redrawn from the 1963 Bauantrag; source of truth is haus-tannheim-private
 // (scripts/plaene.py, scripts/modell3d.py). Floor names follow Description.vue:
 // the garden level is the Erdgeschoss, the street level the Obergeschoss.
 import erdgeschoss from '../assets/plaene/grundriss-gg.png'
 import obergeschoss from '../assets/plaene/grundriss-eg.png'
+import Rundgang from './Rundgang.vue'
 
 const floors = [
   {
@@ -19,16 +18,6 @@ const floors = [
     note: 'Straßenebene · drei Zimmer, Bad, WC, Garage',
   },
 ]
-
-// The embedded model takes no input until clicked, so it cannot trap a phone's scroll;
-// "Bedienung beenden" gives the scroll back.
-const modelActive = ref(false)
-const frame = ref(null)
-async function activate() {
-  modelActive.value = true
-  await nextTick()
-  frame.value?.focus() // the button that had focus is gone
-}
 
 const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200'
 </script>
@@ -51,7 +40,7 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
           </p>
           <div class="flex flex-wrap gap-3 pt-2">
             <a href="#modell-3d" :class="[button, 'bg-forest-700 text-stone-50 hover:bg-forest-800']">
-              Zum 3D-Modell
+              Zum 3D-Rundgang
             </a>
             <a
               href="./grundrisse.pdf"
@@ -85,53 +74,12 @@ const button = 'inline-flex items-center rounded-full px-5 py-2.5 text-sm font-s
           </a>
         </figure>
 
-        <figure id="modell-3d" class="min-w-0 scroll-mt-24" v-reveal>
-          <figcaption class="mb-4 flex flex-wrap items-baseline gap-x-3">
-            <span class="font-display text-2xl font-semibold text-forest-900">3D-Modell</span>
-            <span class="text-sm text-ink-soft">Drehen, zoomen, Dach und Geschosse einzeln ausblenden</span>
-          </figcaption>
-          <div class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white">
-            <iframe
-              ref="frame"
-              src="./3d/"
-              title="3D-Modell Haus Tannheim"
-              loading="lazy"
-              class="block h-[70vh] max-h-[640px] min-h-[380px] w-full"
-              :class="{ 'pointer-events-none': !modelActive }"
-            ></iframe>
-            <button
-              v-if="!modelActive"
-              type="button"
-              class="absolute inset-0 flex items-end justify-center bg-forest-900/10 pb-8 transition-colors duration-200 hover:bg-forest-900/20"
-              @click="activate"
-            >
-              <span :class="[button, 'bg-forest-700 text-stone-50 shadow-lg']">3D-Modell bedienen</span>
-            </button>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <button
-              v-if="modelActive"
-              type="button"
-              :class="[button, 'bg-forest-700 text-stone-50 hover:bg-forest-800']"
-              @click="modelActive = false"
-            >
-              Bedienung beenden
-            </button>
-            <a
-              href="./3d/"
-              target="_blank"
-              rel="noopener"
-              :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']"
-            >
-              3D-Modell im Vollbild öffnen<span class="sr-only"> (neuer Tab)</span>
-            </a>
-          </div>
-        </figure>
+        <Rundgang />
       </div>
 
       <p class="mx-auto mt-8 max-w-5xl text-sm text-stone-600">
         Maße in Metern, Rohbaumaße, ohne Gewähr. Lage von Türen und Treppe aus der Zeichnung
-        übernommen; das 3D-Modell ist schematisch.
+        übernommen; das 3D-Modell ist schematisch, die Foto-Standorte sind aus den Bildern geschätzt.
       </p>
     </div>
   </section>

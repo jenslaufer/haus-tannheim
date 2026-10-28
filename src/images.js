@@ -140,6 +140,9 @@ const strip = ({ thumb, thumbset, full, name }) => ({ thumb, thumbset, full, ar:
 // gallery filters it out explicitly rather than by removing the source.
 const DROPPED_FROM_NEW = new Set(['_KWF2044-HDR.jpg'])
 
+// Photo variants by file name, for the 3D tour (src/rundgang/stationen.js).
+export const fotoNach = Object.fromEntries(entries.map((e) => [e.name, strip(e)]))
+
 // — New site (index.html): curated order, weakest shots dropped. —
 export const photos = entries
   .filter((e) => !DROPPED_FROM_NEW.has(e.name))
