@@ -63,11 +63,15 @@ function umschalten(e) {
 function beenden() {
   if (aktuell.value >= 0) zurueck()
   aktiv.value = false
+  if (vollbild.value) vollbildAus()
 }
 
-// full screen shows the tour itself, photos included (the plain ./3d/ page has none)
+// Full screen shows the same block as the page, stage and button row, only larger
+// (Jens, 2026-10-28: a full-screen stage alone had other controls). Safari before
+// 16.4 knows only the webkit names; iPhone Safari cannot do it at all.
 const rahmen = ref(null)
 const vollbild = ref(false)
+const vollbildMoeglich = typeof document !== 'undefined' && !!(document.fullscreenEnabled || document.webkitFullscreenEnabled)
 function vollbildAn() {
   // starts like "Rundgang starten", at photo 1; an open photo stays open
   if (aktuell.value < 0) zeige(0)
@@ -75,7 +79,9 @@ function vollbildAn() {
   ;(el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el)
 }
 const vollbildAus = () => (document.exitFullscreen ?? document.webkitExitFullscreen)?.call(document)
-const onVollbild = () => (vollbild.value = !!rahmen.value && document.fullscreenElement === rahmen.value)
+const onVollbild = () =>
+  (vollbild.value = !!rahmen.value && (document.fullscreenElement ?? document.webkitFullscreenElement) === rahmen.value)
+const VOLLBILD_EVENTS = ['fullscreenchange', 'webkitfullscreenchange']
 
 const onKey = (e) => {
   if (!aktiv.value || aktuell.value < 0 || e.defaultPrevented) return
@@ -108,7 +114,7 @@ async function laden() {
 }
 onMounted(() => {
   window.addEventListener('keydown', onKey)
-  document.addEventListener('fullscreenchange', onVollbild)
+  VOLLBILD_EVENTS.forEach((e) => document.addEventListener(e, onVollbild))
   if (galerie.value) return
   if (typeof IntersectionObserver === 'undefined') return laden()
   // load three.js and the model only when the section comes near the viewport
@@ -125,7 +131,7 @@ onMounted(() => {
 onUnmounted(() => {
   weg = true
   window.removeEventListener('keydown', onKey)
-  document.removeEventListener('fullscreenchange', onVollbild)
+  VOLLBILD_EVENTS.forEach((e) => document.removeEventListener(e, onVollbild))
   io?.disconnect()
   szene?.dispose()
 })
@@ -149,11 +155,10 @@ const rund =
 
     <RaumGalerie v-if="galerie" />
 
-    <template v-else>
+    <div v-else ref="rahmen" data-test="vollbild" :class="vollbild && 'flex h-full w-full flex-col bg-stone-100 p-4'">
       <div
-        ref="rahmen"
-        class="relative overflow-hidden bg-white"
-        :class="vollbild ? 'h-screen w-screen' : 'h-[72vh] max-h-[680px] min-h-[420px] rounded-2xl border border-stone-200'"
+        class="relative overflow-hidden rounded-2xl border border-stone-200 bg-white"
+        :class="vollbild ? 'min-h-0 flex-1' : 'h-[72vh] max-h-[680px] min-h-[420px]'"
       >
         <div
           ref="buehne"
@@ -232,15 +237,6 @@ const rund =
         </div>
 
         <button
-          v-if="vollbild"
-          type="button"
-          :class="[button, 'absolute right-4 top-4 z-20 bg-forest-700 text-stone-50 shadow-lg hover:bg-forest-800']"
-          @click="vollbildAus"
-        >
-          Vollbild beenden
-        </button>
-
-        <button
           v-if="!aktiv"
           type="button"
           class="absolute inset-0 flex items-end justify-center bg-forest-900/10 pb-8 transition-colors duration-200 hover:bg-forest-900/20"
@@ -254,10 +250,15 @@ const rund =
         <button v-if="aktiv" type="button" :class="[button, 'bg-forest-700 text-stone-50 hover:bg-forest-800']" @click="beenden">
           Bedienung beenden
         </button>
-        <button type="button" :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']" @click="vollbildAn">
-          Rundgang im Vollbild
+        <button
+          v-if="vollbildMoeglich"
+          type="button"
+          :class="[button, 'border border-forest-700 text-forest-800 hover:bg-forest-50']"
+          @click="vollbild ? vollbildAus() : vollbildAn()"
+        >
+          {{ vollbild ? 'Vollbild beenden' : 'Rundgang im Vollbild' }}
         </button>
       </div>
-    </template>
+    </div>
   </figure>
 </template>

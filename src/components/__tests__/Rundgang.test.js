@@ -12,6 +12,12 @@ import { stationen } from '../../rundgang/stationen.js'
 vi.mock('../../rundgang/szene.js', () => ({ erstelleSzene: vi.fn(() => new Promise(() => {})) }))
 const szene = () => ({ zeige: vi.fn(async () => true), uebersicht: vi.fn(), setzeGruppe: vi.fn(), beiAuswahl: vi.fn(), dispose: vi.fn() })
 
+const vollbildMoeglich = (ja) => Object.defineProperty(document, 'fullscreenEnabled', { value: ja, configurable: true })
+function setzeVollbild(prop, event, el) {
+  Object.defineProperty(document, prop, { value: el, configurable: true })
+  document.dispatchEvent(new Event(event))
+}
+
 const mountIt = () => mount(Rundgang, { global: { directives: { reveal: {} } } })
 const breite = (schmal) => vi.stubGlobal('matchMedia', () => ({ matches: schmal }))
 
@@ -104,10 +110,10 @@ describe('Rundgang on a wide screen', () => {
   it('full screen starts the tour like the small frame does', async () => {
     // Jens (2026-10-28): full screen landed in the overview, the small frame on photo 1
     breite(false)
+    vollbildMoeglich(true)
     const w = mountIt()
-    const frame = w.find('[data-test="buehne"]').element.parentElement
-    frame.requestFullscreen = vi.fn(async () => {})
-    const vollbild = () => w.findAll('button').find((b) => /im Vollbild/.test(b.text()))
+    w.find('[data-test="vollbild"]').element.requestFullscreen = vi.fn(async () => {})
+    const vollbild = () => w.findAll('button').find((b) => /Vollbild/.test(b.text()))
     await vollbild().trigger('click')
     expect(w.find('[role="dialog"]').text()).toContain(`1/${stationen.length}`)
     // an open photo stays open
@@ -116,25 +122,49 @@ describe('Rundgang on a wide screen', () => {
     expect(w.find('[role="dialog"]').text()).toContain(`2/${stationen.length}`)
   })
 
-  it('opens the tour itself full screen, photos included', async () => {
-    // Jens (2026-10-28): the full-screen link opened the plain model without photos
+  it('full screen shows the same block with the same controls, only larger', async () => {
+    // Jens (2026-10-28): full screen had other controls than the page; now the
+    // stage and its button row go full screen together
     breite(false)
+    vollbildMoeglich(true)
     const w = mountIt()
     expect(w.find('a[href="./3d/"]').exists()).toBe(false)
-    const frame = w.find('[data-test="buehne"]').element.parentElement
-    frame.requestFullscreen = vi.fn(async () => {
-      Object.defineProperty(document, 'fullscreenElement', { value: frame, configurable: true })
-      document.dispatchEvent(new Event('fullscreenchange'))
-    })
+    const block = w.find('[data-test="vollbild"]').element
+    block.requestFullscreen = vi.fn(async () => setzeVollbild('fullscreenElement', 'fullscreenchange', block))
     await w.findAll('button').find((b) => /Vollbild/.test(b.text())).trigger('click')
-    expect(frame.requestFullscreen).toHaveBeenCalled()
-    // full screen takes input right away and fills the screen
-    expect(w.find('[data-test="buehne"]').classes()).not.toContain('pointer-events-none')
-    expect(frame.className).toContain('h-screen')
-    delete document.fullscreenElement
-    document.dispatchEvent(new Event('fullscreenchange'))
+    expect(block.requestFullscreen).toHaveBeenCalled()
     await w.vm.$nextTick()
-    expect(frame.className).not.toContain('h-screen')
+    const labels = () => w.findAll('button').map((b) => b.text())
+    // the stage, the photo controls and the button row all sit inside the full-screen block
+    for (const sel of ['[data-test="buehne"]', 'button[aria-label="Nächstes Foto"]']) {
+      expect(block.contains(w.find(sel).element)).toBe(true)
+    }
+    const row = w.findAll('button').filter((b) => /Bedienung beenden|Vollbild beenden/.test(b.text()))
+    expect(row).toHaveLength(2)
+    row.forEach((b) => expect(block.contains(b.element)).toBe(true))
+    expect(labels().filter((t) => /Vollbild/.test(t))).toEqual(['Vollbild beenden']) // one toggle, same place
+    setzeVollbild('fullscreenElement', 'fullscreenchange', null)
+    await w.vm.$nextTick()
+    expect(labels()).toContain('Rundgang im Vollbild')
+  })
+
+  it('follows Safari before 16.4, which only knows the webkit names', async () => {
+    breite(false)
+    vollbildMoeglich(true)
+    const w = mountIt()
+    const block = w.find('[data-test="vollbild"]').element
+    block.webkitRequestFullscreen = vi.fn(() => setzeVollbild('webkitFullscreenElement', 'webkitfullscreenchange', block))
+    await w.findAll('button').find((b) => /Vollbild/.test(b.text())).trigger('click')
+    await w.vm.$nextTick()
+    expect(w.findAll('button').map((b) => b.text())).toContain('Vollbild beenden')
+    setzeVollbild('webkitFullscreenElement', 'webkitfullscreenchange', null)
+  })
+
+  it('offers full screen only where the browser can do it', () => {
+    // iPhone Safari cannot put an element full screen
+    breite(false)
+    vollbildMoeglich(false)
+    expect(mountIt().findAll('button').some((b) => /Vollbild/.test(b.text()))).toBe(false)
   })
 })
 
