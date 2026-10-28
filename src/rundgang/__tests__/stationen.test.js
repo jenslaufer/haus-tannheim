@@ -55,6 +55,16 @@ describe('Rundgang stations', () => {
     expect(Object.keys(RAUM_NAMEN).sort()).toEqual([...ids].sort())
   })
 
+  it('keeps the corrections Jens made from knowing the house', () => {
+    // 2026-10-28: the second Bad photo looks the other way; the heating photo
+    // is in the Vorratsraum, looking towards its door to the Vorplatz
+    const von = (foto) => stationen.find((s) => s.foto === foto)
+    expect(von('_KWF2098.jpg').blick).toEqual([0.5, -1])
+    const vorrat = von('_KWF2047-HDR.jpg')
+    expect(vorrat.raum).toBe('vorratsraum')
+    expect(vorrat.blick[0]).toBeLessThan(0) // west, towards the door at x 7.25
+  })
+
   it('no tour file names the street', () => {
     // same rule as the plans in haus-tannheim-private: buyer files never name the street
     const files = ['../stationen.js', '../tour.js', '../szene.js', '../../assets/rundgang/raeume.json']

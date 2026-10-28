@@ -62,7 +62,7 @@ export const stationen = [
   { foto: '_KWF1969-HDR.jpg', bereich: 'Balkon', pos: [0.5, 0.6], hoehe: OBEN, blick: [1, -0.4] },
   { foto: '_KWF1975-HDR.jpg', bereich: 'Balkon', pos: [4.8, 0.6], hoehe: OBEN, blick: [0.45, -1] },
   { foto: '_KWF2089-HDR.jpg', raum: 'bad', pos: [6.1, 5.85], blick: [0.15, 1] },
-  { foto: '_KWF2098.jpg', raum: 'bad', pos: [6.7, 6.5], blick: [-0.5, 1] },
+  { foto: '_KWF2098.jpg', raum: 'bad', pos: [6.7, 6.5], blick: [0.5, -1] }, // direction: Jens, 2026-10-28
   { foto: '_KWF2104-HDR.jpg', raum: 'garage', pos: [8.2, 5.2], blick: [0.45, 1] },
 
   // — Garden level (Erdgeschoss) —
@@ -75,7 +75,8 @@ export const stationen = [
   { foto: '_KWF2026-HDR.jpg', raum: 'wohnen', pos: [1.0, 4.9], blick: [0.35, -1] },
   { foto: '_KWF2032-HDR.jpg', raum: 'kueche', pos: [7.9, 6.9], blick: [1, -0.4] },
   { foto: '_KWF2035-HDR.jpg', raum: 'kueche', pos: [8.5, 7.0], blick: [0.2, -1] },
-  { foto: '_KWF2047-HDR.jpg', raum: 'nutzraum', pos: [1.2, 7.5], blick: [1, -0.45] },
+  // room and direction: Jens, 2026-10-28 (the open door shows the Vorplatz stair)
+  { foto: '_KWF2047-HDR.jpg', raum: 'vorratsraum', pos: [9.7, 8.9], blick: [-1, -0.5] },
   { foto: '_KWF2041-HDR.jpg', raum: 'nutzraum', pos: [1.0, 7.6], blick: [1, 0.2] },
   { foto: '_KWF2038-HDR.jpg', raum: 'nutzraum', pos: [3.0, 7.0], blick: [-1, -0.35] },
 
